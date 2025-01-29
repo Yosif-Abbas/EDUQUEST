@@ -1,12 +1,9 @@
 import "./App.css";
+import "./index.css";
+import AppRoutes from "./AppRoutes";
 
 function App() {
-  return (
-    <>
-      <div>EDUE</div>
-
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
