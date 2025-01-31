@@ -1,10 +1,13 @@
+import Footer from '../components/Home/Footer';
+import ImageGroup from '../components/Home/ImageGroup';
+import Title from './../components/Title';
+
 const Home = () => {
   return (
     <>
-      <h1>Home</h1>
-      <h1 className="bg-black text-xl text-yellow-500">
-        This is the Home page
-      </h1>
+      <Title>Discover. Learn. Level up</Title>
+      <ImageGroup />
+      <Footer />
     </>
   );
 };
