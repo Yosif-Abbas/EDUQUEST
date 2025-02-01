@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div>
       <Navbar />
-      <main>
+      <main className="h-full">
         <Outlet />
       </main>
     </div>

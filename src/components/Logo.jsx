@@ -1,11 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import image from '../assets/logo.png';
 
-function Logo({ handleHomepRedirect }) {
+function Logo() {
+  const navigate = useNavigate();
+
+  const handleHomepRedirect = () => {
+    navigate('/');
+  };
+
   return (
     <img
       src={image}
       alt="eduquest"
-      className="m-2 ml-4 w-xs cursor-pointer"
+      className="w-xs cursor-pointer"
       onClick={handleHomepRedirect}
     />
   );

@@ -5,7 +5,7 @@ import Title from './../components/Title';
 const Home = () => {
   return (
     <>
-      <Title>Discover. Learn. Level up</Title>
+      <Title className="mt-6 ml-12">Discover. Learn. Level up</Title>
       <ImageGroup />
       <Footer />
     </>

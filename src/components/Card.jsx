@@ -27,7 +27,7 @@ function Card({ course }) {
         <span>⭐ {course.rating}</span>
         <span className="text-[#4E5566]">
           {course.students_enrolled}{' '}
-          <span className="text-[#8C94A3]">Students</span>
+          <span className="text-[#4E5566aa]">Students</span>
         </span>
       </div>
     </div>

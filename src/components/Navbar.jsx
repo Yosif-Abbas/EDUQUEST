@@ -13,14 +13,10 @@ function Navbar() {
     navigate('/signup');
   };
 
-  const handleHomepRedirect = () => {
-    navigate('/home');
-  };
-
   return (
-    <nav className="flex">
-      <div className="w-1/2">
-        <Logo handleHomepRedirect={handleHomepRedirect} />
+    <nav className="flex bg-transparent">
+      <div className="w-1/2 py-2 pl-4">
+        <Logo />
       </div>
       <div className="w-1/2">
         <ul className="flex min-h-full w-full items-center justify-end gap-6 font-sans text-3xl font-bold italic">

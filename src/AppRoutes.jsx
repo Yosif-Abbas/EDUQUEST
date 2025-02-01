@@ -1,30 +1,30 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from './components/ProtectedRoute';
 
-import Layout from "./components/Layout";
+import Layout from './components/Layout';
 
-import Home from "./pages/Home";
-import Courses from "./pages/Courses";
-import CourseDetails from "./pages/CourseDetails";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import NotFound from "./pages/NotFound";
+import Home from './pages/Home';
+import Courses from './pages/Courses';
+import CourseDetails from './pages/CourseDetails';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import NotFound from './pages/NotFound';
 
-import StudentLayout from "./components/StudentLayout";
+import StudentLayout from './components/StudentLayout';
 
-import StudentDashboard from "./pages/student/StudentDashboard";
-import StudentCourses from "./pages/student/StudentCourses";
-import Wishlist from "./pages/student/Wishlist";
-import StudentSettings from "./pages/student/StudentSettings";
-import WatchCourse from "./pages/student/WatchCourse";
+import StudentDashboard from './pages/student/StudentDashboard';
+import StudentCourses from './pages/student/StudentCourses';
+import Wishlist from './pages/student/Wishlist';
+import StudentSettings from './pages/student/StudentSettings';
+import WatchCourse from './pages/student/WatchCourse';
 
-import TeacherLayout from "./components/TeacherLayout";
+import TeacherLayout from './components/TeacherLayout';
 
-import TeacherDashboard from "./pages/teacher/TeacherDashboard";
-import TeacherCourses from "./pages/teacher/TeacherCourses";
-import NewCourse from "./pages/teacher/NewCourse";
-import TeacherSettings from "./pages/teacher/TeacherSettings";
+import TeacherDashboard from './pages/teacher/TeacherDashboard';
+import TeacherCourses from './pages/teacher/TeacherCourses';
+import NewCourse from './pages/teacher/NewCourse';
+import TeacherSettings from './pages/teacher/TeacherSettings';
 
 function AppRoutes() {
   return (
@@ -34,10 +34,9 @@ function AppRoutes() {
         <Route path="home" element={<Home />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
       </Route>
-
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
       {/* Student Routes */}
       <Route path="/student" element={<StudentLayout />}>
         <Route
