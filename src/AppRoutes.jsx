@@ -31,12 +31,14 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="home" element={<Home />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="courses/:id" element={<CourseDetails />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/courses/:id" element={<CourseDetails />} />
       </Route>
+
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+
       {/* Student Routes */}
       <Route path="/student" element={<StudentLayout />}>
         <Route

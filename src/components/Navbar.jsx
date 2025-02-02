@@ -1,8 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import Button from './Button';
 
 function Navbar() {
+  const location = useLocation();
+
+  const isHome = location.pathname === '/home' || location.pathname === '/';
+
   const navigate = useNavigate();
 
   const handleLoginRedirect = () => {
@@ -20,10 +24,10 @@ function Navbar() {
       </div>
       <div className="w-1/2">
         <ul className="flex min-h-full w-full items-center justify-end gap-6 font-sans text-3xl font-bold italic">
-          <li>
+          <li className={isHome ? 'text-[#526D82]' : ''}>
             <Link to="/home">Home</Link>
           </li>
-          <li>
+          <li className={!isHome ? 'text-[#526D82]' : ''}>
             <Link to="/courses">Courses</Link>
           </li>
           <li>
