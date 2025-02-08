@@ -3,9 +3,9 @@ import Navbar from './Navbar';
 
 const Layout = () => {
   return (
-    <div>
+    <div className="grid min-h-dvh grid-rows-[auto_1fr]">
       <Navbar />
-      <main className="h-full">
+      <main>
         <Outlet />
       </main>
     </div>

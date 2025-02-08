@@ -1,0 +1,402 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "Algebra Mastery",
+      "subject": "Math",
+      "price": 19.99,
+      "image": "https://picsum.photos/200/300",
+      "rating": 4.7,
+      "students_enrolled": 1200
+    },
+    {
+      "id": 2,
+      "title": "Introduction to Calculus",
+      "subject": "Math",
+      "price": 24.99,
+      "image": "https://picsum.photos/id/237/200/300",
+      "rating": 4.8,
+      "students_enrolled": 1500
+    },
+    {
+      "id": 3,
+      "title": "Physics for Beginners",
+      "subject": "Science",
+      "price": 29.99,
+      "image": "https://picsum.photos/seed/picsum/200/300",
+      "rating": 4.6,
+      "students_enrolled": 900
+    },
+    {
+      "id": 4,
+      "title": "Chemistry Fundamentals",
+      "subject": "Science",
+      "price": 22.99,
+      "image": "https://picsum.photos/200/300?grayscale",
+      "rating": 4.5,
+      "students_enrolled": 1100
+    },
+    {
+      "id": 5,
+      "title": "English Grammar Essentials",
+      "subject": "English",
+      "price": 15.99,
+      "image": "https://example.com/images/english.jpg",
+      "rating": 4.9,
+      "students_enrolled": 2000
+    },
+    {
+      "id": 6,
+      "title": "History of Ancient Civilizations",
+      "subject": "History",
+      "price": 18.99,
+      "image": "https://picsum.photos/200/300/?blur",
+      "rating": 4.4,
+      "students_enrolled": 850
+    },
+    {
+      "id": 7,
+      "title": "JavaScript for Beginners",
+      "subject": "Programming",
+      "price": 34.99,
+      "image": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
+      "rating": 4.8,
+      "students_enrolled": 2500
+    },
+    {
+      "id": 8,
+      "title": "Python for Data Science",
+      "subject": "Programming",
+      "price": 39.99,
+      "image": "https://example.com/images/python.jpg",
+      "rating": 4.7,
+      "students_enrolled": 2700
+    },
+    {
+      "id": 9,
+      "title": "Mastering Machine Learning",
+      "subject": "AI & Machine Learning",
+      "price": 49.99,
+      "image": "https://example.com/images/ml.jpg",
+      "rating": 4.9,
+      "students_enrolled": 3000
+    },
+    {
+      "id": 10,
+      "title": "Digital Marketing Strategies",
+      "subject": "Marketing",
+      "price": 27.99,
+      "image": "https://example.com/images/marketing.jpg",
+      "rating": 4.5,
+      "students_enrolled": 1300
+    },
+    {
+      "id": 11,
+      "title": "Web Development Bootcamp",
+      "subject": "Programming",
+      "price": 44.99,
+      "image": "webdev.jpg",
+      "rating": 4.7,
+      "students_enrolled": 2800
+    },
+    {
+      "id": 12,
+      "title": "Graphic Design Fundamentals",
+      "subject": "Design",
+      "price": 21.99,
+      "image": "design.jpg",
+      "rating": 4.6,
+      "students_enrolled": 1100
+    },
+    {
+      "id": 13,
+      "title": "Financial Accounting Basics",
+      "subject": "Finance",
+      "price": 29.99,
+      "image": "finance.jpg",
+      "rating": 4.3,
+      "students_enrolled": 700
+    },
+    {
+      "id": 14,
+      "title": "Artificial Intelligence Basics",
+      "subject": "AI & Machine Learning",
+      "price": 42.99,
+      "image": "ai.jpg",
+      "rating": 4.8,
+      "students_enrolled": 2400
+    },
+    {
+      "id": 15,
+      "title": "Excel for Data Analysis",
+      "subject": "Data Science",
+      "price": 19.99,
+      "image": "excel.jpg",
+      "rating": 4.6,
+      "students_enrolled": 1600
+    },
+    {
+      "id": 16,
+      "title": "Mobile App Development with Flutter",
+      "subject": "Programming",
+      "price": 36.99,
+      "image": "flutter.jpg",
+      "rating": 4.7,
+      "students_enrolled": 1800
+    },
+    {
+      "id": 17,
+      "title": "Cyber Security Essentials",
+      "subject": "Cyber Security",
+      "price": 32.99,
+      "image": "cybersecurity.jpg",
+      "rating": 4.9,
+      "students_enrolled": 2200
+    },
+    {
+      "id": 18,
+      "title": "Business Management Principles",
+      "subject": "Business",
+      "price": 26.99,
+      "image": "business.jpg",
+      "rating": 4.5,
+      "students_enrolled": 1400
+    },
+    {
+      "id": 19,
+      "title": "Personal Finance & Budgeting",
+      "subject": "Finance",
+      "price": 17.99,
+      "image": "budgeting.jpg",
+      "rating": 4.3,
+      "students_enrolled": 1000
+    },
+    {
+      "id": 20,
+      "title": "Ethical Hacking and Penetration Testing",
+      "subject": "Cyber Security",
+      "price": 45.99,
+      "image": "hacking.jpg",
+      "rating": 4.8,
+      "students_enrolled": 2300
+    },
+    {
+      "id": 21,
+      "title": "Algebra Mastery",
+      "subject": "Math",
+      "price": 19.99,
+      "image": "Math",
+      "rating": 4.7,
+      "students_enrolled": 1200
+    },
+    {
+      "id": 22,
+      "title": "Introduction to Calculus",
+      "subject": "Math",
+      "price": 24.99,
+      "image": "calculus.jpg",
+      "rating": 4.8,
+      "students_enrolled": 1500
+    },
+    {
+      "id": 23,
+      "title": "Physics for Beginners",
+      "subject": "Science",
+      "price": 29.99,
+      "image": "physics.jpg",
+      "rating": 4.6,
+      "students_enrolled": 900
+    },
+    {
+      "id": 24,
+      "title": "Chemistry Fundamentals",
+      "subject": "Science",
+      "price": 22.99,
+      "image": "chemistry.jpg",
+      "rating": 4.5,
+      "students_enrolled": 1100
+    },
+    {
+      "id": 25,
+      "title": "English Grammar Essentials",
+      "subject": "English",
+      "price": 15.99,
+      "image": "english.jpg",
+      "rating": 4.9,
+      "students_enrolled": 2000
+    },
+    {
+      "id": 26,
+      "title": "History of Ancient Civilizations",
+      "subject": "History",
+      "price": 18.99,
+      "image": "history.jpg",
+      "rating": 4.4,
+      "students_enrolled": 850
+    },
+    {
+      "id": 27,
+      "title": "JavaScript for Beginners",
+      "subject": "Programming",
+      "price": 34.99,
+      "image": "javascript.jpg",
+      "rating": 4.8,
+      "students_enrolled": 2500
+    },
+    {
+      "id": 28,
+      "title": "Python for Data Science",
+      "subject": "Programming",
+      "price": 39.99,
+      "image": "python.jpg",
+      "rating": 4.7,
+      "students_enrolled": 2700
+    },
+    {
+      "id": 29,
+      "title": "Mastering Machine Learning",
+      "subject": "AI & Machine Learning",
+      "price": 49.99,
+      "image": "ml.jpg",
+      "rating": 4.9,
+      "students_enrolled": 3000
+    },
+    {
+      "id": 30,
+      "title": "Digital Marketing Strategies",
+      "subject": "Marketing",
+      "price": 27.99,
+      "image": "marketing.jpg",
+      "rating": 4.5,
+      "students_enrolled": 1300
+    },
+    {
+      "id": 31,
+      "title": "Web Development Bootcamp",
+      "subject": "Programming",
+      "price": 44.99,
+      "image": "webdev.jpg",
+      "rating": 4.7,
+      "students_enrolled": 2800
+    },
+    {
+      "id": 32,
+      "title": "Graphic Design Fundamentals",
+      "subject": "Design",
+      "price": 21.99,
+      "image": "design.jpg",
+      "rating": 4.6,
+      "students_enrolled": 1100
+    },
+    {
+      "id": 33,
+      "title": "Financial Accounting Basics",
+      "subject": "Finance",
+      "price": 29.99,
+      "image": "finance.jpg",
+      "rating": 4.3,
+      "students_enrolled": 700
+    },
+    {
+      "id": 34,
+      "title": "Artificial Intelligence Basics",
+      "subject": "AI & Machine Learning",
+      "price": 42.99,
+      "image": "ai.jpg",
+      "rating": 4.8,
+      "students_enrolled": 2400
+    },
+    {
+      "id": 35,
+      "title": "Excel for Data Analysis",
+      "subject": "Data Science",
+      "price": 19.99,
+      "image": "excel.jpg",
+      "rating": 4.6,
+      "students_enrolled": 1600
+    },
+    {
+      "id": 36,
+      "title": "Mobile App Development with Flutter",
+      "subject": "Programming",
+      "price": 36.99,
+      "image": "flutter.jpg",
+      "rating": 4.7,
+      "students_enrolled": 1800
+    },
+    {
+      "id": 37,
+      "title": "Cyber Security Essentials",
+      "subject": "Cyber Security",
+      "price": 32.99,
+      "image": "cybersecurity.jpg",
+      "rating": 4.9,
+      "students_enrolled": 2200
+    },
+    {
+      "id": 38,
+      "title": "Business Management Principles",
+      "subject": "Business",
+      "price": 26.99,
+      "image": "business.jpg",
+      "rating": 4.5,
+      "students_enrolled": 1400
+    },
+    {
+      "id": 39,
+      "title": "Personal Finance & Budgeting",
+      "subject": "Finance",
+      "price": 17.99,
+      "image": "budgeting.jpg",
+      "rating": 4.3,
+      "students_enrolled": 1000
+    },
+    {
+      "id": 40,
+      "title": "Ethical Hacking and Penetration Testing",
+      "subject": "Cyber Security",
+      "price": 45.99,
+      "image": "hacking.jpg",
+      "rating": 4.8,
+      "students_enrolled": 2300
+    }
+  ],
+  "filtered_courses": [
+    {
+      "id": 1,
+      "title": "Algebra Mastery",
+      "subject": "Math",
+      "price": 19.99,
+      "image": "https://picsum.photos/200/300",
+      "rating": 4.7,
+      "students_enrolled": 1200
+    },
+    {
+      "id": 2,
+      "title": "Introduction to Calculus",
+      "subject": "Math",
+      "price": 24.99,
+      "image": "https://picsum.photos/id/237/200/300",
+      "rating": 4.8,
+      "students_enrolled": 1500
+    },
+    {
+      "id": 3,
+      "title": "Physics for Beginners",
+      "subject": "Science",
+      "price": 29.99,
+      "image": "https://picsum.photos/seed/picsum/200/300",
+      "rating": 4.6,
+      "students_enrolled": 900
+    },
+    {
+      "id": 4,
+      "title": "Chemistry Fundamentals",
+      "subject": "Science",
+      "price": 22.99,
+      "image": "https://picsum.photos/200/300?grayscale",
+      "rating": 4.5,
+      "students_enrolled": 1100
+    }
+  ]
+}

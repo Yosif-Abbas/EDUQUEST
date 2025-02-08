@@ -7,7 +7,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    'px-14 py-2 font-bold transition-all cursor-pointer text-2xl';
+    'px-10 lg:px-14 py-2 font-bold transition-all cursor-pointer text-2xl whitespace-nowrap';
   const typeStyles = {
     primary: 'bg-[#876A9A] text-[#DDE6ED]',
     secondary: 'border border-[#876A9A] text-[#876A9A]',

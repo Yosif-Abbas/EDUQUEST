@@ -8,7 +8,7 @@ import LanguageButton from '../LanguageButton';
 
 function LeftSide() {
   return (
-    <div className="flex min-h-lvh w-3/5 flex-col gap-15 rounded-r-[60px] bg-[#DDE6ED]">
+    <div className="flex min-h-dvh w-3/5 flex-col gap-15 rounded-r-[60px] bg-[#DDE6ED]">
       <div className="flex justify-between px-4 py-2">
         <Logo />
         <LanguageButton />
