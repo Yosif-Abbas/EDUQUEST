@@ -5,3 +5,10 @@
   padding: 0 15px;
   /* width: 600px; */
 }
+
+@theme {
+  --color-main: #dde6ed;
+  --color-alt: #dde6ed;
+  --color-alt-darker: #939191;
+  --color-main-txt: #b9896c;
+}

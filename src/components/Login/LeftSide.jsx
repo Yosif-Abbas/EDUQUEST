@@ -8,7 +8,7 @@ import LanguageButton from '../LanguageButton';
 
 function LeftSide() {
   return (
-    <div className="flex min-h-dvh w-3/5 flex-col gap-15 rounded-r-[60px] bg-[#DDE6ED]">
+    <div className="bg-alt flex min-h-dvh w-3/5 flex-col gap-15 rounded-r-[60px]">
       <div className="flex justify-between px-4 py-2">
         <Logo />
         <LanguageButton />
@@ -35,13 +35,13 @@ function LeftSide() {
             </Button>
           </div>
         </form>
-        <p className="text-[#939191]">
+        <p className="text-alt-darker">
           Do you not have an account yet?{' '}
-          <span className="text-[#b9896c]">
+          <span className="text-main-txt">
             <Link to="/signup">Create an Account</Link>
           </span>
         </p>
-        <div className="flex w-full flex-col gap-6 text-[#939191]">
+        <div className="text-alt-darker flex w-full flex-col gap-6">
           <h3 className="self-center text-3xl">- OR -</h3>
           <SocialButtonGroup />
         </div>

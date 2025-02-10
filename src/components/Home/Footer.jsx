@@ -12,17 +12,21 @@ function Footer() {
 
   return (
     <div className="relative mt-20 flex justify-between py-5">
-      <div className="flex items-center">
-        <Title className="mt-6 ml-12 inline-flex flex-col text-5xl font-extrabold italic">
+      <div className="flex">
+        <Title className="inline-flex flex-col text-5xl font-extrabold italic">
           Start your first mission
-          <span className="mt-4 ml-25 self-center">Join →</span>
+          <span className="self-center"> Join→</span>
         </Title>
         <Button className="self-end" size="lg" onClick={handleCoursesRedirect}>
           Start
         </Button>
       </div>
       <div>
-        <img src={HourGlasses} alt="Hourglasses" className="w-2xl" />
+        <img
+          src={HourGlasses}
+          alt="Hourglasses"
+          className="hidden w-2xl md:block"
+        />
       </div>
     </div>
   );
