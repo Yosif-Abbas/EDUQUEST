@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Algebra Mastery",
       "subject": "Math",
-      "price": 19.99,
+      "price": 20,
       "image": "https://picsum.photos/200/300",
       "rating": 4.7,
       "students_enrolled": 1200
@@ -397,6 +397,237 @@
       "image": "https://picsum.photos/200/300?grayscale",
       "rating": 4.5,
       "students_enrolled": 1100
+    }
+  ],
+  "courseDetails": [
+    {
+      "id": 1,
+      "title": "Algebra Mastery",
+      "subject": "Math",
+      "price": 20,
+      "originalPrice": 40,
+      "discount": "50%",
+      "currency": "LE",
+      "image": "https://picsum.photos/200/300",
+      "rating": 4.7,
+      "reatingCount": 65,
+      "students_enrolled": 1200,
+      "description": "This course covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+      "discountDuration": "2 Days",
+      "courseDuration": "62 Hours",
+      "numberOfLessons": 3,
+      "courseLevel": 3,
+
+      "whatYouWillLearn": [
+        "Understand and apply algebraic principles",
+        "Solve linear and quadratic equations",
+        "Graph and interpret algebraic functions",
+        "Work with polynomials and rational expressions",
+        "Apply algebra to real-world problems"
+      ],
+
+      "courseIncludes": [
+        "62 hours of on-demand video",
+        "Free exercises & downloadable resources",
+        "Full lifetime access",
+        "Subtitles",
+        "Access on mobile and TV",
+        "Certificate of completion"
+      ],
+
+      "courseRequirements": [
+        "Basic arithmetic knowledge",
+        "A willingness to learn and practice",
+        "A notebook and pen for exercises"
+      ],
+
+      "instructors": [
+        {
+          "name": "Dr. Emily Carter",
+          "bio": "PhD in Mathematics with 15+ years of teaching experience in algebra and calculus.",
+          "profilePicture": "https://picsum.photos/100",
+          "pic": "https://engineering.princeton.edu/wp-content/uploads/2021/09/Emily20A.20Carter20by20DKC_1600x900-1568x882.jpg"
+        },
+        {
+          "name": "John Doe",
+          "bio": "Senior Math Educator with a passion for making complex topics simple.",
+          "profilePicture": "https://picsum.photos/101"
+        }
+      ],
+
+      "ratings": {
+        "5_star": 900,
+        "4_star": 250,
+        "3_star": 40,
+        "2_star": 5,
+        "1_star": 5
+      },
+
+      "studentsFeedback": [
+        {
+          "name": "Alice Johnson",
+          "rating": 5,
+          "comment": "This course was amazing! The explanations were clear and easy to follow."
+        },
+        {
+          "name": "Michael Brown",
+          "rating": 4,
+          "comment": "Great course, but I wish there were more practice exercises."
+        },
+        {
+          "name": "Sophia Williams",
+          "rating": 5,
+          "comment": "Helped me a lot in my exams! Highly recommended."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Introduction to Calculus",
+      "subject": "Math",
+      "price": 25,
+      "originalPrice": 50,
+      "discount": "50%",
+      "currency": "LE",
+      "image": "https://picsum.photos/id/238/200/300",
+      "rating": 4.8,
+      "reatingCount": 75,
+      "students_enrolled": 1500,
+      "description": "This course covers the basics of calculus and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+      "discountDuration": "2 Days",
+      "courseDuration": "72 Hours",
+      "numberOfLessons": 4,
+      "courseLevel": 3,
+      "whatYouWillLearn": [
+        "Understand and apply calculus concepts",
+        "Calculate derivatives and integrals",
+        "Graph and interpret calculus functions",
+        "Work with differential equations"
+      ],
+      "courseIncludes": [
+        "72 hours of on-demand video",
+        "Free exercises & downloadable resources",
+        "Full lifetime access",
+        "Subtitles",
+        "Access on mobile and TV",
+        "Certificate of completion"
+      ],
+      "courseRequirements": [
+        "Basic arithmetic knowledge",
+        "A willingness to learn and practice",
+        "A notebook and pen for exercises"
+      ],
+      "instructors": [
+        {
+          "name": "Dr. Jane Smith",
+          "bio": "PhD in Mathematics with 10+ years of teaching experience in calculus and linear algebra.",
+          "profilePicture": "https://picsum.photos/102",
+          "pic": "https://engineering.princeton.edu/wp-content/uploads/2021/09/Jane20A.20Smith20by20DKC_1600x900-1568x882.jpg"
+        },
+        {
+          "name": "Bob Johnson",
+          "bio": "Senior Math Educator with a passion for making complex topics simple.",
+          "profilePicture": "https://picsum.photos/103"
+        }
+      ],
+      "ratings": {
+        "5_star": 800,
+        "4_star": 300,
+        "3_star": 10,
+        "2_star": 5,
+        "1_star": 5
+      },
+      "studentsFeedback": [
+        {
+          "name": "Emily Johnson",
+          "rating": 5,
+          "comment": "This course was amazing! The explanations were clear and easy to follow."
+        },
+        {
+          "name": "Michael Brown",
+          "rating": 4,
+          "comment": "Great course, but I wish there were more practice exercises."
+        },
+        {
+          "name": "Sophia Williams",
+          "rating": 5,
+          "comment": "Helped me a lot in my exams! Highly recommended."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Physics for Beginners",
+      "subject": "Science",
+      "price": 30,
+      "originalPrice": 60,
+      "discount": "50%",
+      "currency": "LE",
+      "image": "https://picsum.photos/id/239/200/300",
+      "rating": 4.6,
+      "reatingCount": 1000,
+      "students_enrolled": 900,
+      "description": "This course covers the basics of physics and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+      "discountDuration": "2 Days",
+      "courseDuration": "84 Hours",
+      "numberOfLessons": 5,
+      "courseLevel": 3,
+      "whatYouWillLearn": [
+        "Understand and apply physics concepts",
+        "Calculate forces and motion",
+        "Graph and interpret physics functions",
+        "Work with Newton's laws of motion"
+      ],
+      "courseIncludes": [
+        "84 hours of on-demand video",
+        "Free exercises & downloadable resources",
+        "Full lifetime access",
+        "Subtitles",
+        "Access on mobile and TV",
+        "Certificate of completion"
+      ],
+      "courseRequirements": [
+        "Basic arithmetic knowledge",
+        "A willingness to learn and practice",
+        "A notebook and pen for exercises"
+      ],
+      "instructors": [
+        {
+          "name": "Dr. Michael Johnson",
+          "bio": "PhD in Physics with 8+ years of teaching experience in physics and chemistry.",
+          "profilePicture": "https://picsum.photos/104",
+          "pic": "https://engineering.princeton.edu/wp-content/uploads/2021/09/Michael20A.20Johnson20by20DKC_1600x900-1568x882.jpg"
+        },
+        {
+          "name": "Jane Doe",
+          "bio": "Senior Physics Educator with a passion for making complex topics simple.",
+          "profilePicture": "https://picsum.photos/105"
+        }
+      ],
+      "ratings": {
+        "5_star": 700,
+        "4_star": 400,
+        "3_star": 50,
+        "2_star": 10,
+        "1_star": 5
+      },
+      "studentsFeedback": [
+        {
+          "name": "Alice Johnson",
+          "rating": 5,
+          "comment": "This course was amazing! The explanations were clear and easy to follow."
+        },
+        {
+          "name": "Michael Brown",
+          "rating": 4,
+          "comment": "Great course, but I wish there were more practice exercises."
+        },
+        {
+          "name": "Sophia Williams",
+          "rating": 5,
+          "comment": "Helped me a lot in my exams! Highly recommended."
+        }
+      ]
     }
   ]
 }
