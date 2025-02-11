@@ -12,7 +12,7 @@ function Logo() {
     <img
       src={image}
       alt="eduquest"
-      className="w-xs cursor-pointer"
+      className="w-30 cursor-pointer sm:w-50"
       onClick={handleHomepRedirect}
     />
   );

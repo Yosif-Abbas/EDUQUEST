@@ -7,8 +7,9 @@
 }
 
 @theme {
-  --color-main: #dde6ed;
+  --color-main: #526d82;
   --color-alt: #dde6ed;
   --color-alt-darker: #939191;
-  --color-main-txt: #b9896c;
+  --color-main-txt: #27374d;
+  --color-alt-txt: #b9896c;
 }

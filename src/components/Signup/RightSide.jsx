@@ -6,54 +6,52 @@ import Title from '../Title';
 import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
 
-function LeftSide() {
+function RightSide() {
   const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
 
+    // create new account
+
     navigate('/courses');
   }
-
   return (
-    <div className="sm:bg-alt rounded-xl p-5 sm:grow sm:rounded-l-none sm:rounded-r-4xl lg:flex lg:flex-col lg:justify-center">
+    <div className="sm:bg-alt rounded-xl px-3 py-5 sm:grow sm:rounded-l-4xl sm:rounded-r-none md:px-8 xl:flex xl:flex-col xl:justify-center">
       <div className="mb-3 flex justify-between">
         <Logo />
         <LanguageButton />
       </div>
-      <Title className="">Login</Title>
+      <Title className="">Sign Up</Title>
       <form onSubmit={handleSubmit}>
-        <InputField
-          placeholder="Enter your username"
-          id="username"
-          label="User Name"
-        />
+        <InputField placeholder="Full Name" id="full-name" label="label" />
+        <InputField placeholder="Class" id="class" label="label" />
+        <InputField placeholder="Phone Number" id="phone" label="label" />
+        <InputField placeholder="Email Address" id="email" label="label" />
 
         <InputField
           isPassord
           id="password"
-          placeholder="Enter your password"
-          label="Password"
+          placeholder="Password"
+          label="label"
         />
 
-        <div className="mb-2">
-          <Button className="" rounded>
-            Login
-          </Button>
+        <div className="mx-auto mb-2">
+          <Button rounded>Create Account</Button>
         </div>
       </form>
       <p className="text-alt-darker mb-4 text-[12px]">
-        Do you not have an account yet?{' '}
+        Already have an accout?{' '}
         <span className="text-alt-txt">
-          <Link to="/signup">Create an Account</Link>
+          <Link to="/login">Log in</Link>
         </span>
       </p>
       <div className="text-alt-darker">
         <h3 className="mb-1 text-center">- OR -</h3>
-        <SocialButtonGroup />
+        <SocialButtonGroup forLogin={false} />
       </div>
     </div>
   );
 }
 
-export default LeftSide;
+export default RightSide;

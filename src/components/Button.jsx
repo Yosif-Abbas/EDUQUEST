@@ -4,10 +4,11 @@ const Button = ({
   size = 'md',
   rounded = false,
   className,
+  onClick,
   ...props
 }) => {
   const baseStyles =
-    'px-10 lg:px-14 py-2 font-bold transition-all cursor-pointer text-2xl whitespace-nowrap';
+    'lg:px-10 font-bold transition-all cursor-pointer text-[18px] whitespace-nowrap';
   const typeStyles = {
     primary: 'bg-[#876A9A] text-[#DDE6ED]',
     secondary: 'border border-[#876A9A] text-[#876A9A]',
@@ -16,13 +17,18 @@ const Button = ({
   };
   const sizeStyles = {
     sm: 'px-4 py-1 text-sm',
-    md: 'px-6 py-2',
+    md: 'px-5 py-1',
     lg: 'px-22 py-3 text-3xl',
   };
   const roundedStyles = rounded ? 'rounded-md' : 'rounded-none';
 
+  function handleClick() {
+    onClick();
+  }
+
   return (
     <button
+      onClick={handleClick}
       className={`${baseStyles} ${typeStyles[type]} ${sizeStyles[size]} ${roundedStyles} ${className}`}
       {...props}
     >

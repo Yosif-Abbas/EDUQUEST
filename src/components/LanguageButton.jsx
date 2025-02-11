@@ -1,6 +1,6 @@
 function LanguageButton() {
   return (
-    <button className="mr-4 cursor-pointer text-sm text-[#939191]">
+    <button className="text-alt-darker cursor-pointer text-[12px]">
       English (UK) &#x25BC;
     </button>
   );

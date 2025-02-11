@@ -1,7 +1,7 @@
 function Title({ children, className }) {
   return (
     <h1
-      className={`text-4xl font-extrabold tracking-widest text-[#27374D] ${className}`}
+      className={`text-main-txt mb-3 text-2xl font-extrabold xl:text-3xl ${className}`}
     >
       {children}
     </h1>
