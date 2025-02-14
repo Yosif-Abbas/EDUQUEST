@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCourses } from '../api/coursesApi';
 
@@ -9,23 +9,30 @@ export const useCourses = () => {
   });
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState(''); // Example filter
-  const [sortOrder, setSortOrder] = useState('asc'); // "asc" or "desc"
+  const [filterCategory, setFilterCategory] = useState('');
+  const [sortOrder, setSortOrder] = useState(''); // "asc" or "desc"
 
-  // Filter, search, and sort courses
-  const filteredCourses = courses
-    .filter(
+  // Search
+  let filteredCourses = courses;
+  if (searchTerm)
+    filteredCourses = filteredCourses.filter(
       (course) => course.title.toLowerCase().includes(searchTerm.toLowerCase()), // Search by title
-    )
-    .filter((course) =>
-      filterCategory ? course.category === filterCategory : true,
-    ) // Filter by category
-    .sort(
-      (a, b) =>
-        sortOrder === 'asc'
-          ? a.title.localeCompare(b.title) // Sort A-Z
-          : b.title.localeCompare(a.title), // Sort Z-A
     );
+
+  // Filter
+  if (filterCategory)
+    filteredCourses = filteredCourses.filter((course) =>
+      filterCategory ? course.category === filterCategory : true,
+    );
+
+  // Sorting
+  filteredCourses = filteredCourses.sort((a, b) => {
+    return sortOrder === 'asc'
+      ? a.title.localeCompare(b.title) // Sort A-Z
+      : sortOrder === 'desc'
+        ? b.title.localeCompare(a.title) // Sort Z-A
+        : 0;
+  });
 
   return {
     courses: filteredCourses,
