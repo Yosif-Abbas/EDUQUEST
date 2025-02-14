@@ -1,0 +1,20 @@
+button {
+  cursor: pointer;
+}
+
+.teacher-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-between;
+  gap: 30px;
+}
+@media (max-width: 1023px) {
+  .teacher-dashboard-stats {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+@media (max-width: 639px) {
+  .teacher-dashboard-stats {
+    grid-template-columns: repeat(1, auto);
+  }
+}
