@@ -12,7 +12,7 @@ import { VscVmActive } from 'react-icons/vsc';
 
 function TeacherDashboard() {
   return (
-    <div className="grid grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-12">
       <section className="teacher-dashboard-stats col-span-full rounded-lg">
         <div className="flex items-center gap-3 p-2">
           <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">

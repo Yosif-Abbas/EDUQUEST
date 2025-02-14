@@ -13,7 +13,7 @@ button {
     grid-template-columns: repeat(2, auto);
   }
 }
-@media (max-width: 639px) {
+@media (max-width: 470px) {
   .teacher-dashboard-stats {
     grid-template-columns: repeat(1, auto);
   }
