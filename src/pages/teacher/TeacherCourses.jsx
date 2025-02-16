@@ -15,11 +15,12 @@ function TeacherCourses() {
     );
 
   return (
-    <div className="">
-      <ul className="mt-6 flex flex-wrap justify-center gap-x-2 gap-y-6 px-3 sm:gap-x-8 sm:px-16">
+    <div>
+      <div></div>
+      {/* <ul className="mt-6 flex flex-wrap justify-center gap-x-2 gap-y-6 px-3 sm:gap-x-8 sm:px-16">
         {courses &&
           courses.map((course) => <Card course={course} key={course.id} />)}
-      </ul>
+      </ul> */}
     </div>
   );
 }
