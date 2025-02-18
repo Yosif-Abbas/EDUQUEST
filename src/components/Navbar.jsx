@@ -21,7 +21,7 @@ function Navbar() {
   }, [location.pathname]);
 
   return (
-    <nav className="relative mt-4 bg-transparent">
+    <nav className="relative flex min-h-20 items-center justify-between bg-transparent">
       <div className="container flex items-center justify-between">
         <figure className="">
           <Logo />

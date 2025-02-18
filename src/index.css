@@ -18,4 +18,22 @@
   --color-alt-darker: #8c94a3;
   --color-main-txt: #27374d;
   --color-alt-txt: #b9896c;
+  --L6: #ff6636;
 }
+
+.custom-slider {
+  cursor: pointer;
+  appearance: none;
+}
+
+.custom-slider::-webkit-slider-runnable-track {
+  height: 0.5rem;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  pointer-events: none;
+  height: 0; 
+  width: 0; 
+  opacity: 0;
+}
+

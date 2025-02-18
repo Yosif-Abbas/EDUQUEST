@@ -18,9 +18,9 @@ function NavLinks({ isMobile, isMenuOpen, className }) {
   };
   return (
     <ul
-      className={`font-sans text-2xl font-bold italic transition md:flex md:items-center ${
+      className={`z-100 font-sans text-2xl font-bold italic transition md:flex md:items-center ${
         isMobile && isMenuOpen
-          ? 'absolute top-16 left-0 flex w-full flex-col items-center divide-y-1 divide-white bg-[#f8faed] py-6 shadow-md'
+          ? 'absolute top-16 left-0 flex w-full flex-col items-center divide-y-1 divide-white bg-[#f8faed] shadow-md'
           : 'hidden gap-6 md:flex'
       } ${className}`}
     >
