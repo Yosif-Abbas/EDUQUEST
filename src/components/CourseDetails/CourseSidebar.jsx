@@ -1,12 +1,12 @@
 import { CiAlarmOn, CiClock2, CiMail } from 'react-icons/ci';
 import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
-import SocialButton from './SocialButton';
 import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
 import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
+import SocialButton from '../SocialButton';
+
 function CourseSidebar({ course }) {
-  
   const {
     price,
     currency,
@@ -83,9 +83,11 @@ function CourseSidebar({ course }) {
 
       <div className="py-4">
         <h3>This course includes:</h3>
-        <ul className="list-disc pl-6 text-sm text-gray-500">
+        <ul className="list-disc pl-6 text-sm font-normal text-gray-500">
           {courseIncludes.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index} className="">
+              {item}
+            </li>
           ))}
         </ul>
       </div>

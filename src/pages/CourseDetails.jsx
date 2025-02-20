@@ -1,17 +1,15 @@
+import CourseHeader from '../components/CourseDetails/CourseHeader';
 import { useParams } from 'react-router-dom';
 import { useCourse } from '../hooks/useCourse';
 import Loading from '../components/Loading';
-import CourseSidebar from '../components/CourseSidebar';
-import VideoPlayer from '../components/VideoPlayer';
-
-import Intro from '../assets/Intro.mp4';
-import Subtitles from '../assets/subtitles.vtt';
-
-import Arabic from '../assets/Arabic.png';
-
+import CourseSidebar from '../components/CourseDetails/CourseSidebar';
+import CourseDescription from '../components/CourseDetails/CourseDescription';
+import CourseCurriculum from '../components/CourseDetails/CourseCurriculum';
+import InstructorSection from '../components/CourseDetails/InstructorSection';
+import StudentReviews from '../components/CourseDetails/StudentReviews';
+import CourseRating from '../components/CourseDetails/CourseRating';
 function CourseDetails() {
   const { id } = useParams();
-
   const { course, isError, isLoading } = useCourse(id);
 
   console.log(course);
@@ -26,19 +24,26 @@ function CourseDetails() {
   if (isError) return <div>Error fetching course data.</div>;
 
   return (
-    <>
-      {/* <video width="320" height="240" controls>
-        <source
-          src="https://videos.pexels.com/video-files/852421/852421-hd_1920_1080_30fps.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video> */}
-      <div>
-        <VideoPlayer src={Intro} poster={Arabic} subtitleSrc={Subtitles} />
-      </div>
+    <div className="">
+      <CourseHeader course={course} />
       <CourseSidebar course={course} />
-    </>
+
+      <div className="mx-auto flex max-w-280 flex-col gap-4 px-4 py-6">
+        <CourseDescription
+          description={course.description}
+          whatYouWillLearn={course.whatYouWillLearn}
+          requirements={course.courseRequirements}
+        />
+        <CourseCurriculum sections={course.sections} />
+        <InstructorSection instructors={course.instructors} />
+        <CourseRating
+          rating={course.rating}
+          ratings={course.ratings}
+          ratingCount={course.ratingCount}
+        />
+        <StudentReviews />
+      </div>
+    </div>
   );
 }
 

@@ -13,11 +13,13 @@ import { PiSubtitlesSlashThin, PiSubtitlesThin } from 'react-icons/pi';
 const VideoPlayer = ({ src, poster, subtitleSrc }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  const idleTimeout = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
   const [volume, setVolume] = useState(1);
+  const [prevVolume, setPrevVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -27,10 +29,12 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const [isHovered, setIsHovered] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(null);
-  const [idleTimeoutId, setIdleTimeoutId] = useState(null);
-  const [subtitlesEnabled, setSubtitlesEnabled] = useState(false);
+  const [isControlsVisible, setIsControlsVisible] = useState(false);
+  const [isMouseOverControls, setIsMouseOverControls] = useState(false);
+
+  const [subtitlesEnabled, setSubtitlesEnabled] = useState(
+    Boolean(subtitleSrc),
+  );
 
   useEffect(() => {
     videoRef.current.volume = volume;
@@ -61,8 +65,15 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    setVolume(isMuted ? 1 : 0);
+    setIsMuted((prevMuted) => {
+      if (prevMuted) {
+        setVolume(prevVolume);
+      } else {
+        setPrevVolume(volume);
+        setVolume(0);
+      }
+      return !prevMuted;
+    });
   };
 
   const handleProgress = () => {
@@ -93,6 +104,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
   };
 
   const handleLoadedMetadata = () => {
+    if (!videoRef.current) return;
     setDuration(videoRef.current.duration);
   };
 
@@ -118,50 +130,44 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
     }
   };
 
-  const handleMouseEnter = () => {
-    // Clear any existing timeouts when the mouse enters
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      setTimeoutId(null);
-    }
-    if (idleTimeoutId) {
-      clearTimeout(idleTimeoutId); // Clear the idle timeout if the mouse moves
-      setIdleTimeoutId(null);
-    }
-    setIsHovered(true);
+  useEffect(() => {
+    return () => {
+      if (idleTimeout.current) clearTimeout(idleTimeout.current);
+    };
+  }, []);
+
+  const showControls = () => {
+    setIsControlsVisible(true);
+    resetIdleTimer();
   };
 
-  const handleMouseLeave = () => {
-    // Set a timeout to hide the controls after a delay
-    const id = setTimeout(() => {
-      setIsHovered(false);
-    }, 500); // 500ms delay before hiding controls
-    setTimeoutId(id);
+  const hideControls = () => {
+    if (!isMouseOverControls) {
+      setIsControlsVisible(false);
+    }
+  };
+
+  const resetIdleTimer = () => {
+    if (idleTimeout.current) clearTimeout(idleTimeout.current);
+    idleTimeout.current = setTimeout(() => {
+      if (!isMouseOverControls) {
+        setIsControlsVisible(false);
+      }
+    }, 2000);
   };
 
   const handleMouseMove = () => {
-    // Reset the idle timeout whenever the mouse moves
-    if (idleTimeoutId) {
-      clearTimeout(idleTimeoutId);
-    }
-    const id = setTimeout(() => {
-      setIsHovered(false); // Hide the controls after 2 seconds of inactivity
-    }, 2000); // 2000ms (2 seconds) idle timeout
-    setIdleTimeoutId(id);
-
-    // Reset the visibility of controls if the mouse is actively moving
-    if (!isHovered) {
-      setIsHovered(true);
-    }
+    showControls();
+    resetIdleTimer();
   };
 
   return (
     <div
       ref={containerRef}
       className={`relative mx-auto max-w-4xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={showControls}
       onMouseMove={handleMouseMove}
+      onMouseLeave={hideControls}
     >
       {/* Video Element */}
 
@@ -193,13 +199,15 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
 
       {/* Custom Controls */}
       <div
-        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 px-6 pb-2 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'} ${isFullscreen ? 'text-xl' : ''} `}
+        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 px-6 pb-2 transition-all duration-300 ${isControlsVisible ? 'block' : 'translate-y-full'}`}
         onMouseEnter={() => {
-          if (idleTimeoutId) {
-            clearTimeout(idleTimeoutId);
-          }
-          setTimeoutId(null);
-          setIsHovered(true);
+          setIsMouseOverControls(true);
+          setIsControlsVisible(true);
+        }}
+        onMouseLeave={() => {
+          setIsMouseOverControls(false);
+          setIsControlsVisible(false);
+          hideControls();
         }}
       >
         {/* Progress Bar */}
@@ -229,7 +237,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
 
             {/* Time */}
             <span
-              className={`${isFullscreen ? 'text-lg' : 'text-xs'} font-thin text-white`}
+              className={`${isFullscreen ? 'text-lg' : 'text-base'} font-thin text-white`}
             >
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
@@ -261,9 +269,14 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
             className={`flex items-center justify-between ${isFullscreen ? 'gap-x-8' : 'gap-x-4'}`}
           >
             {/* CC Button (Placeholder) */}
-            <button className="p-2 text-white" onClick={toggleSubtitles}>
-              <span className="text-white">
-                {subtitlesEnabled ? (
+            <button
+              className="text-white"
+              onClick={() => subtitleSrc !== undefined && toggleSubtitles()}
+            >
+              <span
+                className={`${subtitleSrc !== undefined ? 'cursor-pointer' : 'cursor-auto'} text-white`}
+              >
+                {subtitlesEnabled || subtitleSrc === undefined ? (
                   <PiSubtitlesSlashThin size={isFullscreen ? 28 : 24} />
                 ) : (
                   <PiSubtitlesThin size={isFullscreen ? 28 : 24} />

@@ -14,8 +14,6 @@ export const fetchCourses = async () => {
 export const fetchCourse = async (id) => {
   const response = await axios.get(`${API_URL}/courseDetails`);
 
-  console.log(response.data);
-
   const course = response.data.find((course) => course.id === id);
 
   if (!course) {

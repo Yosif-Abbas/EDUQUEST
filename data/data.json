@@ -410,7 +410,7 @@
       "currency": "LE",
       "image": "https://picsum.photos/200/300",
       "rating": 4.7,
-      "reatingCount": 65,
+      "ratingCount": 1200,
       "students_enrolled": 1200,
       "description": "This course covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
       "discountDuration": "2 Days",
@@ -446,7 +446,11 @@
           "name": "Dr. Emily Carter",
           "bio": "PhD in Mathematics with 15+ years of teaching experience in algebra and calculus.",
           "profilePicture": "https://picsum.photos/100",
-          "pic": "https://engineering.princeton.edu/wp-content/uploads/2021/09/Emily20A.20Carter20by20DKC_1600x900-1568x882.jpg"
+          "pic": "https://engineering.princeton.edu/wp-content/uploads/2021/09/Emily20A.20Carter20by20DKC_1600x900-1568x882.jpg",
+          "subjects": ["Math", "geography"],
+          "courseRating": 3.6,
+          "numberOfStudents": 2212,
+          "numberOfCourses": 5
         },
         {
           "name": "John Doe",
@@ -479,8 +483,56 @@
           "rating": 5,
           "comment": "Helped me a lot in my exams! Highly recommended."
         }
+      ],
+
+      "sections": [
+        {
+          "title": "Introduction",
+          "duration": "30m",
+          "files": [
+            {
+              "type": "video",
+              "name": "Introduction Video",
+              "description": "7m 31s"
+            },
+            {
+              "type": "material",
+              "name": "Introduction Material",
+              "description": "5.3 MB"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 1",
+          "duration": "3h 23m",
+          "files": [
+            { "type": "video", "name": "Topic 1", "description": "45m" },
+            { "type": "video", "name": "Topic 2", "description": "1h" },
+            { "type": "material", "name": "Notes", "description": "10 MB" },
+            { "type": "quiz", "name": "Quiz 1", "description": 10 }
+          ]
+        },
+        {
+          "title": "Lesson 2",
+          "duration": "4h 5m",
+          "files": [
+            { "type": "video", "name": "Topic 3", "description": "50m" },
+            { "type": "video", "name": "Topic 4", "description": "1h 15m" },
+            { "type": "material", "name": "Handout", "description": "7 MB" },
+            { "type": "quiz", "name": "Quiz 2", "description": 15 }
+          ]
+        },
+        {
+          "title": "Revision & Test",
+          "duration": "1h 12m",
+          "files": [
+            { "type": "revision", "name": "Summary", "description": "5 MB" },
+            { "type": "test", "name": "Final Exam", "description": 20 }
+          ]
+        }
       ]
     },
+
     {
       "id": 2,
       "title": "Introduction to Calculus",
@@ -491,7 +543,7 @@
       "currency": "LE",
       "image": "https://picsum.photos/id/238/200/300",
       "rating": 4.8,
-      "reatingCount": 75,
+      "ratingCount": 75,
       "students_enrolled": 1500,
       "description": "This course covers the basics of calculus and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
       "discountDuration": "2 Days",
@@ -565,7 +617,7 @@
       "currency": "LE",
       "image": "https://picsum.photos/id/239/200/300",
       "rating": 4.6,
-      "reatingCount": 1000,
+      "ratingCount": 1000,
       "students_enrolled": 900,
       "description": "This course covers the basics of physics and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
       "discountDuration": "2 Days",

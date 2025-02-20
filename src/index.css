@@ -32,8 +32,13 @@
 
 .custom-slider::-webkit-slider-thumb {
   pointer-events: none;
-  height: 0; 
-  width: 0; 
+  height: 0;
+  width: 0;
   opacity: 0;
 }
 
+.list-icon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
