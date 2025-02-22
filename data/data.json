@@ -469,19 +469,31 @@
 
       "studentsFeedback": [
         {
+          "id": 1,
           "name": "Alice Johnson",
+          "avatar": "https://picsum.photos/105",
           "rating": 5,
-          "comment": "This course was amazing! The explanations were clear and easy to follow."
+          "comment": "This course was amazing! The explanations were clear and easy to follow.",
+          "timestamp": "2025-02-22T12:00:00Z",
+          "time_spent": "5 minutes"
         },
         {
+          "id": 2,
           "name": "Michael Brown",
+          "avatar": "https://picsum.photos/106",
           "rating": 4,
-          "comment": "Great course, but I wish there were more practice exercises."
+          "comment": "Great course, but I wish there were more practice exercises.",
+          "timestamp": "2025-02-22T12:00:00Z",
+          "time_spent": "2 days"
         },
         {
+          "id": 3,
           "name": "Sophia Williams",
+          "avatar": "https://picsum.photos/107",
           "rating": 5,
-          "comment": "Helped me a lot in my exams! Highly recommended."
+          "comment": "Helped me a lot in my exams! Highly recommended.",
+          "timestamp": "2025-02-22T12:00:00Z",
+          "time_spent": "1 hour"
         }
       ],
 

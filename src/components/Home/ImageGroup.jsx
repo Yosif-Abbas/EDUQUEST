@@ -6,7 +6,7 @@ import Video from '../../assets/video.png';
 
 function ImageGroup() {
   return (
-    <div className="mt-12 grid grid-cols-2 grid-rows-4 gap-y-16 px-8 md:grid-cols-4 md:grid-rows-4 md:gap-10 lg:h-fit lg:grid-cols-8 lg:grid-rows-7 lg:gap-0 overflow-hidden">
+    <div className="mt-12 grid grid-cols-2 grid-rows-4 gap-y-16  md:grid-cols-4 md:grid-rows-4 md:gap-10 lg:h-fit lg:grid-cols-8 lg:grid-rows-7 lg:gap-0 overflow-hidden">
       {/* Course App - Always Visible */}
       <img
         src={CourseApp}

@@ -164,7 +164,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative mx-auto max-w-4xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''}`}
+      className={`relative mx-auto max-w-5xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''}`}
       onMouseEnter={showControls}
       onMouseMove={handleMouseMove}
       onMouseLeave={hideControls}

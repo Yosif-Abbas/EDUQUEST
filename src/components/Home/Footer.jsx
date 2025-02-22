@@ -1,5 +1,4 @@
 import Button from '../Button';
-import Title from '../Title';
 import HourGlasses from '../../assets/hourglasses.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,12 +11,12 @@ function Footer() {
 
   return (
     <div className="relative mt-20 flex justify-between py-5">
-      <div className="flex">
-        <Title className="inline-flex flex-col text-5xl font-extrabold italic">
+      <div className="flex w-full max-w-180 items-center justify-around">
+        <h1 className="text-main-txt inline-flex flex-col text-xl font-extrabold whitespace-nowrap italic md:text-2xl lg:text-4xl">
           Start your first mission
           <span className="self-center"> Join→</span>
-        </Title>
-        <Button className="self-end" size="lg" onClick={handleCoursesRedirect}>
+        </h1>
+        <Button className="self-end" size="md" onClick={handleCoursesRedirect}>
           Start
         </Button>
       </div>
@@ -25,7 +24,7 @@ function Footer() {
         <img
           src={HourGlasses}
           alt="Hourglasses"
-          className="hidden w-2xl md:block"
+          className="hidden w-lg md:w-xl lg:block"
         />
       </div>
     </div>

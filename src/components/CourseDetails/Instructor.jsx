@@ -4,7 +4,7 @@ import { LuUsersRound } from 'react-icons/lu';
 
 function Instructor({ instructor }) {
   return (
-    <div key={instructor.id} className="flex gap-3 p-4">
+    <div key={instructor.id} className="flex items-start gap-3 p-4">
       <img
         src={instructor.profilePicture}
         alt={instructor.name}

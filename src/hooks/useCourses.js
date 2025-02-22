@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCourses } from '../api/coursesApi';
 
-export const useCourses = () => {
+export const useCourses = (
+  _searchTerm = '',
+  _filterCategory = '',
+  _sortOrder = '',
+) => {
   const { data: courses = [], ...queryInfo } = useQuery({
     queryKey: ['courses'],
     queryFn: fetchCourses,
   });
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState('');
-  const [sortOrder, setSortOrder] = useState(''); // "asc" or "desc"
+  const [searchTerm, setSearchTerm] = useState(_searchTerm);
+  const [filterCategory, setFilterCategory] = useState(_filterCategory);
+  const [sortOrder, setSortOrder] = useState(_sortOrder); // "asc" or "desc"
 
   // Search
   let filteredCourses = courses;
@@ -22,7 +26,9 @@ export const useCourses = () => {
   // Filter
   if (filterCategory)
     filteredCourses = filteredCourses.filter((course) =>
-      filterCategory ? course.category === filterCategory : true,
+      filterCategory
+        ? course.subject?.toLowerCase() === filterCategory.toLowerCase()
+        : true,
     );
 
   // Sorting

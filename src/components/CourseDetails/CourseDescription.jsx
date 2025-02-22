@@ -5,7 +5,7 @@ function CourseDescription({ description, whatYouWillLearn, requirements }) {
     <div className="flex flex-col gap-y-4">
       {/* Description */}
       <div>
-        <h1 className="text-xl">Description</h1>
+        <h1 className="text-xl lg:text-2xl">Description</h1>
         <p className="text-sm font-normal text-gray-500">{description}</p>
       </div>
 

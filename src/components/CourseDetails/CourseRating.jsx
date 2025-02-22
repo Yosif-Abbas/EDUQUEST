@@ -5,11 +5,11 @@ function CourseRating({ rating, ratings, ratingCount }) {
   console.log(ratingCount);
   return (
     <div>
-      <h1 className="mb-6 text-xl">Course Rating</h1>
-      <div className="mx-auto flex w-full max-w-200 gap-x-2">
-        <div className="mx-auto flex w-35 flex-col items-center justify-center gap-y-2 bg-white py-4">
-          <h1 className="mb-2 text-2xl">4.8</h1>
-          <StarRating rating={rating} />
+      <h1 className="mb-6 text-xl lg:text-2xl">Course Rating</h1>
+      <div className="mx-auto flex w-full max-w-200 gap-x-6">
+        <div className="mx-auto flex w-50 flex-col items-center justify-center gap-y-4 bg-white py-4">
+          <h1 className="mb-2 text-4xl">4.8</h1>
+          <StarRating rating={rating} size={18} />
           <p className="text-xs">Course Rating</p>
         </div>
 

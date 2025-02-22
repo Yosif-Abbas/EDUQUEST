@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import CourseSubject from './CourseSubject';
+import { LuUserRound } from 'react-icons/lu';
 
 function Card({ course }) {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ function Card({ course }) {
   };
 
   return (
-    <li className="h-fit w-42 bg-white sm:w-65 lg:w-85">
+    <li className="h-fit w-42 border-1 border-gray-300 bg-white sm:w-65 lg:w-85">
       <div
         onClick={handleCourseRedirect}
         className="h-27 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 sm:h-42 lg:h-55"
@@ -29,7 +30,8 @@ function Card({ course }) {
       </div>
       <div className="flex items-center justify-between border-t border-[#8C94A355] p-4 text-xs font-medium sm:text-lg">
         <span>⭐ {course.rating}</span>
-        <span className="text-[#4E5566]">
+        <span className="list-icon text-[#4E5566]">
+          <LuUserRound color="#564FFD" />
           {course.students_enrolled}{' '}
           <span className="text-[#4E5566aa]">Students</span>
         </span>

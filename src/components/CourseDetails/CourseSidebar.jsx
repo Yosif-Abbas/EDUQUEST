@@ -21,7 +21,7 @@ function CourseSidebar({ course }) {
   } = course;
 
   return (
-    <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6">
+    <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
       <div className="pb-4">
         <div className="mb-4 flex items-center justify-between">
           <p className="flex items-center text-xl font-medium">
@@ -44,46 +44,46 @@ function CourseSidebar({ course }) {
         </p>
       </div>
 
-      <div className="py-4 font-normal">
-        <p className="flex items-center">
-          <span className="mr-2">
+      <ul className="flex flex-col gap-y-1 py-4 font-normal">
+        <li className="list-icon">
+          <span>
             <CiClock2 />
           </span>
-          Course Duration{' '}
+          Course Duration
           <span className="ml-auto text-sm text-gray-500">
             {courseDuration}
           </span>
-        </p>
-        <p className="flex items-center">
-          <span className="mr-2">
+        </li>
+        <li className="list-icon">
+          <span>
             <LuNotepadText />
           </span>
-          Number of Lessons{' '}
+          Number of Lessons
           <span className="ml-auto text-sm text-gray-500">
             {numberOfLessons}
           </span>
-        </p>
-        <p className="flex items-center">
-          <span className="mr-2">
+        </li>
+        <li className="list-icon">
+          <span>
             <LuUsersRound />
           </span>
-          Student Enrolled{' '}
+          Student Enrolled
           <span className="ml-auto text-sm text-gray-500">
             {students_enrolled}
           </span>
-        </p>
-        <p className="flex items-center">
-          <span className="mr-2">
+        </li>
+        <li className="list-icon">
+          <span>
             <FiBarChart />
           </span>
-          course Level{' '}
+          course Level
           <span className="ml-auto text-sm text-gray-500">{courseLevel}</span>
-        </p>
-      </div>
+        </li>
+      </ul>
 
       <div className="py-4">
         <h3>This course includes:</h3>
-        <ul className="list-disc pl-6 text-sm font-normal text-gray-500">
+        <ul className="flex list-disc flex-col gap-y-1 pl-6 text-sm font-normal text-gray-500">
           {courseIncludes.map((item, index) => (
             <li key={index} className="">
               {item}
@@ -95,16 +95,25 @@ function CourseSidebar({ course }) {
       <div className="pt-4">
         <h3>Share this course:</h3>
         <div className="flex justify-center gap-x-2">
-          <SocialButton type="secondary" icon={<BiCopy />}>
+          <SocialButton type="secondary" icon={<BiCopy color="#4E5566" />}>
             Copy Link
           </SocialButton>
           <SocialButton
             type="secondary"
-            icon={<BiLogoFacebook />}
+            icon={<BiLogoFacebook color="#4E5566" />}
           ></SocialButton>
-          <SocialButton type="secondary" icon={<FaTwitter />}></SocialButton>
-          <SocialButton type="secondary" icon={<CiMail />}></SocialButton>
-          <SocialButton type="secondary" icon={<FaWhatsapp />}></SocialButton>
+          <SocialButton
+            type="secondary"
+            icon={<FaTwitter color="#4E5566" />}
+          ></SocialButton>
+          <SocialButton
+            type="secondary"
+            icon={<CiMail color="#4E5566" />}
+          ></SocialButton>
+          <SocialButton
+            type="secondary"
+            icon={<FaWhatsapp color="#4E5566" />}
+          ></SocialButton>
         </div>
       </div>
     </div>

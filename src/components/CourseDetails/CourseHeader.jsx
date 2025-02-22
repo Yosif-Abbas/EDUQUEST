@@ -12,7 +12,7 @@ function CourseHeader({ course }) {
   console.log(course);
   return (
     <>
-      <div className="flex flex-col gap-y-4">
+      <div className="mx-auto flex max-w-5xl flex-col gap-y-4 lg:mr-0">
         <h1 className="text-3xl">{title}</h1>
 
         <div className="flex justify-between px-2 md:px-0">
