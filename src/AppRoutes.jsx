@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -25,6 +25,7 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import NewCourse from './pages/teacher/NewCourse';
 import TeacherSettings from './pages/teacher/TeacherSettings';
+import StudentTeachers from './pages/student/StudentTeachers';
 
 function AppRoutes() {
   return (
@@ -45,13 +46,21 @@ function AppRoutes() {
           index
           element={
             <ProtectedRoute role="student">
-              <StudentDashboard />
+              <Navigate replace to="dashboard" />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute role="student">
+              <StudentDashboard />
+            </ProtectedRoute>
+          }
+        ></Route>
 
         <Route
-          path="Courses"
+          path="courses"
           element={
             <ProtectedRoute role="student">
               <StudentCourses />
@@ -60,10 +69,19 @@ function AppRoutes() {
         />
 
         <Route
-          path="Wishlist"
+          path="wishlist"
           element={
             <ProtectedRoute role="student">
               <Wishlist />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="teachers"
+          element={
+            <ProtectedRoute role="student">
+              <StudentTeachers />
             </ProtectedRoute>
           }
         />
@@ -92,6 +110,14 @@ function AppRoutes() {
       <Route path="/teacher" element={<TeacherLayout />}>
         <Route
           index
+          element={
+            <ProtectedRoute role="teacher">
+              <Navigate replace to="dashboard" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="dashboard"
           element={
             <ProtectedRoute role="teacher">
               <TeacherDashboard />

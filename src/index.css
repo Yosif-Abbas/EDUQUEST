@@ -2,7 +2,7 @@
 
 .container {
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 20px;
   /* width: 600px; */
 }
 
@@ -19,7 +19,53 @@
   --color-alt-darker: #8c94a3;
   --color-main-txt: #27374d;
   --color-alt-txt: #b9896c;
-  --L6: #ff6636;
+  --color-L6: #ff6636;
+
+  --breakpoint-xs: 480px;
+}
+
+@layer {
+  .teacher-navlink {
+    @apply hover:bg-pinky-violet hover:text-alt my-2 flex gap-4 rounded-full p-2 transition sm:m-0 sm:rounded-none sm:px-4 sm:py-4;
+
+    &.active {
+      @apply bg-pinky-violet text-alt;
+    }
+  }
+  .teacher-nav li .active {
+    @apply bg-pinky-violet text-alt;
+  }
+  .student-header-nav {
+    @apply relative px-5 py-3;
+
+    &.first {
+      @apply pl-0;
+    }
+
+    & .active {
+      @apply after:bg-L6 after:absolute after:top-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
+    }
+  }
+  .student-nav {
+    @apply relative px-2 py-2 text-sm md:px-8 md:py-5 md:text-[16px];
+
+    & .active {
+      @apply after:bg-L6 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
+    }
+  }
+  .student-dashboard-list-item {
+    @apply flex basis-full items-center gap-6 p-6 md:basis-[calc(50%-12px)] xl:basis-[calc(25%-18px)];
+
+    .student-dashboard-list-item-icon {
+      @apply block w-fit bg-white p-5 text-3xl;
+    }
+  }
+  .student-courses-filter-name {
+    @apply mb-2 text-[12px] text-[#6E7485];
+  }
+  .student-wishlist-item {
+    @apply grid grid-cols-6 gap-6 border-b-1 border-[#E9EAF0] py-5;
+  }
 }
 
 .custom-slider {

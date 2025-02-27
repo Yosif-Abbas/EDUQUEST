@@ -8,6 +8,7 @@ button {
   justify-content: space-between;
   gap: 30px;
 }
+
 @media (max-width: 1023px) {
   .teacher-dashboard-stats {
     grid-template-columns: repeat(2, auto);

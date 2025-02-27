@@ -10,13 +10,13 @@ function Card({ course }) {
   };
 
   return (
-    <li className="h-fit w-42 border-1 border-gray-300 bg-white sm:w-65 lg:w-85">
-      <div
+    <li className="border-1 border-gray-300 bg-white">
+      <figure
         onClick={handleCourseRedirect}
         className="h-27 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 sm:h-42 lg:h-55"
       >
         <img src={course.image} alt={course.subject} className="w-full" />
-      </div>
+      </figure>
 
       <div className="p-4 text-xs font-medium sm:text-sm">
         <div className="flex items-center justify-between pb-4">
@@ -28,6 +28,7 @@ function Card({ course }) {
 
         <h3>{course.title}</h3>
       </div>
+
       <div className="flex items-center justify-between border-t border-[#8C94A355] p-4 text-xs font-medium sm:text-lg">
         <span>⭐ {course.rating}</span>
         <span className="list-icon text-[#4E5566]">

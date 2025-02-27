@@ -34,7 +34,7 @@ const newCourseInfoTabs = [
 ];
 
 function NewCourse() {
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0);
 
   function handleNext() {
     // Savieg Logic
