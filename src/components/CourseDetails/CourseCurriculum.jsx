@@ -42,22 +42,22 @@ function CourseCurriculum({ sections }) {
               </h2>
               <div className="flex items-center gap-x-2">
                 <PiFolderOpen color="#FF6636" />
-                <span>{section.files.length} files</span>
+                <span>{section.lectures.length} lectures</span>
                 <CiClock2 color="#FD8E1F" />
                 <span>{section.duration}</span>
               </div>
             </div>
             <ul className="flex flex-col gap-x-2">
-              {section.files.map((file, i) => (
+              {section.lectures.map((lecture, i) => (
                 <li
                   key={i}
                   className="list-icon cursor-pointer px-2 py-2 hover:bg-gray-100"
                 >
-                  {file.type === 'material' && <CiFileOn />}
-                  {file.type === 'video' && <FaPlay size={8} />}
+                  {lecture.type === 'material' && <CiFileOn />}
+                  {lecture.type === 'video' && <FaPlay size={8} />}
                   <div className="flex w-full justify-between">
-                    <span className="text-gray-500">{file.name}</span>
-                    <span className="text-gray-500">{file.description}</span>
+                    <span className="text-gray-500">{lecture.name}</span>
+                    <span className="text-gray-500">{lecture.description}</span>
                   </div>
                 </li>
               ))}

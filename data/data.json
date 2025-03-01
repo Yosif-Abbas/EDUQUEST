@@ -501,7 +501,9 @@
         {
           "title": "Introduction",
           "duration": "30m",
-          "files": [
+          "description": "This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios. This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios. This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+
+          "lectures": [
             {
               "type": "video",
               "name": "Introduction Video",
@@ -512,12 +514,65 @@
               "name": "Introduction Material",
               "description": "5.3 MB"
             }
+          ],
+          "comments": [
+            {
+              "id": 1,
+              "name": "Alice",
+              "text": "Great introduction!",
+              "timestamp": "2025-02-22T12:00:00Z",
+              "time_spent": "1 hour",
+              "replays": [
+                {
+                  "id": 1,
+                  "name": "Alice",
+                  "text": "This was a great introduction!",
+                  "time_spent": "58 minutes"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "Bob",
+              "text": "I enjoyed the content!",
+              "timestamp": "2025-02-22T12:00:00Z",
+              "time_spent": "2 weeks",
+              "replays": [
+                {
+                  "id": 1,
+                  "name": "Alice",
+                  "text": "Me too!",
+                  "time_spent": "2 weeks",
+                  "replays": [
+                    {
+                      "id": 1,
+                      "name": "Alice",
+                      "text": "Me too!",
+                      "time_spent": "2 weeks"
+                    },
+                    {
+                      "id": 2,
+                      "name": "Hany",
+                      "text": "Hi there",
+                      "time_spent": "1 week"
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Hany",
+                  "text": "Hi there",
+                  "time_spent": "1 week"
+                }
+              ]
+            }
           ]
         },
         {
           "title": "Lesson 1",
           "duration": "3h 23m",
-          "files": [
+          "description": "This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+          "lectures": [
             { "type": "video", "name": "Topic 1", "description": "45m" },
             { "type": "video", "name": "Topic 2", "description": "1h" },
             { "type": "material", "name": "Notes", "description": "10 MB" },
@@ -527,7 +582,8 @@
         {
           "title": "Lesson 2",
           "duration": "4h 5m",
-          "files": [
+          "description": "This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+          "lectures": [
             { "type": "video", "name": "Topic 3", "description": "50m" },
             { "type": "video", "name": "Topic 4", "description": "1h 15m" },
             { "type": "material", "name": "Handout", "description": "7 MB" },
@@ -537,7 +593,8 @@
         {
           "title": "Revision & Test",
           "duration": "1h 12m",
-          "files": [
+          "description": "This section covers the basics of algebra and helps you develop problem-solving skills. It will help you understand and apply mathematical concepts in various real-world scenarios.",
+          "lectures": [
             { "type": "revision", "name": "Summary", "description": "5 MB" },
             { "type": "test", "name": "Final Exam", "description": 20 }
           ]

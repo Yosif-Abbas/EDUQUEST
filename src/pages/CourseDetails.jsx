@@ -8,16 +8,11 @@ import CourseCurriculum from '../components/CourseDetails/CourseCurriculum';
 import InstructorSection from '../components/CourseDetails/InstructorSection';
 import StudentReviews from '../components/CourseDetails/StudentReviews';
 import CourseRating from '../components/CourseDetails/CourseRating';
-import { useCourses } from './../hooks/useCourses';
-import Card from '../components/Card';
-import Button from './../components/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import Footer from '../components/CourseDetails/Footer';
 
 function CourseDetails() {
   const { id } = useParams();
   const { course, isError, isLoading } = useCourse(id);
-
-  const { courses: relatedCourses } = useCourses('', 'math');
 
   console.log(course);
 
@@ -52,33 +47,7 @@ function CourseDetails() {
           <StudentReviews studentsFeedback={course.studentsFeedback} />
         </div>
       </div>
-      <footer className="bg-white">
-        <div className="mx-auto w-fit px-4">
-          <div className="flex items-center justify-between py-4">
-            <h2 className="text-2xl lg:text-3xl">Related Courses</h2>
-            <Button
-              type="neutral"
-              className="flex items-center gap-4 py-3"
-              size="sm"
-            >
-              View All <FaArrowRight />
-            </Button>
-          </div>
-          <div className="overflow-x-auto">
-            <ul className="flex w-max gap-x-6">
-              {relatedCourses.slice(0, 4).map((course, index) => (
-                <li
-                  key={course.id}
-                  className={` ${index >= 2 ? 'hidden 2xl:block' : ''}`}
-                >
-                  <Card course={course} />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className="py-2">©️ 2025 EduQuest. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

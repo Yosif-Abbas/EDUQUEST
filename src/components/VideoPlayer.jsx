@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { PiSubtitlesSlashThin, PiSubtitlesThin } from 'react-icons/pi';
 
-const VideoPlayer = ({ src, poster, subtitleSrc }) => {
+const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const idleTimeout = useRef(null);
@@ -164,7 +164,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative mx-auto max-w-5xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''}`}
+      className={`relative mx-auto max-w-5xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''} ${className}`}
       onMouseEnter={showControls}
       onMouseMove={handleMouseMove}
       onMouseLeave={hideControls}

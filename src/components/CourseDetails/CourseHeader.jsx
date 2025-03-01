@@ -2,8 +2,8 @@ import VideoPlayer from '../../components/VideoPlayer';
 
 import Intro from '../../assets/Intro.mp4';
 import Subtitles from '../../assets/subtitles.vtt';
-
 import Arabic from '../../assets/Arabic.png';
+
 import StarRating from '../StarRating';
 
 function CourseHeader({ course }) {

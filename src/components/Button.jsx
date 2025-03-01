@@ -8,7 +8,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    'font-bold transition-all cursor-pointer text-[18px] whitespace-nowrap';
+    'font-bold transition-all cursor-pointer  whitespace-nowrap';
   const typeStyles = {
     primary: 'bg-[#876A9A] text-[#DDE6ED]',
     secondary: 'border border-[#876A9A] text-[#876A9A]',
@@ -16,8 +16,8 @@ const Button = ({
     neutral: 'bg-[#FFEEE8] text-[#FF6636] font-medium',
   };
   const sizeStyles = {
-    sm: 'px-6 py-1 text-sm',
-    md: 'px-10 py-2',
+    sm: 'px-5 py-2.5  text-xs font-semibold',
+    md: 'px-10 py-2 text-md',
     lg: 'px-22 py-3 text-3xl',
   };
   const roundedStyles = rounded ? 'rounded-md' : 'rounded-none';

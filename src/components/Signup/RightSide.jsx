@@ -24,16 +24,24 @@ function RightSide() {
       </div>
       <Title className="">Sign Up</Title>
       <form onSubmit={handleSubmit}>
-        <InputField placeholder="Full Name" id="full-name" label="label" />
-        <InputField placeholder="Class" id="class" label="label" />
-        <InputField placeholder="Phone Number" id="phone" label="label" />
-        <InputField placeholder="Email Address" id="email" label="label" />
+        <InputField placeholder="Full Name" id="full-name" label="Full Name" />
+        <InputField placeholder="Class" id="class" label="Class" />
+        <InputField
+          placeholder="Phone Number"
+          id="phone"
+          label="Phone Number"
+        />
+        <InputField
+          placeholder="Email Address"
+          id="email"
+          label="Email Address"
+        />
 
         <InputField
           isPassord
           id="password"
           placeholder="Password"
-          label="label"
+          label="Password"
         />
 
         <div className="mx-auto mb-2">

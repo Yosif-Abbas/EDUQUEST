@@ -94,16 +94,17 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
-        <Route
-          path="watch/:id"
-          element={
-            <ProtectedRoute role="student">
-              <WatchCourse />
-            </ProtectedRoute>
-          }
-        />
       </Route>
+
+      {/* watch course accessible for student and teacher */}
+      <Route
+        path="/courses/:id/watch"
+        element={
+          <ProtectedRoute role={['student', 'teacher']}>
+            <WatchCourse />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Teacher Routes */}
 

@@ -1,8 +1,9 @@
 function LanguageButton() {
   return (
-    <button className="text-alt-darker cursor-pointer text-[12px]">
-      English (UK) &#x25BC;
-    </button>
+    <select className="text-alt-darker cursor-pointer text-[12px]">
+      <option value="english">English (UK)</option>
+      <option value="arabic">Arabic</option>
+    </select>
   );
 }
 

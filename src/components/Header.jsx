@@ -7,6 +7,7 @@ import { GoBell } from 'react-icons/go';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { useState } from 'react';
+import LanguageButton from './LanguageButton';
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -42,7 +43,7 @@ function Header() {
         <figure className="w-10">
           <img src={bigIcon} alt="Icon" />
         </figure>
-        <div>
+        {/* <div>
           <select className="p-1 text-white outline-none">
             <option className="text-black" value="english">
               English
@@ -52,13 +53,16 @@ function Header() {
             </option>
           </select>
         </div>
+         */}
+        <LanguageButton />
       </section>
       <section className="flex items-center justify-between gap-5 px-6 py-2">
         <figure className="cursor-pointer">
           <img src={logo} alt="Logo" className="hidden w-60 sm:block" />
           <img src={logoIcon} alt="Logo" className="w-10 sm:hidden" />
         </figure>
-        <div className="relative flex gap-2">
+
+        {/* <div className="relative flex gap-2">
           <select className="border-1 border-white p-1 outline-0">
             <option>Browse</option>
           </select>
@@ -84,7 +88,7 @@ function Header() {
               </div>
             </form>
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center gap-2 text-2xl">
           <span>
             <GoBell />
