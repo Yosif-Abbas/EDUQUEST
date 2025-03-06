@@ -1,61 +1,18 @@
-import { CiHeart, CiSearch, CiShoppingCart } from 'react-icons/ci';
+import { CiHeart, CiShoppingCart } from 'react-icons/ci';
 import logo from '../assets/logo.png';
 import logoIcon from '../assets/logo-icon.png';
 import avatar from '../assets/picture.jpg';
-import bigIcon from '../assets/big-icon.png';
 import { GoBell } from 'react-icons/go';
-import { NavLink } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa';
 import { useState } from 'react';
-import LanguageButton from './LanguageButton';
+import TeacherStudentNavbar from './TeacherStudentNavbar';
 
 function Header() {
-  const [openMenu, setOpenMenu] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
 
   return (
     <header>
-      <section className="relative flex items-center justify-between bg-[#27374D] px-6 py-2 text-white">
-        <nav className="flex items-center">
-          <button
-            onClick={() => setOpenMenu((pre) => !pre)}
-            className="block text-2xl md:hidden"
-          >
-            <FaBars />
-          </button>
-          <ul
-            className={`absolute top-[100%] -left-50 z-10 w-50 bg-[#27374D] transition ${openMenu && 'translate-x-full'} md:relative md:top-0 md:left-0 md:flex md:items-center md:bg-transparent`}
-          >
-            <li className="student-header-nav">
-              <NavLink to="/student">Home</NavLink>
-            </li>
-            <li className="student-header-nav">
-              <NavLink to="/courses">Courses</NavLink>
-            </li>
-            <li className="student-header-nav">
-              <NavLink to="/about">About</NavLink>
-            </li>
-            <li className="student-header-nav">
-              <NavLink to="/contact">Contact</NavLink>
-            </li>
-          </ul>
-        </nav>
-        <figure className="w-10">
-          <img src={bigIcon} alt="Icon" />
-        </figure>
-        {/* <div>
-          <select className="p-1 text-white outline-none">
-            <option className="text-black" value="english">
-              English
-            </option>
-            <option className="text-black" value="arabic">
-              Arabic
-            </option>
-          </select>
-        </div>
-         */}
-        <LanguageButton />
-      </section>
+      <TeacherStudentNavbar />
+
       <section className="flex items-center justify-between gap-5 px-6 py-2">
         <figure className="cursor-pointer">
           <img src={logo} alt="Logo" className="hidden w-60 sm:block" />

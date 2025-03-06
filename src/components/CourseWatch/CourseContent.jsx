@@ -11,7 +11,7 @@ function CourseContent({ sections }) {
 
   return (
     <div className="flex flex-col gap-y-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-w-120 lg:min-w-110">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-xl lg:text-2xl">Course Content</h1>
         <p className="text-[#876A9A]">
           <span>15%</span> Completed
@@ -23,7 +23,7 @@ function CourseContent({ sections }) {
       <div className="flex flex-col bg-white font-normal">
         {sections.map((section, index) => (
           <div key={index}>
-            <div className="list-icon flex h-10 cursor-pointer justify-between px-2 hover:bg-gray-50">
+            <div className="list-icon flex h-10 cursor-pointer justify-between px-2 hover:bg-gray-100">
               <h3 className="text-md list-icon">
                 <IoIosArrowUp />
                 {section.title}
@@ -47,13 +47,13 @@ function CourseContent({ sections }) {
               {section.lectures.map((lecture, i) => (
                 <li
                   key={i}
-                  className={`list-icon cursor-pointer px-2 py-2 text-xs transition-all duration-100 ${open === lecture.name ? 'bg-[#FFEEE8]' : 'hover:bg-gray-50'}`}
+                  className={`list-icon cursor-pointer px-2 py-2 text-xs transition-all duration-100 ${open === lecture.name ? 'bg-[#FFEEE8]' : 'hover:bg-gray-100'}`}
                 >
                   <div className="flex w-full justify-between">
-                    <div className="list-icon">
+                    <div className="flex gap-x-3">
                       <input
                         type="checkbox"
-                        className="accent-black outline-none checked:accent-sky-700"
+                        className="scale-150 accent-black outline-none checked:accent-sky-700"
                         checked={open === lecture.name}
                       />
                       <span className="">{lecture.name}</span>

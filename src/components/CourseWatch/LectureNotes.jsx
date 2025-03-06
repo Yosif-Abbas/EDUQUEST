@@ -3,7 +3,7 @@ import { LuDownload } from 'react-icons/lu';
 function LectureNotes({ notes }) {
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex h-14 items-center justify-between">
         <h1 className="text-lg lg:text-xl">Lecture Notes</h1>
         <button className="list-icon bg-[#FFEEE8] px-3 py-2 text-sm text-[#526D82]">
           <LuDownload size={18} />

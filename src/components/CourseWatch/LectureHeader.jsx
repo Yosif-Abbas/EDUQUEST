@@ -1,7 +1,7 @@
 function LectureHeader() {
   return (
     <div className="col-start-1">
-      <h1 className="text-xl lg:text-2xl">1. Intoduction in math</h1>
+      <h1 className="pb-3 text-xl lg:text-2xl">1. Intoduction in math</h1>
 
       <div className="flex justify-between">
         {/* left */}

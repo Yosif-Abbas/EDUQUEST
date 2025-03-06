@@ -19,6 +19,12 @@
   --color-alt-darker: #8c94a3;
   --color-main-txt: #27374d;
   --color-alt-txt: #b9896c;
+
+  --color-L1: #dde6ed;
+  --color-L2: #9db2bf;
+  --color-L3: #526d82;
+  --color-L4: #27374d;
+  --color-L5: #876a9a;
   --color-L6: #ff6636;
 
   --breakpoint-xs: 480px;
@@ -26,7 +32,7 @@
 
 @layer {
   .teacher-navlink {
-    @apply hover:bg-pinky-violet hover:text-alt my-2 flex gap-4 rounded-full p-2 transition sm:m-0 sm:rounded-none sm:px-4 sm:py-4;
+    @apply hover:text-alt my-2 flex justify-center gap-4 rounded-full p-2 transition sm:m-0 sm:justify-start sm:rounded-none;
 
     &.active {
       @apply bg-pinky-violet text-alt;
@@ -89,5 +95,3 @@
   align-items: center;
   gap: 4px;
 }
-
-

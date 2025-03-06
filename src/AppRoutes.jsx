@@ -35,6 +35,7 @@ function AppRoutes() {
         <Route path="/home" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
@@ -153,8 +154,6 @@ function AppRoutes() {
           }
         />
       </Route>
-
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

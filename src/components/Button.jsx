@@ -12,11 +12,10 @@ const Button = ({
   const typeStyles = {
     primary: 'bg-[#876A9A] text-[#DDE6ED]',
     secondary: 'border border-[#876A9A] text-[#876A9A]',
-    danger: 'bg-orange-500 text-[#DDE6ED]',
     neutral: 'bg-[#FFEEE8] text-[#FF6636] font-medium',
   };
   const sizeStyles = {
-    sm: 'px-5 py-2.5  text-xs font-semibold',
+    sm: 'px-5 py-2.5 text-xs font-semibold',
     md: 'px-10 py-2 text-md',
     lg: 'px-22 py-3 text-3xl',
   };

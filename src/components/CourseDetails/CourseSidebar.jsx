@@ -5,6 +5,7 @@ import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
 import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 import SocialButton from '../SocialButton';
+import Button from '../Button';
 
 function CourseSidebar({ course }) {
   const {
@@ -80,6 +81,18 @@ function CourseSidebar({ course }) {
           <span className="ml-auto text-sm text-gray-500">{courseLevel}</span>
         </li>
       </ul>
+
+      <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
+        <button className="bg-[#526D82] px-4 py-2 text-white">
+          Add to Cart
+        </button>
+        <button className="bg-[#DDE6ED] px-4 py-2 text-[#526D82]">
+          Buy Now
+        </button>
+        <button className="border-1 border-gray-300 bg-white px-4 py-2 text-[#526D82]">
+          Add to Wishlist
+        </button>
+      </div>
 
       <div className="py-4">
         <h3>This course includes:</h3>

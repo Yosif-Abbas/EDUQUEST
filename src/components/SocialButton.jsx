@@ -3,7 +3,7 @@ function SocialButton({ icon, children, className, type = 'primary' }) {
     primary:
       'rounded-2xl border-1 border-black px-2 py-1 md:px-3 md:py-2 md:text-[14px] text-[10px] text-black',
     secondary:
-      'bg-[#F5F7FA] text-[#4E5566] text-xs font-normal py-1 px-2 hover:bg-[#dbdfe6] transition-color duration-200',
+      'bg-[#F5F7FA] text-[#4E5566] text-xs font-normal py-1.5 px-2 hover:bg-[#dbdfe6] transition-color duration-200',
   };
 
   return (

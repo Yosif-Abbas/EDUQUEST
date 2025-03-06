@@ -7,7 +7,7 @@ function Footer() {
   const { courses: relatedCourses } = useCourses('', 'math');
 
   return (
-    <footer className="bg-white">
+    <footer className="bg-white pb-3">
       <div className="mx-auto w-fit px-4">
         <div className="flex items-center justify-between py-4">
           <h2 className="text-2xl lg:text-3xl">Related Courses</h2>
@@ -36,7 +36,6 @@ function Footer() {
               )}
           </ul>
         </div>
-        <p className="py-2">©️ 2025 EduQuest. All rights reserved.</p>
       </div>
     </footer>
   );

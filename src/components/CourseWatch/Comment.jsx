@@ -29,7 +29,7 @@ function Comment({ comment }) {
       </div>
       {/* Replys */}
       {comment.replays && comment.replays.length > 0 && (
-        <div className="ml-8 border-l-2 border-gray-300 pl-4 ">
+        <div className="mt-3 ml-8 flex flex-col gap-y-3 border-l-2 border-gray-300 pl-4">
           {comment.replays.map((replay) => (
             <Comment comment={replay} key={replay.id} />
           ))}

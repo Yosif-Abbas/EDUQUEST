@@ -10,6 +10,12 @@ import StudentReviews from '../components/CourseDetails/StudentReviews';
 import CourseRating from '../components/CourseDetails/CourseRating';
 import Footer from '../components/CourseDetails/Footer';
 
+import VideoPlayer from '../components/VideoPlayer';
+
+import Intro from '../assets/Intro.mp4';
+import Subtitles from '../assets/subtitles.vtt';
+import Arabic from '../assets/Arabic.png';
+
 function CourseDetails() {
   const { id } = useParams();
   const { course, isError, isLoading } = useCourse(id);
@@ -29,6 +35,13 @@ function CourseDetails() {
     <div>
       <div className="grid gap-2 lg:grid-cols-[2fr_1fr]">
         <CourseHeader course={course} />
+        <VideoPlayer
+          src={Intro}
+          poster={Arabic}
+          subtitleSrc={Subtitles}
+          className="col-start-1 mr-0"
+        />
+
         <CourseSidebar course={course} />
 
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">

@@ -12,7 +12,7 @@ function CourseHeader({ course }) {
   console.log(course);
   return (
     <>
-      <div className="mx-auto flex max-w-5xl flex-col gap-y-4 lg:mr-0">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-y-4 lg:mr-0">
         <h1 className="text-3xl">{title}</h1>
 
         <div className="flex justify-between px-2 md:px-0">
@@ -49,7 +49,7 @@ function CourseHeader({ course }) {
           </div>
         </div>
 
-        <VideoPlayer src={Intro} poster={Arabic} subtitleSrc={Subtitles} />
+        {/* <VideoPlayer src={Intro} poster={Arabic} subtitleSrc={Subtitles} /> */}
       </div>
     </>
   );

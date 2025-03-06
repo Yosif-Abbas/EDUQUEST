@@ -3,8 +3,12 @@ import { GoArrowLeft } from 'react-icons/go';
 import { IoPlayCircleOutline } from 'react-icons/io5';
 import { PiFolderOpen } from 'react-icons/pi';
 import Button from '../Button';
+import { useState } from 'react';
+import ReviewModal from '../ReviewModal';
 
 function CourseHeader() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="my-6 flex h-18 items-center justify-between bg-[#9DB2BF] px-2 md:h-24">
       {/* Left */}
@@ -35,10 +39,16 @@ function CourseHeader() {
       {/* Right */}
       <div className="flex w-fit flex-row-reverse flex-wrap justify-center gap-x-2">
         <Button size="sm">Next Lecture</Button>
-        <Button size="sm" type="secondary" className="border-none bg-white">
+        <Button
+          size="sm"
+          type="secondary"
+          className="border-none bg-white"
+          onClick={() => setIsModalOpen(true)}
+        >
           Write A Review
         </Button>
       </div>
+      <ReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

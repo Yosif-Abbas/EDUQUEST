@@ -39,13 +39,13 @@ function WatchCourse() {
         <Header />
         <CourseHeader />
       </div>
-      <div className="grid gap-2 pb-10 lg:grid-cols-[2fr_1fr]">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4">
+      <div className="grid gap-2 lg:grid-cols-[2fr_1fr]">
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
           <VideoPlayer src={Intro} poster={Arabic} subtitleSrc={Subtitles} />
           <LectureHeader />
         </div>
         <CourseContent sections={course.sections} />
-        <div className="col-start-1 mx-auto flex max-w-5xl flex-col gap-4">
+        <div className="col-start-1 mx-auto flex max-w-5xl flex-col gap-4 px-2 pb-4">
           <LectureDescription description={course.sections[0].description} />
           <LectureNotes notes={course.sections[0].description} />
           <LectureFile />
