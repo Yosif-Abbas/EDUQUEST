@@ -1,10 +1,12 @@
 import avatar from '../assets/picture.jpg';
 import { NavLink, Outlet } from 'react-router-dom';
 import Header from './Header';
+import TeacherStudentNavbar from './TeacherStudentNavbar';
 
 function StudentLayout() {
   return (
     <>
+      <TeacherStudentNavbar />
       <Header />
       <main className="relative">
         <div className="absolute top-0 left-0 z-[-1] h-70 w-full bg-[#526D82]"></div>
@@ -28,9 +30,9 @@ function StudentLayout() {
             <li className="student-nav">
               <NavLink to="courses">Courses</NavLink>
             </li>
-            <li className="student-nav">
+            {/* <li className="student-nav">
               <NavLink to="teachers">Teachers</NavLink>
-            </li>
+            </li> */}
             <li className="student-nav">
               <NavLink to="wishlist">Wishlist</NavLink>
             </li>

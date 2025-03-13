@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import { useState } from 'react';
 import LanguageButton from './LanguageButton';
 
-function TeacherStudentNavbar({ to = 'student' }) {
+function TeacherStudentNavbar({ to = '/student' }) {
   const [openMenu, setOpenMenu] = useState(false);
 
   return (

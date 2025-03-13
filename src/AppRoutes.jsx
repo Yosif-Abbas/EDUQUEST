@@ -78,14 +78,14 @@ function AppRoutes() {
           }
         />
 
-        <Route
+        {/* <Route
           path="teachers"
           element={
             <ProtectedRoute role="student">
               <StudentTeachers />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
           path="settings"
@@ -118,6 +118,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="dashboard"
           element={

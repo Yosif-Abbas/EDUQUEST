@@ -4,15 +4,12 @@ import logoIcon from '../assets/logo-icon.png';
 import avatar from '../assets/picture.jpg';
 import { GoBell } from 'react-icons/go';
 import { useState } from 'react';
-import TeacherStudentNavbar from './TeacherStudentNavbar';
 
 function Header() {
   const [showSearchInput, setShowSearchInput] = useState(false);
 
   return (
     <header>
-      <TeacherStudentNavbar />
-
       <section className="flex items-center justify-between gap-5 px-6 py-2">
         <figure className="cursor-pointer">
           <img src={logo} alt="Logo" className="hidden w-60 sm:block" />
@@ -46,17 +43,17 @@ function Header() {
             </form>
           </div>
         </div> */}
-        <div className="flex items-center gap-2 text-2xl">
-          <span>
+        <div className="flex items-center gap-3 text-2xl">
+          <span className="cursor-pointer">
             <GoBell />
           </span>
-          <span>
+          <span className="cursor-pointer">
             <CiHeart />
           </span>
-          <span>
+          <span className="cursor-pointer">
             <CiShoppingCart />
           </span>
-          <figure>
+          <figure className="cursor-pointer">
             <img src={avatar} alt="Avatar" className="max-w-10 rounded-full" />
           </figure>
         </div>

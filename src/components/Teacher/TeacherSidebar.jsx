@@ -10,7 +10,7 @@ import logo from '../../assets/logo.png';
 import SidebarItem from '../SidebarItem';
 
 const sidebarItems = [
-  { to: '', icon: <BsBarChartLine />, label: 'Dashboard' },
+  { to: 'dashboard', icon: <BsBarChartLine />, label: 'Dashboard' },
   { to: 'newCourse', icon: <CiCirclePlus />, label: 'New Course' },
   { to: 'courses', icon: <GoStack />, label: 'My Courses' },
   { to: 'settings', icon: <IoSettingsOutline />, label: 'Settings' },
