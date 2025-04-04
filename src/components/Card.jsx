@@ -18,7 +18,7 @@ function Card({ course, className }) {
         onClick={handleCourseRedirect}
         className="h-27 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 lg:h-36 xl:h-42 2xl:h-47"
       >
-        <img src={course.image} alt={course.subject} className="w-full" />
+        <img src={course.image_url} alt={course.subject} className="w-full" />
       </figure>
 
       <div className="p-2 text-xs font-medium sm:p-4 lg:text-sm">

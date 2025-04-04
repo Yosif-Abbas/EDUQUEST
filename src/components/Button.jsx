@@ -21,13 +21,9 @@ const Button = ({
   };
   const roundedStyles = rounded ? 'rounded-md' : 'rounded-none';
 
-  function handleClick() {
-    onClick();
-  }
-
   return (
     <button
-      onClick={handleClick}
+      onClick={onClick}
       className={`${baseStyles} ${typeStyles[type]} ${sizeStyles[size]} ${roundedStyles} ${className}`}
       {...props}
     >

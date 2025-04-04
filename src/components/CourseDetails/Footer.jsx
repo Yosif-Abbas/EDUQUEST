@@ -3,8 +3,15 @@ import Button from '../Button';
 import Card from '../Card';
 import { useCourses } from '../../hooks/useCourses';
 
-function Footer() {
-  const { courses: relatedCourses } = useCourses('', 'math');
+function Footer({ categories, currentCourseId }) {
+  const { courses: relatedCourses } = useCourses(
+    '',
+    categories,
+    '',
+    currentCourseId,
+  );
+
+  if (relatedCourses.length < 1) return null;
 
   return (
     <footer className="bg-white pb-3">

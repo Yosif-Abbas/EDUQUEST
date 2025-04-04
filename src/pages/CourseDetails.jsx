@@ -1,26 +1,26 @@
-import CourseHeader from '../components/CourseDetails/CourseHeader';
 import { useParams } from 'react-router-dom';
-import { useCourse } from '../hooks/useCourse';
+
+import CourseHeader from '../components/CourseDetails/CourseHeader';
 import Loading from '../components/Loading';
 import CourseSidebar from '../components/CourseDetails/CourseSidebar';
 import CourseDescription from '../components/CourseDetails/CourseDescription';
 import CourseCurriculum from '../components/CourseDetails/CourseCurriculum';
-import InstructorSection from '../components/CourseDetails/InstructorSection';
-import StudentReviews from '../components/CourseDetails/StudentReviews';
-import CourseRating from '../components/CourseDetails/CourseRating';
-import Footer from '../components/CourseDetails/Footer';
 
 import VideoPlayer from '../components/VideoPlayer';
 
-import Intro from '../assets/Intro.mp4';
 import Subtitles from '../assets/subtitles.vtt';
-import Arabic from '../assets/Arabic.png';
+
+import { useCourse } from '../hooks/useCourse';
+import InstructorSection from './../components/CourseDetails/InstructorSection';
+import CourseRating from '../components/CourseDetails/CourseRating';
+import StudentReviews from '../components/CourseDetails/StudentReviews';
+import Footer from '../components/CourseDetails/Footer';
+import { useCourses } from '../hooks/useCourses';
 
 function CourseDetails() {
   const { id } = useParams();
-  const { course, isError, isLoading } = useCourse(id);
 
-  console.log(course);
+  const { course, isLoading, Error } = useCourse(id);
 
   if (isLoading)
     return (
@@ -29,15 +29,18 @@ function CourseDetails() {
       </div>
     );
 
-  if (isError) return <div>Error fetching course data.</div>;
+  console.log(course);
+  if (Error) return <div>{Error.message}</div>;
+
+  const categories = course.subject.toLowerCase().split(' ');
 
   return (
     <div>
       <div className="grid gap-2 lg:grid-cols-[2fr_1fr]">
         <CourseHeader course={course} />
         <VideoPlayer
-          src={Intro}
-          poster={Arabic}
+          src={course.intro}
+          poster={course.image_url}
           subtitleSrc={Subtitles}
           className="col-start-1 mr-0"
         />
@@ -47,20 +50,23 @@ function CourseDetails() {
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">
           <CourseDescription
             description={course.description}
-            whatYouWillLearn={course.whatYouWillLearn}
-            requirements={course.courseRequirements}
+            course_benefits={course.course_benefits}
+            course_requirements={course.course_requirements}
           />
-          <CourseCurriculum sections={course.sections} />
-          <InstructorSection instructors={course.instructors} />
+          <CourseCurriculum sections={course.course_sections} />
+          <InstructorSection instructor={course.Teachers} />
           <CourseRating
             rating={course.rating}
-            ratings={course.ratings}
-            ratingCount={course.ratingCount}
+            ratings={course.Ratings[0]}
+            ratingCount={course.rating_count}
           />
-          <StudentReviews studentsFeedback={course.studentsFeedback} />
+
+          {course.Reviews.length > 0 && (
+            <StudentReviews studentsFeedback={course.Reviews} />
+          )}
         </div>
       </div>
-      <Footer />
+      <Footer categories={categories} currentCourseId={course.id} />
     </div>
   );
 }

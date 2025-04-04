@@ -25,13 +25,12 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import NewCourse from './pages/teacher/NewCourse';
 import TeacherSettings from './pages/teacher/TeacherSettings';
-import StudentTeachers from './pages/student/StudentTeachers';
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />

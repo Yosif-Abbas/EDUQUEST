@@ -6,8 +6,16 @@ import Button from '../Button';
 import { useState } from 'react';
 import ReviewModal from '../ReviewModal';
 
-function CourseHeader() {
+function CourseHeader({ course, currentLecture }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { sectionIndex, lectureIndex } = currentLecture;
+
+  const numberOfSections = course.course_sections.length;
+  const numberOfLectures = course.course_sections.reduce(
+    (acc, section) => acc + section.Lectures.length,
+    0,
+  );
 
   return (
     <div className="my-6 flex h-18 items-center justify-between bg-[#9DB2BF] px-2 md:h-24">
@@ -18,15 +26,18 @@ function CourseHeader() {
         </button>
 
         <div className="flex flex-col gap-y-2">
-          <h3>Chapter #1 in (Math) Lecture #1</h3>
+          <h3>
+            Section #{sectionIndex + 1} in ({course.subject}), Lecture #
+            {lectureIndex + 1}
+          </h3>
           <ul className="flex gap-x-2 text-xs font-normal lg:text-sm">
             <li className="list-icon">
               <PiFolderOpen color="#876A9A" size={16} />
-              <span>5 sections</span>
+              <span>{numberOfSections} sections</span>
             </li>
             <li className="list-icon">
               <IoPlayCircleOutline color="#526D82" size={16} />
-              <span>3 lectures</span>
+              <span>{numberOfLectures} lectures</span>
             </li>
             <li className="list-icon">
               <CiClock2 color="#526D82" size={16} />

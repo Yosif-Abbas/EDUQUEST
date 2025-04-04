@@ -18,8 +18,14 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const [volume, setVolume] = useState(1);
-  const [prevVolume, setPrevVolume] = useState(1);
+  const [volume, setVolume] = useState(() => {
+    return localStorage.getItem('prevVolume')
+      ? Number(localStorage.getItem('prevVolume'))
+      : 1;
+  });
+
+  const [prevVolume, setPrevVolume] = useState(volume);
+
   const [isMuted, setIsMuted] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -32,12 +38,17 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const [isControlsVisible, setIsControlsVisible] = useState(false);
   const [isMouseOverControls, setIsMouseOverControls] = useState(false);
 
-  const [subtitlesEnabled, setSubtitlesEnabled] = useState(
-    Boolean(subtitleSrc),
-  );
+  const [subtitlesEnabled, setSubtitlesEnabled] = useState(() => {
+    const storedValue = localStorage.getItem('subtitlesEnabled');
+    return storedValue ? JSON.parse(storedValue) : Boolean(subtitleSrc);
+  });
 
   useEffect(() => {
     videoRef.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
+    localStorage.setItem('prevVolume', volume);
   }, [volume]);
 
   const togglePlay = () => {
@@ -53,9 +64,15 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   };
 
   const toggleSubtitles = () => {
-    setSubtitlesEnabled(!subtitlesEnabled);
-    const track = videoRef.current.textTracks[0]; // Enable/disable first track
-    track.mode = subtitlesEnabled ? 'hidden' : 'showing';
+    setSubtitlesEnabled((prevEnabled) => {
+      const newState = !prevEnabled;
+      localStorage.setItem('subtitlesEnabled', JSON.stringify(newState)); // Save to local storage
+
+      const track = videoRef.current.textTracks[0]; // Enable/disable first track
+      track.mode = newState ? 'showing' : 'hidden';
+
+      return newState;
+    });
   };
 
   const handleVolumeChange = (e) => {
@@ -70,6 +87,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
         setVolume(prevVolume);
       } else {
         setPrevVolume(volume);
+        localStorage.setItem('prevVolume', volume);
         setVolume(0);
       }
       return !prevMuted;
@@ -199,7 +217,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
 
       {/* Custom Controls */}
       <div
-        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 px-6 pb-2 transition-all duration-300 ${isControlsVisible ? 'block' : 'translate-y-full'}`}
+        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 bg-[#77777777] px-6 pt-2 pb-2 transition-all duration-300 ${isControlsVisible ? 'block' : 'translate-y-full'}`}
         onMouseEnter={() => {
           setIsMouseOverControls(true);
           setIsControlsVisible(true);

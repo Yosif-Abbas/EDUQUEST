@@ -1,31 +1,42 @@
+import { timeSince } from '../../utils/helpers';
 import StarRating from '../StarRating';
 
 function FeedbackComment({ feedback }) {
+  const {
+    rating,
+    text,
+    timestamp,
+    Users: { first_name, last_name, image_url },
+  } = feedback;
+
+  const timeSinceReview = timeSince(timestamp);
+
+  const fullname = `${first_name} ${last_name}`;
+
   return (
     <div className="flex items-start gap-4 p-4">
       <img
-        src={feedback.avatar}
-        alt={feedback.name}
-        className="w-10 rounded-full"
+        src={image_url}
+        alt={fullname}
+        width={38}
+        className="h-10 w-10 rounded-full object-cover object-top"
       />
       <div className="flex flex-col gap-y-2">
         {/* Name and Time */}
         <div className="flex items-center">
-          <p>{feedback.name} &bull;</p>
+          <p>{fullname} &bull;</p>
 
           <span className="ml-1 text-xs font-semibold text-gray-500">
-            {feedback.time_spent} ago
+            {timeSinceReview}
           </span>
         </div>
 
         {/* Rating Stars */}
 
-        <StarRating rating={feedback.rating} />
+        <StarRating rating={rating} />
 
         {/* Comment */}
-        <p className="mt-2 text-sm font-normal text-gray-600">
-          {feedback.comment}
-        </p>
+        <p className="mt-2 text-sm font-normal text-gray-600">{text}</p>
       </div>
     </div>
   );

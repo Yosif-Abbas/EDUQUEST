@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { CiClock2, CiFileOn } from 'react-icons/ci';
 import { FaPlay } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -5,8 +6,22 @@ import { IoPlayCircleOutline } from 'react-icons/io5';
 import { PiFolderOpen } from 'react-icons/pi';
 
 function CourseCurriculum({ sections }) {
+  const [openSections, setOpenSections] = useState({});
+
+  const toggleSection = (sectionId) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId], // Toggle state
+    }));
+  };
+
+  const lecturesCount = sections.reduce(
+    (count, section) => count + (section.Lectures?.length || 0),
+    0,
+  );
+
   return (
-    <div className="">
+    <div>
       {/* Header */}
       <div className="flex justify-between">
         <h1 className="mb-4 text-xl lg:text-2xl">Curriculum</h1>
@@ -14,11 +29,11 @@ function CourseCurriculum({ sections }) {
           <ul className="flex gap-x-2 text-sm font-normal lg:text-base">
             <li className="list-icon">
               <PiFolderOpen color="#FF6636" />
-              <span>5 sections</span>
+              <span>{sections.length} sections</span>
             </li>
             <li className="list-icon">
               <IoPlayCircleOutline color="#564FFD" />
-              <span>3 lectures</span>
+              <span>{lecturesCount} lectures</span>
             </li>
             <li className="list-icon">
               <CiClock2 color="#FD8E1F" />
@@ -30,38 +45,53 @@ function CourseCurriculum({ sections }) {
 
       {/* Course Content */}
       <div className="mx-auto flex w-full flex-col bg-white">
-        {sections.map((section, index) => (
+        {sections.map((section) => (
           <div
-            key={index}
-            className="border-b-1 border-gray-100 text-xs font-normal transition-all lg:text-sm"
+            key={section.id}
+            className="border-b- border-gray-100 text-xs font-normal transition-all lg:text-sm"
           >
-            <div className="flex cursor-pointer justify-between py-3 pr-3 duration-150 hover:bg-gray-100">
-              <h2 className="ml-4 flex items-center">
-                <IoIosArrowDown size={16} />
+            {/* Section Header */}
+            <div
+              className="flex cursor-pointer justify-between py-3 pr-3 duration-150 hover:bg-gray-100"
+              onClick={() => toggleSection(section.id)}
+            >
+              <h2 className="ml-4 flex items-center font-semibold">
+                <IoIosArrowDown
+                  size={16}
+                  className={`transform transition-transform duration-300 ${
+                    openSections[section.id] ? 'rotate-180' : ''
+                  }`}
+                />
                 <span className="ml-2">{section.title}</span>
               </h2>
               <div className="flex items-center gap-x-2">
                 <PiFolderOpen color="#FF6636" />
-                <span>{section.lectures.length} lectures</span>
+                <span>{section.Lectures.length} lectures</span>
                 <CiClock2 color="#FD8E1F" />
-                <span>{section.duration}</span>
+                <span>{section.duration} Hours</span>
               </div>
             </div>
-            <ul className="flex flex-col gap-x-2">
-              {section.lectures.map((lecture, i) => (
-                <li
-                  key={i}
-                  className="list-icon cursor-pointer px-2 py-2 hover:bg-gray-100"
-                >
-                  {lecture.type === 'material' && <CiFileOn />}
-                  {lecture.type === 'video' && <FaPlay size={8} />}
-                  <div className="flex w-full justify-between">
-                    <span className="text-gray-500">{lecture.name}</span>
-                    <span className="text-gray-500">{lecture.description}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+
+            {/* Lectures List (Visible only if section is open) */}
+            {openSections[section.id] && (
+              <ul className="flex flex-col gap-x-2">
+                {section.Lectures.map((lecture) => (
+                  <li
+                    key={lecture.id}
+                    className="list-icon cursor-pointer px-2 py-2 hover:bg-gray-100"
+                  >
+                    {lecture.type === 'file' && <CiFileOn />}
+                    {lecture.type === 'video' && <FaPlay size={8} />}
+                    <div className="flex w-full justify-between">
+                      <span className="text-gray-500">{lecture.title}</span>
+                      <span className="text-gray-500">
+                        {lecture.content_info}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </div>

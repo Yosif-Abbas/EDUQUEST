@@ -1,24 +1,36 @@
-import axios from 'axios';
+import supabase from '../../supabase';
 
-const API_URL = 'http://localhost:3000'; // Replace with your actual API URL
+export const getCourses = async () => {
+  let { data, error } = await supabase.from('Courses').select('*');
 
-export const fetchCourses = async () => {
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const response = await axios.get(`${API_URL}/courses`);
-      resolve(response.data);
-    }, 1500);
-  });
-};
-
-export const fetchCourse = async (id) => {
-  const response = await axios.get(`${API_URL}/courseDetails`);
-
-  const course = response.data.find((course) => course.id === id);
-
-  if (!course) {
-    console.error('Course not found');
+  if (error) {
+    console.error(error.message);
+    throw error;
   }
 
-  return course;
+  return data;
+};
+
+export const getCourse = async (id) => {
+  const { data, error } = await supabase
+    .from('Courses')
+    .select(
+      `*, 
+      course_requirements(*), 
+      course_includes(*), 
+      course_benefits(*),
+      Teachers(*, Users(*)),
+      course_sections(*, Lectures(*, Videos(*))),
+      Ratings(*),
+      Reviews(*, Users(*))`,
+    )
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return data;
 };

@@ -1,44 +1,58 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchCourses } from '../api/coursesApi';
+import { getCourses } from '../api/coursesApi';
 
 export const useCourses = (
   _searchTerm = '',
-  _filterCategory = '',
+  _filterCategory = [],
   _sortOrder = '',
+  currentCourseId = null,
 ) => {
   const { data: courses = [], ...queryInfo } = useQuery({
     queryKey: ['courses'],
-    queryFn: fetchCourses,
+    queryFn: getCourses,
   });
 
   const [searchTerm, setSearchTerm] = useState(_searchTerm);
-  const [filterCategory, setFilterCategory] = useState(_filterCategory);
-  const [sortOrder, setSortOrder] = useState(_sortOrder); // "asc" or "desc"
+  const [filterCategory, setFilterCategory] = useState(
+    Array.isArray(_filterCategory)
+      ? _filterCategory
+      : _filterCategory.split(' '),
+  );
+  const [sortOrder, setSortOrder] = useState(_sortOrder);
 
   // Search
   let filteredCourses = courses;
   if (searchTerm)
-    filteredCourses = filteredCourses.filter(
-      (course) => course.title.toLowerCase().includes(searchTerm.toLowerCase()), // Search by title
+    filteredCourses = filteredCourses.filter((course) =>
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
   // Filter
-  if (filterCategory)
+  if (Array.isArray(filterCategory) && filterCategory.length > 0) {
     filteredCourses = filteredCourses.filter((course) =>
-      filterCategory
-        ? course.subject?.toLowerCase() === filterCategory.toLowerCase()
-        : true,
+      course.subject
+        ? filterCategory.some((category) =>
+            course.subject.toLowerCase().includes(category.toLowerCase()),
+          )
+        : false,
     );
+  }
+
+  if (currentCourseId) {
+    filteredCourses = filteredCourses.filter(
+      (course) => course.id !== currentCourseId,
+    );
+  }
 
   // Sorting
-  filteredCourses = filteredCourses.sort((a, b) => {
-    return sortOrder === 'asc'
-      ? a.title.localeCompare(b.title) // Sort A-Z
+  filteredCourses = filteredCourses.sort((a, b) =>
+    sortOrder === 'asc'
+      ? a.title.localeCompare(b.title)
       : sortOrder === 'desc'
-        ? b.title.localeCompare(a.title) // Sort Z-A
-        : 0;
-  });
+        ? b.title.localeCompare(a.title)
+        : 0,
+  );
 
   return {
     courses: filteredCourses,

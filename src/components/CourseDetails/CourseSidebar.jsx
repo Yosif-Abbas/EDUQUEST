@@ -5,43 +5,44 @@ import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
 import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 import SocialButton from '../SocialButton';
-import Button from '../Button';
+import { timeLeftUntil } from '../../utils/helpers';
 
 function CourseSidebar({ course }) {
   const {
-    price,
+    regularPrice,
     currency,
-    originalPrice,
     discount,
-    discountDuration,
-    courseDuration,
-    numberOfLessons,
+    discount_end_date,
+    course_duration,
+    number_of_lessons,
     students_enrolled,
-    courseLevel,
-    courseIncludes,
+    course_level,
+    course_includes,
   } = course;
+
+  const finalPrice = regularPrice - regularPrice * (discount * 0.01);
 
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
       <div className="pb-4">
         <div className="mb-4 flex items-center justify-between">
           <p className="flex items-center text-xl font-medium">
-            {price} {currency}
-            {originalPrice && (
-              <span className="ml-3 text-sm font-normal text-gray-500 line-through">
-                {originalPrice} {currency}
+            {finalPrice} {currency}
+            {regularPrice && (
+              <span className="ml-3 text-xs font-normal text-gray-500 line-through">
+                {regularPrice} {currency}
               </span>
             )}
           </p>
           <span className="self-end bg-[#FFEEE8] px-2 py-1 text-xs font-bold text-[#FF6636]">
-            {discount} OFF
+            {discount}% OFF
           </span>
         </div>
         <p className="flex items-center text-xs text-[#E34444]">
           <span className="mr-2 text-lg">
             <CiAlarmOn />
           </span>{' '}
-          {discountDuration} left for this price
+          {timeLeftUntil(discount_end_date)} left for this price
         </p>
       </div>
 
@@ -52,7 +53,7 @@ function CourseSidebar({ course }) {
           </span>
           Course Duration
           <span className="ml-auto text-sm text-gray-500">
-            {courseDuration}
+            {course_duration}
           </span>
         </li>
         <li className="list-icon">
@@ -61,7 +62,7 @@ function CourseSidebar({ course }) {
           </span>
           Number of Lessons
           <span className="ml-auto text-sm text-gray-500">
-            {numberOfLessons}
+            {number_of_lessons}
           </span>
         </li>
         <li className="list-icon">
@@ -78,7 +79,7 @@ function CourseSidebar({ course }) {
             <FiBarChart />
           </span>
           course Level
-          <span className="ml-auto text-sm text-gray-500">{courseLevel}</span>
+          <span className="ml-auto text-sm text-gray-500">{course_level}</span>
         </li>
       </ul>
 
@@ -97,9 +98,9 @@ function CourseSidebar({ course }) {
       <div className="py-4">
         <h3>This course includes:</h3>
         <ul className="flex list-disc flex-col gap-y-1 pl-6 text-sm font-normal text-gray-500">
-          {courseIncludes.map((item, index) => (
-            <li key={index} className="">
-              {item}
+          {course_includes.map((item) => (
+            <li key={item.id} className="">
+              {item.text}
             </li>
           ))}
         </ul>

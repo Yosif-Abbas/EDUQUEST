@@ -1,13 +1,11 @@
 import Instructor from './Instructor';
 
-function InstructorSection({ instructors }) {
+function InstructorSection({ instructor }) {
   return (
     <div>
-      <h1 className="mb-6 text-xl lg:text-2xl">Course Instructors</h1>
-      <div className="mx-auto  divide-y-2 divide-gray-100 bg-white">
-        {instructors.map((instructor) => {
-          return <Instructor key={instructor.name} instructor={instructor} />;
-        })}
+      <h1 className="mb-6 text-xl lg:text-2xl">Course Instructor</h1>
+      <div className="mx-auto divide-y-2 divide-gray-100 bg-white">
+        <Instructor key={instructor.id} instructor={instructor} />
       </div>
     </div>
   );

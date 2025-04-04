@@ -1,6 +1,10 @@
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 
-function CourseDescription({ description, whatYouWillLearn, requirements }) {
+function CourseDescription({
+  description,
+  course_benefits,
+  course_requirements,
+}) {
   return (
     <div className="flex flex-col gap-y-4">
       {/* Description */}
@@ -14,13 +18,13 @@ function CourseDescription({ description, whatYouWillLearn, requirements }) {
         <h1 className="mb-4 text-xl">What you will learn in this course</h1>
         <ul className="grid list-inside list-disc flex-wrap gap-x-4 gap-y-1 text-sm font-normal text-gray-500 md:grid-cols-2 md:gap-y-2">
           {/* List of course topics */}
-          {whatYouWillLearn.map((topic, index) => (
-            <li key={index} className="relative flex list-none">
+          {course_benefits.map((item) => (
+            <li key={item.id} className="relative flex list-none">
               <IoIosCheckmarkCircle
                 color="#23BD33"
                 className="absolute top-1 left-0 md:-translate-y-1/16 md:text-xl"
-              />{' '}
-              <span className="ml-5 md:ml-6">{topic}</span>
+              />
+              <span className="ml-5 md:ml-6">{item.text}</span>
             </li>
           ))}
         </ul>
@@ -32,9 +36,9 @@ function CourseDescription({ description, whatYouWillLearn, requirements }) {
 
         <ul className="list-disc px-6 text-sm font-normal text-gray-500">
           {/* List of course requirements */}
-          {requirements ? (
-            requirements.map((requirement, index) => (
-              <li key={index}>{requirement}</li>
+          {course_requirements ? (
+            course_requirements.map((requirement) => (
+              <li key={requirement.id}>{requirement.text}</li>
             ))
           ) : (
             <li>No Requirements.</li>

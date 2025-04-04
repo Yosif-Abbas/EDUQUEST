@@ -21,7 +21,10 @@ function RatingPercentage({ rating, TotalRatingCount, ratingCount }) {
         }}
       ></div>
       <span className="hidden min-w-10 text-xs whitespace-nowrap text-gray-500 md:block">
-        {ratingPercentage * 100 < 1 ? '<1' : ratingPercentage * 100} %
+        {ratingPercentage * 100 < 1
+          ? '<1.0'
+          : (ratingPercentage * 100).toFixed(1)}{' '}
+        %
       </span>
     </li>
   );
