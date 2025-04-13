@@ -6,7 +6,7 @@ export function useCourse(id) {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ['courses', id],
+    queryKey: ['course', id],
     queryFn: () => getCourse(id),
   });
 

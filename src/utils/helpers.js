@@ -42,3 +42,23 @@ export const timeSince = (date) => {
 
   return 'Less than an hour ago';
 };
+
+export const ratingHelper = (ratings) => {
+  const ratingCount =
+    ratings['1_stars'] +
+    ratings['2_stars'] +
+    ratings['3_stars'] +
+    ratings['4_stars'] +
+    ratings['5_stars'];
+
+  const totalRating =
+    ratings['1_stars'] * 1 +
+    ratings['2_stars'] * 2 +
+    ratings['3_stars'] * 3 +
+    ratings['4_stars'] * 4 +
+    ratings['5_stars'] * 5;
+
+  const rating = (totalRating / ratingCount).toFixed(1);
+
+  return { ratingCount, rating };
+};

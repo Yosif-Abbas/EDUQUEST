@@ -1,11 +1,11 @@
-import { CiAlarmOn, CiClock2, CiMail } from 'react-icons/ci';
+import {  CiClock2, CiMail } from 'react-icons/ci';
 import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
 import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
 import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 import SocialButton from '../SocialButton';
-import { timeLeftUntil } from '../../utils/helpers';
+import Price from './Price';
 
 function CourseSidebar({ course }) {
   const {
@@ -24,27 +24,12 @@ function CourseSidebar({ course }) {
 
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
-      <div className="pb-4">
-        <div className="mb-4 flex items-center justify-between">
-          <p className="flex items-center text-xl font-medium">
-            {finalPrice} {currency}
-            {regularPrice && (
-              <span className="ml-3 text-xs font-normal text-gray-500 line-through">
-                {regularPrice} {currency}
-              </span>
-            )}
-          </p>
-          <span className="self-end bg-[#FFEEE8] px-2 py-1 text-xs font-bold text-[#FF6636]">
-            {discount}% OFF
-          </span>
-        </div>
-        <p className="flex items-center text-xs text-[#E34444]">
-          <span className="mr-2 text-lg">
-            <CiAlarmOn />
-          </span>{' '}
-          {timeLeftUntil(discount_end_date)} left for this price
-        </p>
-      </div>
+      <Price
+        regularPrice={regularPrice}
+        currency={currency}
+        discount={discount}
+        discount_end_date={discount_end_date}
+      />
 
       <ul className="flex flex-col gap-y-1 py-4 font-normal">
         <li className="list-icon">

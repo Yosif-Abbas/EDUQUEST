@@ -1,7 +1,10 @@
+import { ratingHelper } from '../../utils/helpers';
 import StarRating from '../StarRating';
 import RatingPercentage from './RatingPercentage';
 
-function CourseRating({ rating, ratings, ratingCount }) {
+function CourseRating({ ratings }) {
+  const { ratingCount, rating } = ratingHelper(ratings);
+
   return (
     <div>
       <h1 className="mb-6 text-xl lg:text-2xl">Course Rating</h1>

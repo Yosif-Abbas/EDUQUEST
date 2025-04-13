@@ -34,3 +34,17 @@ export const getCourse = async (id) => {
 
   return data;
 };
+
+export const getCoursesByTeacherId = async (id) => {
+  const { data, error } = await supabase
+    .from('Courses')
+    .select('*')
+    .eq('teacherId', id);
+
+  if (error) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return data;
+};

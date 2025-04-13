@@ -1,9 +1,7 @@
 import { useParams } from 'react-router-dom';
 import VideoPlayer from '../../components/VideoPlayer';
 
-import Intro from '../../assets/intro.mp4';
 import Subtitles from '../../assets/subtitles.vtt';
-import Arabic from '../../assets/Arabic.png';
 
 import Loading from '../../components/Loading';
 import { useCourse } from '../../hooks/useCourse';

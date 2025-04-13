@@ -10,12 +10,12 @@ import VideoPlayer from '../components/VideoPlayer';
 
 import Subtitles from '../assets/subtitles.vtt';
 
-import { useCourse } from '../hooks/useCourse';
 import InstructorSection from './../components/CourseDetails/InstructorSection';
 import CourseRating from '../components/CourseDetails/CourseRating';
 import StudentReviews from '../components/CourseDetails/StudentReviews';
 import Footer from '../components/CourseDetails/Footer';
-import { useCourses } from '../hooks/useCourses';
+
+import { useCourse } from '../hooks/useCourse';
 
 function CourseDetails() {
   const { id } = useParams();
