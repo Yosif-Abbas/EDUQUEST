@@ -52,7 +52,7 @@ function LeftSide() {
         />
 
         <div className="mb-2">
-          <Button className="" rounded disabled={isLoading}>
+          <Button className="" rounded={true} disabled={isLoading}>
             Login
           </Button>
         </div>

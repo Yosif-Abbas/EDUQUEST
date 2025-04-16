@@ -8,14 +8,19 @@ const ProtectedRoute = ({ children }) => {
 
   const { isLoading, isAuthenticated } = useCurrentUser();
 
-  useEffect(
-    function () {
-      if (!isLoading && !isAuthenticated) navigate('/login');
-    },
-    [isAuthenticated, isLoading, navigate],
-  );
+  // useEffect(
+  //   function () {
+  //     if (!isLoading && !isAuthenticated) navigate('/login');
+  //   },
+  //   [isAuthenticated, isLoading, navigate],
+  // );
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <div className="bg-L2 flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
 
   if (isAuthenticated) return children;
 };
