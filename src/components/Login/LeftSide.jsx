@@ -1,18 +1,24 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '../Button';
 import InputField from '../InputField';
 import Logo from '../Logo';
 import Title from '../Title';
 import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
+import { useState } from 'react';
+import { useLogin } from '../../hooks/useLogin';
 
 function LeftSide() {
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('text@test.com');
+  const [password, setPassword] = useState('123456');
+  const { login, isLoading } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    navigate('/courses');
+    if (!email || !password) return;
+
+    login({ email, password });
   }
 
   return (
@@ -24,20 +30,28 @@ function LeftSide() {
       <Title className="">Login</Title>
       <form onSubmit={handleSubmit}>
         <InputField
-          placeholder="Enter your username"
-          id="username"
-          label="User Name"
+          placeholder="Enter your email"
+          id="email"
+          type="email"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
         />
 
         <InputField
-          isPassord
+          isPassord={true}
           id="password"
+          type="password"
           placeholder="Enter your password"
           label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
         />
 
         <div className="mb-2">
-          <Button className="" rounded>
+          <Button className="" rounded disabled={isLoading}>
             Login
           </Button>
         </div>

@@ -41,118 +41,36 @@ function AppRoutes() {
       <Route path="/signup" element={<Signup />} />
 
       {/* Student Routes */}
-      <Route path="/student" element={<StudentLayout />}>
-        <Route
-          index
-          element={
-            <ProtectedRoute role="student">
-              <Navigate replace to="dashboard" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute role="student">
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
-        ></Route>
-
-        <Route
-          path="courses"
-          element={
-            <ProtectedRoute role="student">
-              <StudentCourses />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="wishlist"
-          element={
-            <ProtectedRoute role="student">
-              <Wishlist />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* <Route
-          path="teachers"
-          element={
-            <ProtectedRoute role="student">
-              <StudentTeachers />
-            </ProtectedRoute>
-          }
-        /> */}
-
-        <Route
-          path="settings"
-          element={
-            <ProtectedRoute role="student">
-              <StudentSettings />
-            </ProtectedRoute>
-          }
-        />
-      </Route>
-
-      {/* watch course accessible for student and teacher */}
       <Route
-        path="/courses/:id/watch"
+        path="/student"
         element={
-          <ProtectedRoute role={['student', 'teacher']}>
-            <WatchCourse />
+          <ProtectedRoute>
+            <StudentLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<Navigate replace to="dashboard" />} />
+        <Route path="dashboard" element={<StudentDashboard />}></Route>
+        <Route path="courses" element={<StudentCourses />} />
+        <Route path="wishlist" element={<Wishlist />} />
+        <Route path="settings" element={<StudentSettings />} />
+        <Route path="courses/:id/watch" element={<WatchCourse />} />
+      </Route>
 
       {/* Teacher Routes */}
-
-      <Route path="/teacher" element={<TeacherLayout />}>
-        <Route
-          index
-          element={
-            <ProtectedRoute role="teacher">
-              <Navigate replace to="dashboard" />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute role="teacher">
-              <TeacherDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="courses"
-          element={
-            <ProtectedRoute role="teacher">
-              <TeacherCourses />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="NewCourse"
-          element={
-            <ProtectedRoute role="teacher">
-              <NewCourse />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="settings"
-          element={
-            <ProtectedRoute role="teacher">
-              <TeacherSettings />
-            </ProtectedRoute>
-          }
-        />
+      <Route
+        path="/teacher"
+        element={
+          <ProtectedRoute>
+            <TeacherLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate replace to="dashboard" />} />
+        <Route path="dashboard" element={<TeacherDashboard />} />
+        <Route path="courses" element={<TeacherCourses />} />
+        <Route path="NewCourse" element={<NewCourse />} />
+        <Route path="settings" element={<TeacherSettings />} />
       </Route>
     </Routes>
   );

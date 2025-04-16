@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { EyeOff } from './EyeOff';
 import { Eye } from './Eye';
 
-function InputField({ isPassord = false, placeholder, id, label }) {
+function InputField({
+  isPassord = false,
+  placeholder,
+  id,
+  label,
+  type = 'text',
+  value,
+  onChange,
+  disabled,
+}) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -11,10 +20,13 @@ function InputField({ isPassord = false, placeholder, id, label }) {
         {label}
       </label>
       <input
-        type={showPassword ? 'text' : 'password'}
+        type={showPassword ? 'text' : type}
         id={id}
         className="min-w-full rounded-xl bg-[#b0bac365] p-2 pl-4 focus:ring focus:ring-blue-200 md:p-4"
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
       />
       {isPassord && (
         <button
