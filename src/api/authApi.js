@@ -1,8 +1,10 @@
 import supabase from '../../supabase';
 
-export async function login({ email, password }) {
+export async function login({ loginEmail, password }) {
+  console.log('Login function called');
+
   let { data, error } = await supabase.auth.signInWithPassword({
-    email,
+    email: loginEmail,
     password,
   });
 
@@ -10,22 +12,37 @@ export async function login({ email, password }) {
     throw new Error(error.message);
   }
 
-  return data;
+  const user = await getUser(data?.user?.id);
+
+  const { email, aud, identities, user_metadata, is_anonymous } = data.user;
+
+  return { ...user, email, aud, identities, user_metadata, is_anonymous };
 }
 
 export async function getCurrentUser() {
+  console.log('Get current user function called');
+
   const { data: session } = await supabase.auth.getSession();
 
   if (!session.session) return null;
 
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user: currentUser },
+    error: currentUserError,
+  } = await supabase.auth.getUser();
 
-  if (error) throw new Error(error.message);
+  if (currentUserError) throw new Error(currentUserError.message);
 
-  return data.user;
+  const user = await getUser(currentUser.id);
+
+  const { email, aud, identities, user_metadata, is_anonymous } = currentUser;
+
+  return { ...user, email, aud, identities, user_metadata, is_anonymous };
 }
 
 export async function getUser(id) {
+  console.log('Get user function called');
+
   let { data, error } = await supabase
     .from('Users')
     .select('*')

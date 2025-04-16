@@ -1,22 +1,34 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import StudentLayout from './StudentLayout';
-import TeacherLayout from './TeacherLayout';
+import { useNavigate } from 'react-router-dom';
+// import StudentLayout from './StudentLayout';
+// import TeacherLayout from './TeacherLayout';
+import Spinner from './Spinner';
+import { useEffect } from 'react';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 const ProtectedRoute = ({ children }) => {
-  const { user, isLoading } = useAuth();
+  console.log('ProtectedRoute called');
 
-  console.log(user);
+  const navigate = useNavigate();
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  console.log('Calling useCurrentUser hook in ProtectedRoute');
+  const { isLoading, isAuthenticated } = useCurrentUser();
 
-  if (user?.role === 'student') return <StudentLayout />;
+  useEffect(
+    function () {
+      console.log('useEffect called in ProtectedRoute');
 
-  if (user?.role === 'teacher') return <TeacherLayout />;
+      if (!isLoading && !isAuthenticated) navigate('/login');
+    },
+    [isAuthenticated, isLoading, navigate],
+  );
 
-  return children;
+  console.log('ProtectedRoute isLoading:', isLoading);
+
+  if (isLoading) return <Spinner />;
+
+  console.log('Current user authenticated');
+
+  if (isAuthenticated) return children;
 };
 
 export default ProtectedRoute;

@@ -4,38 +4,35 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './App.css';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from './context/AuthContext';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ReactQueryDevtools />
-        <AppRoutes />
+      <ReactQueryDevtools />
+      <AppRoutes />
 
-        <Toaster
-          position="top-right"
-          gutter={12}
-          containerStyle={{ margin: '8px' }}
-          toastOptions={{
-            success: {
-              duration: 9000,
-            },
-            error: {
-              duration: 9000,
-            },
-            style: {
-              fontSize: '16px',
-              maxWidth: '500px',
-              padding: '16px 20px',
-              backgroundColor: '#dde6ed',
-              color: '#000',
-            },
-          }}
-        />
-      </AuthProvider>
+      <Toaster
+        position="top-right"
+        gutter={12}
+        containerStyle={{ margin: '8px' }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: '16px',
+            maxWidth: '500px',
+            padding: '16px 20px',
+            backgroundColor: '#dde6ed',
+            color: '#000',
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }

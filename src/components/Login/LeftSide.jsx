@@ -9,16 +9,18 @@ import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 
 function LeftSide() {
-  const [email, setEmail] = useState('text@test.com');
+  const [loginEmail, setLoginEmail] = useState('text@test.com');
   const [password, setPassword] = useState('123456');
   const { login, isLoading } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!email || !password) return;
+    if (!loginEmail || !password) return;
 
-    login({ email, password });
+    login({ loginEmail, password });
+
+    console.log(isLoading);
   }
 
   return (
@@ -34,8 +36,8 @@ function LeftSide() {
           id="email"
           type="email"
           label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={loginEmail}
+          onChange={(e) => setLoginEmail(e.target.value)}
           disabled={isLoading}
         />
 
