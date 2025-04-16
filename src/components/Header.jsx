@@ -4,17 +4,26 @@ import logoIcon from '../assets/logo-icon.png';
 import avatar from '../assets/picture.jpg';
 import { GoBell } from 'react-icons/go';
 import { useState } from 'react';
+import { IoIosLogOut } from 'react-icons/io';
+import { useLogout } from '../hooks/useLogout';
 
 function Header() {
+  const { logout, isLoading } = useLogout();
   const [showSearchInput, setShowSearchInput] = useState(false);
 
   return (
     <header>
       <section className="flex items-center justify-between gap-5 px-6 py-2">
-        <figure className="cursor-pointer">
+        {/* <figure className="cursor-pointer">
           <img src={logo} alt="Logo" className="hidden w-60 sm:block" />
           <img src={logoIcon} alt="Logo" className="w-10 sm:hidden" />
-        </figure>
+        </figure> */}
+        <div className="flex items-center gap-4">
+          <figure>
+            <img src={avatar} alt="Avatar" className="w-12 rounded-full" />
+          </figure>
+          <span>(Name)</span>
+        </div>
 
         {/* <div className="relative flex gap-2">
           <select className="border-1 border-white p-1 outline-0">
@@ -44,18 +53,22 @@ function Header() {
           </div>
         </div> */}
         <div className="flex items-center gap-3 text-2xl">
-          <span className="cursor-pointer">
+          <button className="cursor-pointer">
             <GoBell />
-          </span>
-          <span className="cursor-pointer">
+          </button>
+          <button className="cursor-pointer">
             <CiHeart />
-          </span>
-          <span className="cursor-pointer">
+          </button>
+          <button className="cursor-pointer">
             <CiShoppingCart />
-          </span>
-          <figure className="cursor-pointer">
-            <img src={avatar} alt="Avatar" className="max-w-10 rounded-full" />
-          </figure>
+          </button>
+          <button
+            onClick={logout}
+            disabled={isLoading}
+            className="cursor-pointer"
+          >
+            <IoIosLogOut />
+          </button>
         </div>
       </section>
     </header>

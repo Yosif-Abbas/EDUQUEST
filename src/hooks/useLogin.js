@@ -13,8 +13,6 @@ export function useLogin() {
     onSuccess: (user) => {
       navigate(`/${user?.role}`, { replace: true });
 
-      console.log(isLoading);
-
       queryClient.setQueryData(['user', user.user]);
 
       toast.success('Login successful!');

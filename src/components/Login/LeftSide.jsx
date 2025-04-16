@@ -9,7 +9,8 @@ import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 
 function LeftSide() {
-  const [loginEmail, setLoginEmail] = useState('text@test.com');
+  // const [loginEmail, setLoginEmail] = useState('text@test.com');
+  const [loginEmail, setLoginEmail] = useState('abdo@abdo.com');
   const [password, setPassword] = useState('123456');
   const { login, isLoading } = useLogin();
 
@@ -19,8 +20,6 @@ function LeftSide() {
     if (!loginEmail || !password) return;
 
     login({ loginEmail, password });
-
-    console.log(isLoading);
   }
 
   return (

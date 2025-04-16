@@ -8,6 +8,7 @@ import { IoIosLogOut } from 'react-icons/io';
 import logoIcon from '../../assets/logo-icon.png';
 import logo from '../../assets/logo.png';
 import SidebarItem from '../SidebarItem';
+import { useLogout } from '../../hooks/useLogout';
 
 const sidebarItems = [
   { to: 'dashboard', icon: <BsBarChartLine />, label: 'Dashboard' },
@@ -17,6 +18,8 @@ const sidebarItems = [
 ];
 
 function TeacherSidebar() {
+  const { logout, isLoading } = useLogout();
+
   return (
     <nav className="bg-main-txt text-alt-darker z-60 min-w-fit pt-4">
       <ul className="teacher-nav text-3xl">
@@ -39,7 +42,11 @@ function TeacherSidebar() {
 
         {/* Logout Button */}
         <li>
-          <button className="teacher-navlink w-full hover:bg-red-500">
+          <button
+            onClick={logout}
+            disabled={isLoading}
+            className="teacher-navlink w-full hover:bg-red-500"
+          >
             <IoIosLogOut />
             <span className="hidden sm:block sm:text-lg">Logout</span>
           </button>
