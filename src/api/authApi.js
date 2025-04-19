@@ -37,9 +37,23 @@ export async function getCurrentUser() {
 
   if (currentUserError) throw new Error(currentUserError.message);
 
+  console.log(currentUser.id);
   const user = await getUser(currentUser.id);
 
+
+
   const { email, aud, identities, user_metadata, is_anonymous } = currentUser;
+
+  const finalUser = {
+    ...user,
+    email,
+    aud,
+    identities,
+    user_metadata,
+    is_anonymous,
+  };
+
+  console.log(finalUser);
 
   return { ...user, email, aud, identities, user_metadata, is_anonymous };
 }
@@ -56,4 +70,55 @@ export async function getUser(id) {
   }
 
   return data;
+}
+
+export async function signup({
+  first_name,
+  last_name,
+  role,
+  phone_number,
+  email,
+  password,
+}) {
+  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (signUpError) {
+    throw new Error(signUpError.message);
+  }
+
+  const { data: userData, error: userInsertError } = await supabase
+    .from('Users')
+    .insert([
+      {
+        email,
+        first_name,
+        last_name,
+        role,
+        phone_number,
+        userId: signUpData.user.id,
+      },
+    ])
+    .select()
+    .single();
+
+  if (userInsertError) {
+    throw new Error(userInsertError.message);
+  }
+
+  console.log('User data:', userData);
+
+  const { aud, identities, user_metadata, is_anonymous } = signUpData.user;
+
+  return {
+    ...userData,
+    image_url: '',
+    biography: '',
+    aud,
+    identities,
+    user_metadata,
+    is_anonymous,
+  };
 }

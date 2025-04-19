@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 
 export function useLogin() {
   const queryClient = useQueryClient();
+
   const navigate = useNavigate();
 
   const { mutate: login, isPending: isLoading } = useMutation({
@@ -13,14 +14,14 @@ export function useLogin() {
     onSuccess: (user) => {
       navigate(`/${user?.role}`, { replace: true });
 
-      queryClient.setQueryData(['user', user]);
+      // queryClient.setQueryData(['user', user]);
 
       toast.success('Login successful!');
     },
     onError: (error) => {
       console.error('Login failed:', error.message);
 
-      toast.error('Provided email or password are incorrect');
+      toast.error(error.message);
     },
   });
 

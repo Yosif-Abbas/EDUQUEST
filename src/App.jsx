@@ -14,7 +14,7 @@ function App() {
       <AppRoutes />
 
       <Toaster
-        position="top-right"
+        position="top-center"
         gutter={12}
         containerStyle={{ margin: '8px' }}
         toastOptions={{

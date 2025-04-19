@@ -13,7 +13,7 @@ function NotFound() {
       <Button
         size="md"
         className="mt-2 font-medium"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/home')}
       >
         Go Back
       </Button>

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCourse, getCoursesByTeacherId } from '../api/coursesApi';
+import { getCoursesByTeacherId } from '../api/coursesApi';
 export function useCoursesByTeacher(teacherId) {
   const {
     data: courses = [],

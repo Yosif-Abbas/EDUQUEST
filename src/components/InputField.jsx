@@ -22,11 +22,12 @@ function InputField({
       <input
         type={showPassword ? 'text' : type}
         id={id}
-        className="min-w-full rounded-xl bg-[#b0bac365] p-2 pl-4 focus:ring focus:ring-blue-200 md:p-4"
+        className="min-w-full rounded-xl bg-[#b0bac365] p-2 pl-4 outline-none focus:ring focus:ring-blue-200 md:p-4"
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         disabled={disabled}
+        autoComplete={isPassord && 'new-password'}
       />
       {isPassord && (
         <button
