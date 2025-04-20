@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-const listItemStyles = 'w-full text-center h-full py-3';
+const listItemStyles = 'w-full text-center h-full py-3 text-[18px] lg:text-2xl';
 
 function NavLinks({ isMobile, isMenuOpen, className }) {
   const location = useLocation();

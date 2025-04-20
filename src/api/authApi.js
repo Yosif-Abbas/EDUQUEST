@@ -37,10 +37,7 @@ export async function getCurrentUser() {
 
   if (currentUserError) throw new Error(currentUserError.message);
 
-  console.log(currentUser.id);
   const user = await getUser(currentUser.id);
-
-
 
   const { email, aud, identities, user_metadata, is_anonymous } = currentUser;
 
@@ -52,8 +49,6 @@ export async function getCurrentUser() {
     user_metadata,
     is_anonymous,
   };
-
-  console.log(finalUser);
 
   return { ...user, email, aud, identities, user_metadata, is_anonymous };
 }
@@ -107,8 +102,6 @@ export async function signup({
   if (userInsertError) {
     throw new Error(userInsertError.message);
   }
-
-  console.log('User data:', userData);
 
   const { aud, identities, user_metadata, is_anonymous } = signUpData.user;
 

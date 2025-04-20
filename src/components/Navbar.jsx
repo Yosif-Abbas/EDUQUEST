@@ -21,20 +21,18 @@ function Navbar() {
   }, [location.pathname]);
 
   return (
-    <nav className="relative flex min-h-20 items-center justify-between bg-transparent">
-      <div className="container flex items-center justify-between">
-        <figure className="">
-          <Logo />
-        </figure>
+    <nav className="relative container flex min-h-20 items-center justify-between bg-transparent">
+      <figure className="">
+        <Logo />
+      </figure>
 
-        <button
-          className="cursor-pointer text-3xl md:hidden"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-        >
-          <RxHamburgerMenu />
-        </button>
-        <NavLinks isMobile={isMobile} isMenuOpen={isMenuOpen} />
-      </div>
+      <button
+        className="cursor-pointer text-3xl md:hidden"
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+      >
+        <RxHamburgerMenu />
+      </button>
+      <NavLinks isMobile={isMobile} isMenuOpen={isMenuOpen} />
     </nav>
   );
 }

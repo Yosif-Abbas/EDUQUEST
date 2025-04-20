@@ -7,6 +7,7 @@ import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
 import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
+import Spinner from '../Spinner';
 
 function LeftSide() {
   // const [loginEmail, setLoginEmail] = useState('text@test.com');
@@ -52,8 +53,8 @@ function LeftSide() {
         />
 
         <div className="mb-2">
-          <Button className="" rounded={true} disabled={isLoading}>
-            Login
+          <Button rounded={true} disabled={isLoading}>
+            {isLoading ? <Spinner /> : 'Login'}
           </Button>
         </div>
       </form>

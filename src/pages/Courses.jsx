@@ -17,7 +17,7 @@ function Courses() {
     );
 
   return (
-    <div className="mx-auto max-w-[1320px] px-2">
+    <div className="mx-auto">
       <SearchControls />
 
       <ul className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-4">

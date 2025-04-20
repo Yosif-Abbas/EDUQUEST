@@ -29,7 +29,7 @@ function InputField({
           value={value}
           onChange={onChange}
           disabled={disabled}
-          autoComplete={isPassord && 'new-password'}
+          autoComplete={isPassord.toString()}
         />
         {isPassord && (
           <button

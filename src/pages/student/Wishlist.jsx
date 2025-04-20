@@ -1,29 +1,38 @@
 import WishlistItem from '../../components/WishlistItem';
-import image from '../../assets/Course image.png';
+import { useWishlist } from '../../hooks/useWishlist';
+import Loading from '../../components/Loading';
+import Spinner from '../../components/Spinner';
 
 function Wishlist() {
+  const { wishlist, isLoading } = useWishlist();
+
   return (
     <section className="space-y-6">
       <h2 className="ml-6 text-2xl font-normal">
-        <span className="font-medium">Wishlist</span> (3)
+        <span className="font-medium">Wishlist</span>{' '}
+        <span>
+          ({isLoading ? <Spinner color="#ff5a00" /> : wishlist.length})
+        </span>
       </h2>
       <ul className="bg-white px-6">
         <li className="student-wishlist-item text-sm text-[#4E5566]">
-          <span className="col-span-3">COURSES</span>
-          <span className="col-span-1">PRICES</span>
-          <span className="col-span-2">ACTION</span>
+          <span className="col-span-5 md:col-span-6 lg:col-span-7">
+            COURSES
+          </span>
+          <span className="col-span-3 md:col-span-2">PRICES</span>
+          <span className="col-span-4 lg:col-span-3">ACTION</span>
         </li>
-        <li className="student-wishlist-item">
-          <WishlistItem
-            image={image}
-            instructor={'Mr Mahmoud'}
-            price={{ now: '37.00', pre: '49.00' }}
-            rating={4.6}
-            reviews={'451,444'}
-            subject={'Maths'}
-            title={'Mathematics Chapter 3'}
-          />
-        </li>
+        {isLoading ? (
+          <div className="flex h-96 w-full items-center justify-center">
+            <Loading size={150} />
+          </div>
+        ) : (
+          wishlist.map((item) => (
+            <li key={item.id} className="student-wishlist-item">
+              <WishlistItem item={item} />
+            </li>
+          ))
+        )}
       </ul>
     </section>
   );

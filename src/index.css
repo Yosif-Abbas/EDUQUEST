@@ -70,7 +70,7 @@
     @apply mb-2 text-[12px] text-[#6E7485];
   }
   .student-wishlist-item {
-    @apply grid grid-cols-6 gap-6 border-b-1 border-[#E9EAF0] py-5;
+    @apply grid grid-cols-12 gap-6 border-b-1 border-[#E9EAF0] py-5;
   }
 }
 

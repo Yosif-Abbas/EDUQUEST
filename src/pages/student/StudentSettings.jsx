@@ -1,11 +1,30 @@
 import { LuUpload } from 'react-icons/lu';
 import avatar from '../../assets/picture.jpg';
+import defaulUser from '../../assets/default-user.jpg';
 import { useState } from 'react';
 import { Eye } from '../../components/Eye';
 import { EyeOff } from '../../components/EyeOff';
+import Spinner from '../../components/Spinner';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function StudentSettings() {
-  const [showPassword, setShowPassword] = useState(false);
+  const {
+    currentUser: {
+      first_name,
+      last_name,
+      email: userEmail,
+      phone_number,
+      biography,
+      image_url,
+    },
+    isLoading,
+  } = useCurrentUser();
+
+  const [firstName, setFirstName] = useState(first_name);
+  const [lastName, setLastName] = useState(last_name);
+  const [email, setEmail] = useState(userEmail);
+  const [phone, setPhone] = useState(phone_number);
+  const [bio, setBio] = useState(biography);
 
   return (
     <section className="space-y-6">
@@ -14,7 +33,15 @@ function StudentSettings() {
       <div className="grid-col-1 grid gap-20 p-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-20">
         <div className="space-y-5 lg:col-span-1">
           <figure className="relative">
-            <img src={avatar} alt="Avatar" className="h-auto w-full" />
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <img
+                src={image_url === null ? defaulUser : image_url}
+                alt="Avatar"
+                className="h-auto w-full"
+              />
+            )}
             <div className="absolute right-0 bottom-0 left-0 flex items-center justify-center gap-2 bg-[#0000007c] p-3 text-white">
               <span>
                 <LuUpload />
@@ -33,36 +60,47 @@ function StudentSettings() {
             <div className="flex flex-col gap-2 lg:flex-row lg:gap-5">
               <input
                 placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
               />
               <input
                 placeholder="Last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
               />
             </div>
           </div>
           <div>
-            <label className="mb-1 block text-sm">Username</label>
+            <label className="mb-1 block text-sm">Phone Number</label>
             <input
-              placeholder="Enter your username"
-              className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              disabled
+              className="bg-L2 w-full border-1 border-white px-4 py-3 placeholder:font-normal"
             />
           </div>
           <div>
             <label className="mb-1 block text-sm">Email</label>
             <input
               placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm">Tittle</label>
+            <label className="mb-1 block text-sm">Biography</label>
             <input
               placeholder="Your tittle, proffesion or small biography"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
               className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
             />
           </div>
-          <div>
+          {/* <div>
             <label className="mb-1 block text-sm">New Password</label>
             <div className="relative">
               <input
@@ -77,7 +115,7 @@ function StudentSettings() {
                 {showPassword ? <Eye size={26} /> : <EyeOff size={26} />}
               </button>
             </div>
-          </div>
+          </div> */}
           <button className="bg-L6 px-6 py-3 text-white">Save Changes</button>
         </form>
       </div>

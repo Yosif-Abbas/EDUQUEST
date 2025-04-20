@@ -12,7 +12,11 @@ export function useLogout() {
 
     onSuccess: () => {
       navigate('/home', { replace: true });
+
+      window.location.reload();
+
       queryClient.removeQueries(['user']);
+
       toast.success('Logout successful!');
     },
 

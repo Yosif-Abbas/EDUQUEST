@@ -1,25 +1,47 @@
 import avatar from '../assets/picture.jpg';
+import defaulUser from '../assets/default-user.jpg';
 import { NavLink, Outlet } from 'react-router-dom';
 import Header from './Header';
 import TeacherStudentNavbar from './TeacherStudentNavbar';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import Spinner from './Spinner';
 
 function StudentLayout() {
+  const {
+    currentUser: { first_name, last_name, image_url, biography },
+    isLoading,
+  } = useCurrentUser();
+
   return (
     <>
       <TeacherStudentNavbar />
       <Header />
       <main className="relative">
-        <div className="absolute top-0 left-0 z-[-1] h-70 w-full bg-[#526D82]"></div>
+        <div className="absolute -top-20 left-0 z-[-1] h-70 w-full bg-[#526D82]"></div>
         <div></div>
-        <section className="relative top-20 container border-1 border-[#FFDDD1] bg-white py-10">
+        <section className="relative top-0 container border-1 border-[#FFDDD1] bg-white py-10">
           <div className="flex items-center gap-6 px-5 py-10 md:px-0">
-            <figure>
-              <img src={avatar} alt="Avatar" className="w-28 rounded-full" />
-            </figure>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <img
+                src={image_url === null ? defaulUser : image_url}
+                alt="Avatar"
+                className="w-28 rounded-full"
+              />
+            )}
             <div>
-              <h2 className="mb-3 text-2xl font-medium">(Kareem Mohamad)</h2>
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <h2 className="mb-3 text-2xl font-medium">
+                  {first_name + ' ' + last_name}
+                </h2>
+              )}
               <p className="text-[#6E7485]">
-                He is the one who will become a doctor in the future
+                {biography === null
+                  ? "He didn't put any bio"
+                  : `Bio: ${biography}`}
               </p>
             </div>
           </div>
@@ -41,7 +63,7 @@ function StudentLayout() {
             </li>
           </ul>
         </section>
-        <section className="relative top-30 container md:left-0">
+        <section className="relative top-10 container md:left-0">
           <Outlet />
         </section>
       </main>
