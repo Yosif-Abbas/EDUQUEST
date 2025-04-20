@@ -3,13 +3,11 @@ import StarRating from '../StarRating';
 function CourseHeader({ course }) {
   const { title, rating, rating_count, Teachers } = course;
 
-  console.log(Teachers);
+  if (!Teachers) return null;
 
   const {
     Users: { first_name, last_name, image_url },
   } = Teachers;
-
-  console.log(course);
 
   const instructorFullname = first_name + ' ' + last_name;
 

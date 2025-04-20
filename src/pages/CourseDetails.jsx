@@ -32,7 +32,7 @@ function CourseDetails() {
   console.log(course);
   if (Error) return <div>{Error.message}</div>;
 
-  const categories = course.subject.toLowerCase().split(' ');
+  const categories = course?.subject?.toLowerCase().split(' ');
 
   return (
     <div>
@@ -57,11 +57,11 @@ function CourseDetails() {
           <InstructorSection instructor={course.Teachers} />
           <CourseRating
             rating={course.rating}
-            ratings={course.Ratings[0]}
+            ratings={course.Ratings?.[0]}
             ratingCount={course.rating_count}
           />
 
-          {course.Reviews.length > 0 && (
+          {course?.Reviews?.length > 0 && (
             <StudentReviews studentsFeedback={course.Reviews} />
           )}
         </div>

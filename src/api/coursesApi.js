@@ -12,21 +12,36 @@ export const getCourses = async () => {
 };
 
 export const getCourse = async (id) => {
+  // const { data, error } = await supabase
+  //   .from('Courses')
+  //   .select(
+  //     `*,
+  //       course_benefits(*),
+  //       course_includes(*),
+  //       course_requirements(*),
+  //       course_sections(*, Lectures(*, Videos(*))),
+  //       Ratings(*),
+  //       Reviews(*, Users(*))`,
+  //   )
+  //   .eq('id', id)
+  //   .single();
+
   const { data, error } = await supabase
     .from('Courses')
     .select(
-      `*, 
-      course_requirements(*), 
-      course_includes(*), 
-      course_benefits(*),
-      Teachers(*, Users(*)),
-      course_sections(*, Lectures(*, Videos(*))),
-      Ratings(*),
-      Reviews(*, Users(*))`,
+      `*,
+        course_requirements(*),
+        course_includes(*),
+        course_benefits(*),
+        course_sections(*, Lectures(*, Videos(*))),
+        Teachers(*),
+        Ratings(*),
+        Reviews(*, Users(*))`,
     )
     .eq('id', id)
     .single();
 
+  console.log(id, data);
   if (error) {
     console.error(error.message);
     throw error;
