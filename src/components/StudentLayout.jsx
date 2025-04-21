@@ -1,4 +1,3 @@
-import avatar from '../assets/picture.jpg';
 import defaulUser from '../assets/default-user.jpg';
 import { NavLink, Outlet } from 'react-router-dom';
 import Header from './Header';

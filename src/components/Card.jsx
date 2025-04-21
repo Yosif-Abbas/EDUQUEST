@@ -24,9 +24,6 @@ function Card({ course, className }) {
       <div className="p-2 text-xs font-medium sm:p-4 lg:text-sm">
         <div className="flex items-center justify-between pb-4">
           <CourseSubject subject={course.subject} />
-          <span className="font-bold text-[#FF6636] lg:text-lg">
-            {course.price}LE
-          </span>
         </div>
 
         <h3>{course.title}</h3>

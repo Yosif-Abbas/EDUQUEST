@@ -1,38 +1,43 @@
-import { IoIosSearch } from 'react-icons/io';
 import { useCourses } from '../../hooks/useCourses';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
+import { useStudentCourses } from '../../hooks/useStudentCourses';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
+import Spinner from '../../components/Spinner';
+import SortBy from '../../components/filters-sorts/SortBy';
+import Search from '../../components/filters-sorts/Search';
 
 function StudentCourses() {
-  const { courses, isLoading, isError } = useCourses();
+  const { currentUser: currentstudent, isLoading: isLoadingCurrentUser } =
+    useCurrentUser();
+  const { studentCourses, isLoading, isError } = useStudentCourses(
+    currentstudent.id,
+  );
 
   return (
     <>
       <section className="mx-6">
         <h2 className="mb-6 text-2xl font-normal">
-          <span className="font-medium">Courses</span> (957)
+          <span className="font-medium">Courses</span> (
+          {isLoading || isLoadingCurrentUser ? (
+            <Spinner size={25} />
+          ) : (
+            studentCourses.length
+          )}
+          )
         </h2>
         <ul className="flex flex-wrap gap-6">
-          <li>
-            <h3 className="student-courses-filter-name">Search:</h3>
-            <div className="relative">
-              <input
-                type="text"
-                className="w-20 bg-white p-3 pl-8 outline-0 max-[640px]:focus:w-50 md:w-60 xl:w-80"
-                placeholder="Search in your courses"
-              />
-              <span className="absolute top-1/2 left-4 block -translate-1/2 text-xl">
-                <IoIosSearch />
-              </span>
-            </div>
-          </li>
-          <li>
-            <h3 className="student-courses-filter-name">Sort by:</h3>
-            <select className="bg-white p-3 outline-0 md:w-40">
-              <option>Latest</option>
-              <option>Oldest</option>
-            </select>
-          </li>
+          <Search />
+
+          <SortBy
+            sortbyField="sortBy"
+            options={[
+              { label: 'Most Recent', value: 'created_at-asc' },
+              { label: 'Old', value: 'created_at-des' },
+              { label: 'Highest Rated', value: 'rating-des' },
+              { label: 'Lowest Rated', value: 'rating-asc' },
+            ]}
+          />
           <li>
             <h3 className="student-courses-filter-name">Status:</h3>
             <select className="bg-white p-3 outline-0 md:w-40">
@@ -56,13 +61,15 @@ function StudentCourses() {
         {isError && <p>Error fetching courses</p>}
         {!isLoading && !isError && (
           <ul className="xs:grid-cols-2 mt-6 ml-6 grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {courses &&
-              courses.map((course) => <Card course={course} key={course.id} />)}
+            {studentCourses &&
+              studentCourses.map((course) => (
+                <Card course={course.course_id} key={course.id} />
+              ))}
           </ul>
         )}
 
         <ul className="mx-6">
-          <li>as</li>
+          <li>pagenation here</li>
         </ul>
       </section>
     </>

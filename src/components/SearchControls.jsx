@@ -1,26 +1,29 @@
 import { useState } from 'react';
-import { CiSearch } from 'react-icons/ci';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import Selector from './Selector';
+import Search from './filters-sorts/Search';
+import SortBy from './filters-sorts/SortBy';
 
 const filters = { subject: 'math' };
 
+// const sorts = [
+//   { trending: 'Trending' },
+//   { subject: 'Subject' },
+//   { price: 'Price' },
+//   { asc: 'Asc' },
+//   { desc: 'Desc' },
+//   { rating: 'Rating' },
+// ];
+
 const sorts = [
-  { trending: 'Trending' },
-  { subject: 'Subject' },
-  { price: 'Price' },
-  { asc: 'Asc' },
-  { desc: 'Desc' },
-  { rating: 'Rating' },
+  { label: 'Most Recent', value: 'created_at-asc' },
+  { label: 'Old', value: 'created_at-des' },
+  { label: 'Highest Rated', value: 'rating-des' },
+  { label: 'Lowest Rated', value: 'rating-asc' },
 ];
 
 function SearchControls() {
-  const [showSearchInput, setShowSearchInput] = useState(false);
   const [searchedWords, setSearchedWords] = useState('Math');
-
-  const toggleSearch = () => {
-    setShowSearchInput((pre) => !pre);
-  };
 
   return (
     <div className="">
@@ -28,7 +31,7 @@ function SearchControls() {
         {/* filter and search */}
         <div className="flex w-fit flex-1 gap-x-4">
           {/* filter */}
-          <button className="border- relative flex h-[48px] w-35 appearance-none items-center justify-around border-1 border-[#FFEEE8] bg-white px-3 py-1.5 text-base font-semibold">
+          <button className="relative flex h-[48px] w-35 appearance-none items-center justify-around border-1 border-[#FFEEE8] bg-white px-3 py-1.5 text-base font-semibold">
             <GiSettingsKnobs />
             <span className="mr-4">Filter</span>
             {/* options */}
@@ -38,23 +41,12 @@ function SearchControls() {
           </button>
 
           {/* search */}
-          <div className="relative h-[48px] w-full">
-            <input
-              type="text"
-              placeholder="Search"
-              className={`h-full ${showSearchInput ? 'w-full' : 'w-0'} max-w-112 border-[#E9EAF0] bg-white pl-12 font-normal transition-all duration-300 sm:w-full sm:border-2`}
-            />
-            <button
-              className={`absolute top-1/2 left-0 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-full ${showSearchInput ? 'rounded-r-none' : 'sm:rounded-r-none'}`}
-              onClick={toggleSearch}
-            >
-              <CiSearch className="" size={26} />
-            </button>
-          </div>
+          <Search />
         </div>
 
         {/* sort */}
-        <Selector options={sorts} id="sort" label="Sort By:" />
+        <SortBy options={sorts} sortbyField="sortBy" vertical={false} />
+        {/* <Selector options={sorts} id="sort" label="Sort By:" /> */}
       </div>
 
       {searchedWords.length > 0 && (
