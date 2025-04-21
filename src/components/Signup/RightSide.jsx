@@ -7,6 +7,8 @@ import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
 import { useState } from 'react';
 import { useSignup } from '../../hooks/useSignup';
+import Loading from '../Loading';
+import Spinner from '../Spinner';
 
 function RightSide() {
   const { signup, isLoading } = useSignup();
@@ -168,7 +170,9 @@ function RightSide() {
         />
 
         <div className="mx-auto mb-2">
-          <Button rounded>Create Account</Button>
+          <Button rounded={true} disabled={isLoading}>
+            {isLoading ? <Spinner color="#dde6ed" /> : 'Sign up'}
+          </Button>
         </div>
       </form>
       <p className="text-alt-darker mb-4 text-[12px]">

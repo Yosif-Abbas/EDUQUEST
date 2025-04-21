@@ -2,7 +2,7 @@ import { FaStar } from 'react-icons/fa';
 import { IoIosPlayCircle } from 'react-icons/io';
 import { LuUsersRound } from 'react-icons/lu';
 import { useCoursesByTeacher } from '../../hooks/useCoursesByTeacher';
-import Loading from '../Loading';
+import Spinner from '../Spinner';
 
 function Instructor({ instructor }) {
   const {
@@ -11,6 +11,8 @@ function Instructor({ instructor }) {
   } = instructor;
 
   const { courses, error, isLoading } = useCoursesByTeacher(instructor.id);
+
+  console.log(courses);
 
   // students count
   const teacherStudents = courses.reduce(
@@ -27,15 +29,14 @@ function Instructor({ instructor }) {
     teacherCoursesCount
   ).toFixed(1);
 
-  console.log(courses);
-
-  console.log(teacherStudents);
-
   const instructorFullName = `${first_name} ${last_name}`;
 
-  if (isLoading) return <Loading />;
-
-  
+  if (isLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center py-8">
+        <Spinner size={72} />
+      </div>
+    );
 
   return (
     <div className="flex items-start gap-5 p-4">

@@ -62,3 +62,83 @@ export const ratingHelper = (ratings) => {
 
   return { ratingCount, rating };
 };
+
+export const getFormattedTotalDuration = (sections) => {
+  let totalMinutes = 0;
+
+  sections.forEach((section) => {
+    section.Lectures?.forEach((lecture) => {
+      const info = lecture.content_info;
+      if (!info) return;
+
+      const lowerInfo = info.toLowerCase();
+
+      if (lecture.type === 'file') {
+        // Treat MB as minutes
+        const matchMB = lowerInfo.match(/([\d.]+)\s*mb/);
+        if (matchMB) {
+          totalMinutes += parseFloat(matchMB[1]);
+        }
+      } else if (lecture.type === 'video') {
+        // Match hours and minutes in the string
+        const matchHours = lowerInfo.match(/([\d.]+)\s*hour/);
+        const matchMinutes = lowerInfo.match(/([\d.]+)\s*minute/);
+
+        let minutes = 0;
+        if (matchHours) {
+          minutes += parseFloat(matchHours[1]) * 60;
+        }
+        if (matchMinutes) {
+          minutes += parseFloat(matchMinutes[1]);
+        }
+
+        totalMinutes += minutes;
+      }
+    });
+  });
+
+  return totalMinutes < 60
+    ? `${Math.round(totalMinutes)} minutes`
+    : `${Math.floor(totalMinutes / 60) > 0 ? Math.floor(totalMinutes / 60) + 'h' : ''} ${totalMinutes % 60 ? (totalMinutes % 60) + 'm' : ''}`;
+};
+
+// Calculate total duration of a section with formatted output
+export const calculateSectionDuration = (section) => {
+  let totalMinutes = 0;
+
+  section.Lectures?.forEach((lecture) => {
+    const info = lecture.content_info;
+    if (!info) return;
+
+    const lowerInfo = info.toLowerCase();
+
+    if (lecture.type === 'file') {
+      // Treat MB as minutes
+      const matchMB = lowerInfo.match(/([\d.]+)\s*mb/);
+      if (matchMB) {
+        totalMinutes += parseFloat(matchMB[1]);
+      }
+    } else if (lecture.type === 'video') {
+      // Match hours and minutes in the string
+      const matchHours = lowerInfo.match(/([\d.]+)\s*hour/);
+      const matchMinutes = lowerInfo.match(/([\d.]+)\s*minute/);
+
+      let minutes = 0;
+      if (matchHours) {
+        minutes += parseFloat(matchHours[1]) * 60;
+      }
+      if (matchMinutes) {
+        minutes += parseFloat(matchMinutes[1]);
+      }
+
+      totalMinutes += minutes;
+    }
+  });
+
+  if (totalMinutes < 60) {
+    return `${Math.round(totalMinutes)} minutes`;
+  } else {
+    const hours = totalMinutes / 60;
+    return `${Math.floor(hours) ? Math.floor(hours) + 'h' : ''} ${totalMinutes % 60 ? (totalMinutes % 60) + 'm' : ''}`;
+  }
+};

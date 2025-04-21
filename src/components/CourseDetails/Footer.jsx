@@ -28,19 +28,19 @@ function Footer({ categories, currentCourseId }) {
         </div>
         <div className="overflow-x-auto">
           <ul className="flex w-max gap-x-6">
-            {relatedCourses
-              .slice(0, 4)
-              .map((course, index) =>
-                index >= 2 ? (
-                  <Card
-                    key={course.id}
-                    course={course}
-                    className="hidden xl:block"
-                  />
-                ) : (
-                  <Card key={course.id} course={course} />
-                ),
-              )}
+            {relatedCourses.slice(0, 4).map((course, index) => {
+              let visibilityClass = '';
+              if (index === 2) visibilityClass = 'hidden xl:block';
+              if (index === 3) 'hidden 2xl:block';
+
+              return (
+                <Card
+                  key={course.id}
+                  course={course}
+                  className={visibilityClass}
+                />
+              );
+            })}
           </ul>
         </div>
       </div>

@@ -3,6 +3,9 @@ import CourseSubject from './CourseSubject';
 import { LuUserRound } from 'react-icons/lu';
 import { FaStar } from 'react-icons/fa';
 
+const no_image_url =
+  'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg';
+
 function Card({ course, className }) {
   const navigate = useNavigate();
 
@@ -11,14 +14,20 @@ function Card({ course, className }) {
   };
 
   return (
-    <li
-      className={`h-fit w-full max-w-[312px] border-1 border-gray-300 bg-white ${className}`}
-    >
+    <li className={`h-fit w-full border border-gray-300 bg-white ${className}`}>
       <figure
         onClick={handleCourseRedirect}
-        className="h-27 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 lg:h-36 xl:h-42 2xl:h-47"
+        className="h-28 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 sm:h-32 md:h-36 lg:h-42 xl:h-48"
       >
-        <img src={course.image_url} alt={course.subject} className="w-full" />
+        <img
+          src={course.image_url ? course.image_url : no_image_url}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = no_image_url;
+          }}
+          alt={course.subject}
+          className="h-full w-full object-cover"
+        />
       </figure>
 
       <div className="p-2 text-xs font-medium sm:p-4 lg:text-sm">

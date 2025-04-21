@@ -12,7 +12,7 @@ const Button = ({
     primary: 'bg-[#876A9A] text-[#DDE6ED] cursor-pointer',
     secondary: 'border border-[#876A9A] text-[#876A9A] cursor-pointer',
     neutral: 'bg-[#FFEEE8] text-[#FF6636] font-medium cursor-pointer',
-    disabled: 'bg-gray-600 text-[#B0B0B0] cursor-not-allowed',
+    disabled: 'bg-gray-600 opacity-50 text-[#B0B0B0] cursor-not-allowed',
   };
   const sizeStyles = {
     sm: 'px-5 py-2.5 text-xs font-semibold',
@@ -24,7 +24,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${baseStyles} ${typeStyles[props.disabled ? 'disabled' : type]} ${sizeStyles[size]} ${roundedStyles} ${className} text-`}
+      className={`${baseStyles} ${typeStyles[props.disabled ? 'disabled' : type]} ${sizeStyles[size]} ${roundedStyles} ${className} $`}
       {...props}
     >
       {children}

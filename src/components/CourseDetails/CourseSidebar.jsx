@@ -1,4 +1,4 @@
-import {  CiClock2, CiMail } from 'react-icons/ci';
+import { CiClock2, CiMail } from 'react-icons/ci';
 import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
 import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
@@ -6,6 +6,7 @@ import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 import SocialButton from '../SocialButton';
 import Price from './Price';
+import { getFormattedTotalDuration } from '../../utils/helpers';
 
 function CourseSidebar({ course }) {
   const {
@@ -13,14 +14,18 @@ function CourseSidebar({ course }) {
     currency,
     discount,
     discount_end_date,
-    course_duration,
-    number_of_lessons,
+    number_of_lessons: nol,
+    course_sections,
     students_enrolled,
     course_level,
     course_includes,
   } = course;
 
-  const finalPrice = regularPrice - regularPrice * (discount * 0.01);
+  const courseDuration = getFormattedTotalDuration(course_sections);
+  const number_of_lessons = course_sections.reduce(
+    (count, section) => count + (section.Lectures?.length || nol),
+    0,
+  );
 
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
@@ -38,7 +43,7 @@ function CourseSidebar({ course }) {
           </span>
           Course Duration
           <span className="ml-auto text-sm text-gray-500">
-            {course_duration}
+            {courseDuration}
           </span>
         </li>
         <li className="list-icon">

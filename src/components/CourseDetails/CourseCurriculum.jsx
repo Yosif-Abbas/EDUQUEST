@@ -5,6 +5,9 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { IoPlayCircleOutline } from 'react-icons/io5';
 import { PiFolderOpen } from 'react-icons/pi';
 
+import { calculateSectionDuration } from '../../utils/helpers';
+import { getFormattedTotalDuration } from '../../utils/helpers';
+
 function CourseCurriculum({ sections }) {
   const [openSections, setOpenSections] = useState({});
 
@@ -15,6 +18,7 @@ function CourseCurriculum({ sections }) {
     }));
   };
 
+  // Calculate the total number of lectures
   const lecturesCount = sections.reduce(
     (count, section) => count + (section.Lectures?.length || 0),
     0,
@@ -37,7 +41,7 @@ function CourseCurriculum({ sections }) {
             </li>
             <li className="list-icon">
               <CiClock2 color="#FD8E1F" />
-              <span>12h 37m</span>
+              <span>{getFormattedTotalDuration(sections)} </span>
             </li>
           </ul>
         </div>
@@ -65,10 +69,14 @@ function CourseCurriculum({ sections }) {
                 <span className="ml-2">{section.title}</span>
               </h2>
               <div className="flex items-center gap-x-2">
-                <PiFolderOpen color="#FF6636" />
-                <span>{section.Lectures.length} lectures</span>
+                <IoPlayCircleOutline color="#564FFD" />
+                <span className="text-nowrap">
+                  {section.Lectures.length} lectures
+                </span>
                 <CiClock2 color="#FD8E1F" />
-                <span>{section.duration} Hours</span>
+                <span className="text-nowrap">
+                  {calculateSectionDuration(section)}
+                </span>
               </div>
             </div>
 

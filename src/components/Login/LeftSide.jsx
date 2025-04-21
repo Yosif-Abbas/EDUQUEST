@@ -53,8 +53,8 @@ function LeftSide() {
         />
 
         <div className="mb-2">
-          <Button rounded={true} disabled={isLoading}>
-            {isLoading ? <Spinner /> : 'Login'}
+          <Button rounded disabled={isLoading}>
+            {isLoading ? <Spinner color="#dde6ed" /> : 'Login'}
           </Button>
         </div>
       </form>

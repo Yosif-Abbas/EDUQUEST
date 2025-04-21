@@ -9,6 +9,7 @@ import {
   Maximize,
 } from 'lucide-react';
 import { PiSubtitlesSlashThin, PiSubtitlesThin } from 'react-icons/pi';
+import Spinner from './Spinner';
 
 const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const videoRef = useRef(null);
@@ -23,7 +24,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
       ? Number(localStorage.getItem('prevVolume'))
       : 1;
   });
-
+  const [isLoading, setIsLoading] = useState(true);
   const [prevVolume, setPrevVolume] = useState(volume);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -182,30 +183,42 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative mx-auto max-w-5xl overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''} ${className}`}
+      className={`relative mx-auto max-w-5xl grid-rows-1 overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''} ${className}`}
       onMouseEnter={showControls}
       onMouseMove={handleMouseMove}
       onMouseLeave={hideControls}
     >
       {/* Video Element */}
 
-      <video
-        ref={videoRef}
-        className="h-auto w-full object-cover"
-        onLoadedMetadata={handleLoadedMetadata}
-        onTimeUpdate={handleProgress}
-        muted={isMuted}
-        controls={false} // **Hides default browser controls**
-      >
-        <source src={src} type="video/mp4" />
-        <track
-          src={subtitleSrc} // Path to the subtitle file
-          kind="subtitles"
-          srcLang="en"
-          label="English"
-          default
-        />
-      </video>
+      {isLoading && (
+        <div className="absolute top-1/2 left-1/2 z-50 -translate-1/2">
+          <Spinner size={72} />
+        </div>
+      )}
+      <div className="relative w-full">
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover"
+          onLoadedMetadata={(e) => {
+            handleLoadedMetadata(e);
+            setIsLoading(false);
+          }}
+          onCanPlay={() => setIsLoading(false)}
+          onWaiting={() => setIsLoading(true)}
+          onTimeUpdate={handleProgress}
+          muted={isMuted}
+          controls={false} // **Hides default browser controls**
+        >
+          <source src={src} type="video/mp4" />
+          <track
+            src={subtitleSrc} // Path to the subtitle file
+            kind="subtitles"
+            srcLang="en"
+            label="English"
+            default
+          />
+        </video>
+      </div>
 
       <div
         className={`absolute top-0 left-0 h-full w-full cursor-pointer bg-cover bg-center transition-opacity duration-300 ${
