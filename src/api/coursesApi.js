@@ -1,7 +1,12 @@
 import supabase from '../../supabase';
 
-export const getCourses = async ({ sort }) => {
+export const getCourses = async ({ sort, filter }) => {
   let query = supabase.from('Courses').select('*');
+
+  // Filtering
+  if (filter && filter.value !== 'all') {
+    query = query.ilike('category', filter.value);
+  }
 
   // Sorting
   query = query.order(sort.value, { ascending: sort.order === 'asc' });
@@ -47,7 +52,7 @@ export const getCoursesByTeacherId = async (id) => {
     .eq('teacher_id', id);
 
   console.log(id, data);
-  
+
   if (error) {
     console.error(error.message);
     throw error;

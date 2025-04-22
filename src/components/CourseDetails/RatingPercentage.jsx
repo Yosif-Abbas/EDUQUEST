@@ -1,8 +1,6 @@
 import StarRating from '../StarRating';
 
-function RatingPercentage({ rating, TotalRatingCount, ratingCount }) {
-  const ratingPercentage = (ratingCount / TotalRatingCount).toFixed(2);
-
+function RatingPercentage({ rating, ratingPercentage }) {
   return (
     <li className="list-icon w-full">
       <StarRating rating={rating} />
@@ -15,16 +13,13 @@ function RatingPercentage({ rating, TotalRatingCount, ratingCount }) {
         style={{
           background: `linear-gradient(to right, 
             #FD8E1F 0%, 
-            #FD8E1F ${ratingPercentage * 100}%, 
-            #FFF2E5 ${ratingPercentage * 100}%, 
+            #FD8E1F ${ratingPercentage}%, 
+            #FFF2E5 ${ratingPercentage}%, 
             #FFF2E5 100%)`,
         }}
       ></div>
       <span className="hidden min-w-10 text-xs whitespace-nowrap text-gray-500 md:block">
-        {ratingPercentage * 100 < 1
-          ? '<1.0'
-          : (ratingPercentage * 100).toFixed(1)}{' '}
-        %
+        {ratingPercentage < 1 ? '<1.0' : ratingPercentage.toFixed(1)} %
       </span>
     </li>
   );

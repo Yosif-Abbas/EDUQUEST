@@ -1,9 +1,11 @@
-import { ratingHelper } from '../../utils/helpers';
+import { ratingHelper, ratingPercentageHelper } from '../../utils/helpers';
 import StarRating from '../StarRating';
 import RatingPercentage from './RatingPercentage';
 
 function CourseRating({ ratings }) {
   const { ratingCount, rating } = ratingHelper(ratings);
+
+  const ratingPercentage = ratingPercentageHelper(ratings, ratingCount);
 
   return (
     <div>
@@ -23,6 +25,7 @@ function CourseRating({ ratings }) {
                 rating={i}
                 TotalRatingCount={ratingCount}
                 ratingCount={ratings[`${i}_stars`]}
+                ratingPercentage={ratingPercentage[`${i}_stars`]}
               />
             ))}
           </ul>

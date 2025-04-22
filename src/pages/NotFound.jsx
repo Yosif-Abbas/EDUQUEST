@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 
-import Notfound from '../assets/404.png';
-
 function NotFound() {
   const navigate = useNavigate();
 
@@ -17,7 +15,11 @@ function NotFound() {
       >
         Go Back
       </Button>
-      <img src={Notfound} alt="404" className="" />
+      <img
+        src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//404.png"
+        alt="404"
+        className=""
+      />
     </div>
   );
 }

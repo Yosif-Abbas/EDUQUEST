@@ -63,6 +63,64 @@ export const ratingHelper = (ratings) => {
   return { ratingCount, rating };
 };
 
+export const ratingPercentageHelper = (ratings, ratingCount) => {
+  if (ratingCount === 0) {
+    return {
+      '1_stars': 0,
+      '2_stars': 0,
+      '3_stars': 0,
+      '4_stars': 0,
+      '5_stars': 0,
+    };
+  }
+
+  // Calculate raw percentages
+  const rawPercentages = [1, 2, 3, 4, 5].map((star) => ({
+    key: `${star}_stars`,
+    value: (ratings[`${star}_stars`] / ratingCount) * 100,
+  }));
+
+  // Round percentages and track total
+  const rounded = rawPercentages.map((item) => ({
+    key: item.key,
+    value: Math.round(item.value),
+  }));
+
+  let totalRounded = rounded.reduce((sum, item) => sum + item.value, 0);
+
+  // If rounding caused the sum to be off, adjust it
+  while (totalRounded !== 100) {
+    const diff = 100 - totalRounded;
+    const adjustment = diff > 0 ? 1 : -1;
+
+    // Find the item with the largest discrepancy from its raw value
+    let targetIndex = -1;
+    let maxDiscrepancy = -1;
+
+    rounded.forEach((item, index) => {
+      const raw = rawPercentages.find((r) => r.key === item.key).value;
+      const discrepancy = Math.abs(raw - (item.value + adjustment));
+      if (
+        (diff > 0 && item.value + adjustment <= 100) ||
+        (diff < 0 && item.value + adjustment >= 0)
+      ) {
+        if (discrepancy > maxDiscrepancy) {
+          maxDiscrepancy = discrepancy;
+          targetIndex = index;
+        }
+      }
+    });
+
+    if (targetIndex === -1) break;
+
+    rounded[targetIndex].value += adjustment;
+    totalRounded += adjustment;
+  }
+
+  // Convert to final object
+  return Object.fromEntries(rounded.map((item) => [item.key, item.value]));
+};
+
 export const getFormattedTotalDuration = (sections) => {
   let totalMinutes = 0;
 

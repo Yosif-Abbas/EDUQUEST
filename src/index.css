@@ -74,6 +74,34 @@
   }
 }
 
+.hide-scroll-arrows::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Scrollbar size */
+.hide-scroll-arrows::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Scrollbar track (background) */
+.hide-scroll-arrows::-webkit-scrollbar-track {
+  background: transparent; /* or a light color like #f0f0f0 */
+}
+
+/* Scrollbar thumb (the draggable part) */
+.hide-scroll-arrows::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* semi-transparent dark */
+  border-radius: 4px;
+  border: 2px solid transparent; /* for some padding effect */
+  background-clip: content-box;
+}
+
+/* Optional: Hover effect on thumb */
+.hide-scroll-arrows::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .custom-slider {
   cursor: pointer;
   appearance: none;

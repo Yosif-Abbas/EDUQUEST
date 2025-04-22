@@ -10,10 +10,10 @@ const Layout = () => {
   return (
     <div className="grid min-h-dvh grid-rows-[auto_1fr]">
       {isAuthenticated && !isLoading ? (
-        <>
+        <div>
           <TeacherStudentNavbar />
           <Header />
-        </>
+        </div>
       ) : (
         <Navbar />
       )}

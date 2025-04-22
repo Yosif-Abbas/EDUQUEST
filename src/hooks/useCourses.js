@@ -5,13 +5,21 @@ import { useSearchParams } from 'react-router-dom';
 export const useCourses = () => {
   const [searchParams] = useSearchParams();
 
-  const sortBy = searchParams.get('sortBy') || 'created_at-des';
+  // Filtering
+  const filterValue = searchParams.get('category') || 'all';
+  const filter =
+    !filterValue || filterValue === 'all'
+      ? null
+      : { field: 'category', value: filterValue };
+
+  // Sorting
+  const sortBy = searchParams.get('sortBy') || 'created_at-dec';
   const [sortValue, sortOrder] = sortBy.split('-');
   const sort = { value: sortValue, order: sortOrder };
 
   const { data: courses = [], ...queryInfo } = useQuery({
-    queryKey: ['courses', sort],
-    queryFn: () => getCourses({ sort }),
+    queryKey: ['courses', sort, filter],
+    queryFn: () => getCourses({ sort, filter }),
   });
 
   return {

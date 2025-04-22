@@ -1,28 +1,17 @@
 import { useState } from 'react';
-import { GiSettingsKnobs } from 'react-icons/gi';
-import Selector from './Selector';
+
 import Search from './filters-sorts/Search';
 import SortBy from './filters-sorts/SortBy';
-
-const filters = { subject: 'math' };
-
-// const sorts = [
-//   { trending: 'Trending' },
-//   { subject: 'Subject' },
-//   { price: 'Price' },
-//   { asc: 'Asc' },
-//   { desc: 'Desc' },
-//   { rating: 'Rating' },
-// ];
+import Filter from './filters-sorts/Filter';
 
 const sorts = [
-  { label: 'Most Recent', value: 'created_at-asc' },
-  { label: 'Old', value: 'created_at-des' },
+  { label: 'Most Recent', value: 'created_at-des' },
+  { label: 'Old', value: 'created_at-asc' },
   { label: 'Highest Rated', value: 'rating-des' },
   { label: 'Lowest Rated', value: 'rating-asc' },
 ];
 
-function SearchControls() {
+function SearchControls({ categories }) {
   const [searchedWords, setSearchedWords] = useState('Math');
 
   return (
@@ -31,14 +20,7 @@ function SearchControls() {
         {/* filter and search */}
         <div className="flex w-fit flex-1 gap-x-4">
           {/* filter */}
-          <button className="relative flex h-[48px] w-35 appearance-none items-center justify-around border-1 border-[#FFEEE8] bg-white px-3 py-1.5 text-base font-semibold">
-            <GiSettingsKnobs />
-            <span className="mr-4">Filter</span>
-            {/* options */}
-            <span className="bg-[#FFEEE8] px-1.5 text-[#FF6636]">
-              {Object.keys(filters).length}
-            </span>
-          </button>
+          <Filter categories={categories} />
 
           {/* search */}
           <Search />

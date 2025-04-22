@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import CourseSubject from './CourseSubject';
 import { LuUserRound } from 'react-icons/lu';
 import { FaStar } from 'react-icons/fa';
+import { timeLeftUntil } from './../utils/helpers';
 
 const no_image_url =
   'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg';
@@ -12,6 +13,12 @@ function Card({ course, className }) {
   const handleCourseRedirect = () => {
     navigate(`/courses/${course.id}`);
   };
+
+  const { regularPrice, discount, discount_end_date, currency } = course;
+
+  const finalPrice = regularPrice - regularPrice * (discount * 0.01);
+
+  const timeLeft = timeLeftUntil(discount_end_date);
 
   return (
     <li className={`h-fit w-full border border-gray-300 bg-white ${className}`}>
@@ -31,8 +38,32 @@ function Card({ course, className }) {
       </figure>
 
       <div className="p-2 text-xs font-medium sm:p-4 lg:text-sm">
-        <div className="flex items-center justify-between pb-4">
+        <div className="flex flex-wrap items-center justify-between pb-4">
           <CourseSubject subject={course.subject} />
+          {!timeLeft ? (
+            <p className="flex items-center text-sm text-[#FF6636] md:text-lg">
+              {regularPrice}
+              {currency}
+            </p>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <p className="flex items-center justify-end text-sm text-[#FF6636] md:text-xl">
+                {finalPrice}
+                {currency}
+              </p>
+              <div className="flex items-center justify-end gap-2">
+                {regularPrice && (
+                  <span className="ml-3 text-xs font-normal text-gray-500 line-through">
+                    {regularPrice}
+                    {currency}
+                  </span>
+                )}
+                <span className="self-end bg-[#FFEEE8] px-1 text-xs font-bold text-[#FF6636] md:px-2 md:py-1">
+                  {discount}% OFF
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         <h3>{course.title}</h3>

@@ -1,12 +1,11 @@
-import { CiClock2, CiMail } from 'react-icons/ci';
+import { CiClock2 } from 'react-icons/ci';
 import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
-import { BiCopy, BiLogoFacebook } from 'react-icons/bi';
-import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 import SocialButton from '../SocialButton';
 import Price from './Price';
 import { getFormattedTotalDuration } from '../../utils/helpers';
+import CopyLinkButton from './CopyLinkButton';
 
 function CourseSidebar({ course }) {
   const {
@@ -99,25 +98,11 @@ function CourseSidebar({ course }) {
       <div className="pt-4">
         <h3>Share this course:</h3>
         <div className="flex justify-center gap-x-2">
-          <SocialButton type="secondary" icon={<BiCopy color="#4E5566" />}>
-            Copy Link
-          </SocialButton>
-          <SocialButton
-            type="secondary"
-            icon={<BiLogoFacebook color="#4E5566" />}
-          ></SocialButton>
-          <SocialButton
-            type="secondary"
-            icon={<FaTwitter color="#4E5566" />}
-          ></SocialButton>
-          <SocialButton
-            type="secondary"
-            icon={<CiMail color="#4E5566" />}
-          ></SocialButton>
-          <SocialButton
-            type="secondary"
-            icon={<FaWhatsapp color="#4E5566" />}
-          ></SocialButton>
+          <CopyLinkButton />
+          <SocialButton platform={'facebook'} type="secondary"></SocialButton>
+          <SocialButton platform="twitter" type="secondary"></SocialButton>
+          <SocialButton platform="email" type="secondary"></SocialButton>
+          <SocialButton platform="whatsapp" type="secondary"></SocialButton>
         </div>
       </div>
     </div>
