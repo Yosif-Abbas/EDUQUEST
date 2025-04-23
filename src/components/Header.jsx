@@ -1,10 +1,6 @@
 import { CiHeart, CiShoppingCart } from 'react-icons/ci';
-import logo from '../assets/logo.png';
-import logoIcon from '../assets/logo-icon.png';
 import defaulUser from '../assets/default-user.jpg';
-import avatar from '../assets/picture.jpg';
 import { GoBell } from 'react-icons/go';
-import { useState } from 'react';
 import { IoIosLogOut } from 'react-icons/io';
 import { useLogout } from '../hooks/useLogout';
 import { useCurrentUser } from '../hooks/useCurrentUser';
@@ -29,7 +25,7 @@ function Header() {
               <img
                 src={image_url === null ? defaulUser : image_url}
                 alt="Avatar"
-                className="w-12 rounded-full"
+                className="h-12 w-12 rounded-full object-cover object-top"
               />
             )}
           </figure>

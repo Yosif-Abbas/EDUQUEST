@@ -1,9 +1,6 @@
 import { LuUpload } from 'react-icons/lu';
-import avatar from '../../assets/picture.jpg';
 import defaulUser from '../../assets/default-user.jpg';
 import { useState } from 'react';
-import { Eye } from '../../components/Eye';
-import { EyeOff } from '../../components/EyeOff';
 import Spinner from '../../components/Spinner';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 

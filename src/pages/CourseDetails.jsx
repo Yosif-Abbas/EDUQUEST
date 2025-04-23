@@ -29,45 +29,48 @@ function CourseDetails() {
       </div>
     );
 
-  console.log(course);
   if (Error) return <div>{Error.message}</div>;
 
-  const categories = course?.subject?.toLowerCase().split(' ');
-
   return (
-    <div>
-      <div className="grid gap-2 lg:grid-cols-[2fr_1fr]">
-        <CourseHeader course={course} />
-        <VideoPlayer
-          src={course.intro}
-          poster={course.image_url}
-          subtitleSrc={Subtitles}
-          className="col-start-1 mr-0"
-        />
+    <>
+      <CourseHeader course={course} />
+
+      <div className="grid gap-2 lg:grid-cols-[1fr_auto]">
+        <div>
+          <VideoPlayer
+            src={course.intro}
+            poster={course.image_url}
+            subtitleSrc={Subtitles}
+          />
+
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">
+            <CourseDescription
+              description={course.description}
+              course_benefits={course.course_benefits}
+              course_requirements={course.course_requirements}
+            />
+
+            <CourseCurriculum sections={course.course_sections} />
+
+            <InstructorSection instructor={course.Teachers} />
+
+            <CourseRating
+              rating={course.rating}
+              ratings={course.Ratings?.[0]}
+              ratingCount={course.rating_count}
+            />
+
+            {course?.Reviews?.length > 0 && (
+              <StudentReviews studentsFeedback={course.Reviews} />
+            )}
+          </div>
+        </div>
 
         <CourseSidebar course={course} />
-
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">
-          <CourseDescription
-            description={course.description}
-            course_benefits={course.course_benefits}
-            course_requirements={course.course_requirements}
-          />
-          <CourseCurriculum sections={course.course_sections} />
-          <InstructorSection instructor={course.Teachers} />
-          <CourseRating
-            rating={course.rating}
-            ratings={course.Ratings?.[0]}
-            ratingCount={course.rating_count}
-          />
-
-          {course?.Reviews?.length > 0 && (
-            <StudentReviews studentsFeedback={course.Reviews} />
-          )}
-        </div>
       </div>
-      <Footer categories={categories} currentCourseId={course.id} />
-    </div>
+
+      <Footer />
+    </>
   );
 }
 

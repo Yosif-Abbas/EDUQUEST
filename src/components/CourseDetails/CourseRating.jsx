@@ -10,7 +10,7 @@ function CourseRating({ ratings }) {
   return (
     <div>
       <h1 className="mb-6 text-xl lg:text-2xl">Course Rating</h1>
-      <div className="mx-auto flex w-full max-w-200 gap-x-6">
+      <div className="flex w-full max-w-200 gap-x-6">
         <div className="mx-auto flex w-50 flex-col items-center justify-center gap-y-4 bg-white py-4">
           <h1 className="mb-2 text-4xl">{rating}</h1>
           <StarRating rating={rating} size={18} />

@@ -87,6 +87,7 @@ function TeacherDashboard() {
           </div>
         </div>
       </section>
+
       <section className="col-span-full rounded-lg lg:col-span-4 xl:col-span-3">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Recent Activity</h2>
@@ -128,6 +129,7 @@ function TeacherDashboard() {
           </li>
         </ul>
       </section>
+
       <section className="col-span-full rounded-lg lg:col-span-8 xl:col-span-3">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Profile View</h2>
@@ -142,6 +144,7 @@ function TeacherDashboard() {
         </div>
         <div className="p-2">(Chart)</div>
       </section>
+
       <section className="col-span-full rounded-lg xl:col-span-6">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Revenue</h2>
@@ -156,6 +159,7 @@ function TeacherDashboard() {
         </div>
         <div className="p-2">(Chart)</div>
       </section>
+
       <section className="col-span-full rounded-lg xl:col-span-4">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Overall Course Rating</h2>
@@ -247,6 +251,7 @@ function TeacherDashboard() {
           </li>
         </ul>
       </section>
+
       <section className="col-span-full rounded-lg xl:col-span-8">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Course Overview</h2>

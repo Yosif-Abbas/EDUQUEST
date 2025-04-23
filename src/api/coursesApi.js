@@ -2,7 +2,6 @@ import supabase from '../../supabase';
 
 export const getCourses = async ({ sort, filter, search }) => {
   let query = supabase.from('Courses').select('*');
-  console.log(search);
 
   // Searching
   if (search && search.value) {

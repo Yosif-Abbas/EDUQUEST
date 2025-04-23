@@ -21,8 +21,6 @@ function Filter() {
   const [searchParams, setSearchParams] = useSearchParams();
   let currentFilter = searchParams.get('category') || 'all';
 
-  console.log(currentFilter);
-
   function handleFilter() {
     if (filter) {
       searchParams.set('category', filter);

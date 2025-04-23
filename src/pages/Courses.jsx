@@ -7,8 +7,6 @@ import { useCourses } from '../hooks/useCourses';
 function Courses() {
   const { courses = [], isLoading, isError } = useCourses();
 
-  console.log(courses);
-
   if (isError) return <div>Error fetching courses</div>;
 
   return (

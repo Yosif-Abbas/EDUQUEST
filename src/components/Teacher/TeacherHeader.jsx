@@ -2,12 +2,21 @@ import { useState } from 'react';
 import { FaRegBell } from 'react-icons/fa';
 import { IoIosSearch } from 'react-icons/io';
 
-import picture from '../../assets/picture.jpg';
+import defaultUser from '../../assets/default-user.jpg';
+import { useTeacher } from '../../hooks/useTeacher';
 
 function TeacherHeader() {
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+
+  const { teacher = {}, isLoading } = useTeacher();
+
+  const {
+    first_name: firstName,
+    last_name: lastName,
+    image_url: teacherImage,
+  } = teacher;
 
   function handleSearch() {
     setShowSearchInput((pre) => !pre);
@@ -20,7 +29,11 @@ function TeacherHeader() {
   }
   return (
     <div className="mb-6 flex items-center justify-between">
-      <h3 className="text-sm sm:text-xl">(Section Name)</h3>
+      <h3 className="text-sm sm:text-xl">
+        <span className="text-lg text-gray-500">Hello, Mr. </span>
+        {firstName + ' ' + lastName}
+      </h3>
+
       <section className="relative z-20 flex items-center gap-3 text-lg">
         <button
           onClick={handleSearch}
@@ -28,6 +41,7 @@ function TeacherHeader() {
         >
           <IoIosSearch />
         </button>
+
         <form
           className={`absolute top-[110%] right-0 z-10 ${showSearchInput ? 'scale-y-100' : 'scale-y-0'} origin-top transition lg:relative lg:scale-y-100`}
         >
@@ -42,24 +56,28 @@ function TeacherHeader() {
             </span>
           </div>
         </form>
+
         <button
           onClick={handleNotification}
           className="rounded-xl bg-white p-2 lg:p-2.5"
         >
           <FaRegBell />
         </button>
+
         <div
           className={`absolute top-[120%] right-13 h-100 w-70 rounded-xl bg-white p-2 ${!showNotification && 'hidden'}`}
         ></div>
+
         <button onClick={handleProfile}>
           <figure>
             <img
-              src={picture}
+              src={isLoading ? defaultUser : teacherImage}
               alt="pictuer"
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10 rounded-full object-cover object-top"
             />
           </figure>
         </button>
+
         <div
           className={`absolute top-[120%] right-0 h-100 w-50 rounded-xl bg-white p-2 ${!showProfile && 'hidden'}`}
         ></div>

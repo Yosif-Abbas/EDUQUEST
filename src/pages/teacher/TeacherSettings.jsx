@@ -1,5 +1,5 @@
 import { LuUpload } from 'react-icons/lu';
-import avatar from './../../assets/picture.jpg';
+import defaultUser from './../../assets/default-user.jpg';
 import { PiGlobeSimple } from 'react-icons/pi';
 import {
   FaFacebookF,
@@ -9,21 +9,60 @@ import {
   FaYoutube,
 } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Eye } from '../../components/Eye';
 import { EyeOff } from '../../components/EyeOff';
+import { useTeacher } from '../../hooks/useTeacher';
 
 function TeacherSettings() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
 
+  const {
+    teacher: {
+      first_name,
+      last_name,
+      phone_number,
+      image_url: image,
+      biography,
+      title: teacherTitle,
+    } = {},
+    isLoading,
+  } = useTeacher();
+
+  // const {
+  //   first_name,
+  //   last_name,
+  //   phone_number,
+  //   image_url: image,
+  //   biography,
+  //   title: teacherTitle,
+  // } = teacher || {};
+
+  const [firstName, setFirstName] = useState(first_name);
+  const [lastName, setLastName] = useState(last_name);
+  const [phone, setPhone] = useState(phone_number);
+  const [title, setTitle] = useState(teacherTitle);
+  const [bio, setBio] = useState(biography);
+
+  useEffect(
+    function () {
+      setFirstName(first_name);
+      setLastName(last_name);
+      setPhone(phone_number);
+      setTitle(teacherTitle);
+      setBio(biography);
+    },
+    [first_name, last_name, phone_number, teacherTitle, biography],
+  );
+
   return (
     <>
       <form className="mb-10">
         <h2 className="mb-6 text-2xl font-bold">Account Settings</h2>
 
-        <div className="flex flex-col items-center md:flex-row">
+        <div className="flex flex-col items-start md:flex-row">
           <div className="w-full grow">
             <div className="mb-6 flex flex-col gap-1.5">
               <label htmlFor="full-name" className="">
@@ -34,18 +73,22 @@ function TeacherSettings() {
                   type="text"
                   id="first-name"
                   placeholder="First name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   className="grow border-1 border-white p-2 pl-4"
                 />
                 <input
                   type="text"
                   id="last-name"
                   placeholder="Last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className="grow border-1 border-white p-2 pl-4"
                 />
               </div>
             </div>
 
-            <div className="mb-6 flex flex-col gap-1.5">
+            {/* <div className="mb-6 flex flex-col gap-1.5">
               <label htmlFor="username" className="">
                 Username
               </label>
@@ -55,7 +98,7 @@ function TeacherSettings() {
                 placeholder="Username"
                 className="border-1 border-white p-2 pl-4"
               />
-            </div>
+            </div> */}
 
             <div className="mb-6 flex flex-col gap-1.5">
               <label htmlFor="phone-number" className="">
@@ -64,11 +107,13 @@ function TeacherSettings() {
               <div className="relative">
                 <input
                   type="text"
-                  id="username"
+                  id="phone"
                   placeholder="Your phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   className="w-full border-1 border-white p-2 pl-16"
                 />
-                <select className="absolute top-1/2 left-2 -translate-y-1/2 text-[#876A9A]">
+                <select className="absolute top-1/2 left-0 h-full -translate-y-1/2 pl-2 text-[#876A9A]">
                   <option value="20">+20</option>
                 </select>
               </div>
@@ -76,8 +121,12 @@ function TeacherSettings() {
           </div>
 
           <div className="h-full space-y-5 px-8 lg:col-span-1 lg:w-76">
-            <figure className="relative mx-auto">
-              <img src={avatar} alt="Avatar" className="h-auto w-full" />
+            <figure className="relative mx-auto h-45 w-45">
+              <img
+                src={isLoading ? defaultUser : image}
+                alt="Avatar"
+                className="h-full w-full object-cover object-top"
+              />
               <div className="absolute right-0 bottom-0 left-0 flex items-center justify-center gap-2 bg-[#0000007c] p-3 text-white">
                 <span>
                   <LuUpload />
@@ -99,6 +148,8 @@ function TeacherSettings() {
             type="text"
             id="title"
             placeholder="Your title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className="border-1 border-white p-2 pl-4"
           />
         </div>
@@ -111,6 +162,8 @@ function TeacherSettings() {
             type="text"
             id="biography"
             placeholder="Your biography"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
             className="border-1 border-white p-2 pl-4"
           />
         </div>

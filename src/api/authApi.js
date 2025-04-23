@@ -41,15 +41,6 @@ export async function getCurrentUser() {
 
   const { email, aud, identities, user_metadata, is_anonymous } = currentUser;
 
-  const finalUser = {
-    ...user,
-    email,
-    aud,
-    identities,
-    user_metadata,
-    is_anonymous,
-  };
-
   return { ...user, email, aud, identities, user_metadata, is_anonymous };
 }
 
