@@ -1,27 +1,49 @@
 import { useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
+import { useSearchParams } from 'react-router-dom';
 
 function Search() {
-  const [showSearchInput, setShowSearchInput] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const toggleSearch = () => {
-    setShowSearchInput((pre) => !pre);
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchValue) {
+      searchParams.set('search', searchValue);
+      setSearchParams(searchParams);
+      setSearchValue('');
+    } else {
+      searchParams.delete('search');
+      setSearchParams(searchParams);
+    }
+
+    window.history.replaceState(
+      {},
+      '',
+      `${window.location.pathname}?${searchParams}`,
+    );
   };
 
   return (
-    <div className="relative h-[48px] self-end">
+    <form
+      className="relative h-[48px] w-full max-w-130 self-end"
+      onSubmit={(e) => handleSearch(e)}
+    >
       <input
         type="text"
         placeholder="Search"
-        className={`h-full ${showSearchInput ? 'w-full' : 'w-0'} max-w-112 border-[#E9EAF0] bg-white pl-12 font-normal transition-all duration-300 sm:border-2 lg:w-full`}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        className={`outline-L2 h-full w-full border-[#E9EAF0] bg-white pl-12 font-normal transition-all duration-300 sm:border-2 lg:w-full`}
       />
       <button
-        className={`absolute top-1/2 left-0 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-full ${showSearchInput ? 'rounded-r-none' : 'sm:rounded-r-none'}`}
-        onClick={toggleSearch}
+        className={`absolute top-1/2 left-0 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-full`}
       >
         <CiSearch size={26} />
       </button>
-    </div>
+    </form>
   );
 }
 

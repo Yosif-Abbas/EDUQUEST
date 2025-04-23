@@ -5,6 +5,10 @@ import { useSearchParams } from 'react-router-dom';
 export const useCourses = () => {
   const [searchParams] = useSearchParams();
 
+  // Searching
+  const searchValue = searchParams.get('search') || '';
+  const search = searchValue ? { field: 'search', value: searchValue } : null;
+
   // Filtering
   const filterValue = searchParams.get('category') || 'all';
   const filter =
@@ -18,8 +22,8 @@ export const useCourses = () => {
   const sort = { value: sortValue, order: sortOrder };
 
   const { data: courses = [], ...queryInfo } = useQuery({
-    queryKey: ['courses', sort, filter],
-    queryFn: () => getCourses({ sort, filter }),
+    queryKey: ['courses', sort, filter, search],
+    queryFn: () => getCourses({ sort, filter, search }),
   });
 
   return {

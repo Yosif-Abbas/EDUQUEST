@@ -1,11 +1,20 @@
 import supabase from '../../supabase';
 
-export const getCourses = async ({ sort, filter }) => {
+export const getCourses = async ({ sort, filter, search }) => {
   let query = supabase.from('Courses').select('*');
+  console.log(search);
+
+  // Searching
+  if (search && search.value) {
+    const searchTerm = `%${search.value}%`;
+    query = query.or(
+      `title.ilike.${searchTerm},subject.ilike.${searchTerm},description.ilike.${searchTerm},category.ilike.${searchTerm}`,
+    );
+  }
 
   // Filtering
   if (filter && filter.value !== 'all') {
-    query = query.ilike('category', filter.value);
+    query = query.ilike('category', `%${filter.value}%`);
   }
 
   // Sorting

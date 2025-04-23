@@ -24,7 +24,7 @@ function SortBy({ sortbyField, options = [], vertical = true }) {
       <select
         value={currentSort}
         onChange={(e) => handleSort(e)}
-        className="bg-white p-3 outline-0 md:w-40"
+        className="w-25 truncate bg-white px-1 py-3 outline-0 md:w-40 md:p-3"
       >
         {options.map((option, index) => (
           <option key={index} value={option.value}>

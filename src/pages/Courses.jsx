@@ -7,26 +7,13 @@ import { useCourses } from '../hooks/useCourses';
 function Courses() {
   const { courses = [], isLoading, isError } = useCourses();
 
-  // const [searchParams] = useSearchParams();
-
-  // const [sortValue, sortOrder] = (
-  //   searchParams.get('sortBy') || 'created_at-asc'
-  // ).split('-');
-
-  // const courses = allCourses.sort((a, b) =>
-  //   sortOrder === 'asc'
-  //     ? a[sortValue] - b[sortValue]
-  //     : b[sortValue] - a[sortValue],
-  // );
-
-  const categories = courses.map((course) => course.category);
-  const uniqueCategories = [...new Set(categories)];
+  console.log(courses);
 
   if (isError) return <div>Error fetching courses</div>;
 
   return (
     <div className="flex flex-col">
-      <SearchControls categories={uniqueCategories} />
+      <SearchControls resultsNumber={courses.length} isLoading={isLoading} />
 
       <div className="py-6">
         {isLoading ? (

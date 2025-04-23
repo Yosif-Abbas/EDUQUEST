@@ -39,10 +39,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const [isControlsVisible, setIsControlsVisible] = useState(false);
   const [isMouseOverControls, setIsMouseOverControls] = useState(false);
 
-  const [subtitlesEnabled, setSubtitlesEnabled] = useState(() => {
-    const storedValue = localStorage.getItem('subtitlesEnabled');
-    return storedValue ? JSON.parse(storedValue) : Boolean(subtitleSrc);
-  });
+  const [subtitlesEnabled, setSubtitlesEnabled] = useState(true);
 
   useEffect(() => {
     videoRef.current.volume = volume;
@@ -67,7 +64,6 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   const toggleSubtitles = () => {
     setSubtitlesEnabled((prevEnabled) => {
       const newState = !prevEnabled;
-      localStorage.setItem('subtitlesEnabled', JSON.stringify(newState)); // Save to local storage
 
       const track = videoRef.current.textTracks[0]; // Enable/disable first track
       track.mode = newState ? 'showing' : 'hidden';
@@ -140,14 +136,23 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
       } else if (container.msRequestFullscreen) {
         container.msRequestFullscreen();
       }
-      setIsFullscreen(true);
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
-      setIsFullscreen(false);
     }
   };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -183,7 +188,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative mx-auto max-w-5xl grid-rows-1 overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''} ${className}`}
+      className={`relative mx-auto grid-rows-1 overflow-hidden ${isFullscreen ? 'h-screen w-screen' : ''} ${className}`}
       onMouseEnter={showControls}
       onMouseMove={handleMouseMove}
       onMouseLeave={hideControls}

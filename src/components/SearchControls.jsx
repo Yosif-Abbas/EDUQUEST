@@ -1,8 +1,8 @@
-import { useState } from 'react';
-
 import Search from './filters-sorts/Search';
 import SortBy from './filters-sorts/SortBy';
 import Filter from './filters-sorts/Filter';
+import { useSearchParams } from 'react-router-dom';
+import Spinner from './Spinner';
 
 const sorts = [
   { label: 'Most Recent', value: 'created_at-des' },
@@ -11,16 +11,17 @@ const sorts = [
   { label: 'Lowest Rated', value: 'rating-asc' },
 ];
 
-function SearchControls({ categories }) {
-  const [searchedWords, setSearchedWords] = useState('Math');
+function SearchControls({ resultsNumber, isLoading }) {
+  const [searchParams] = useSearchParams();
+  const searchWords = searchParams.get('search') || '';
 
   return (
     <div className="">
       <div className="flex h-[48px] justify-between gap-x-4">
         {/* filter and search */}
-        <div className="flex w-fit flex-1 gap-x-4">
+        <div className="flex w-fit flex-1 gap-x-2 md:gap-x-8">
           {/* filter */}
-          <Filter categories={categories} />
+          <Filter />
 
           {/* search */}
           <Search />
@@ -31,14 +32,18 @@ function SearchControls({ categories }) {
         {/* <Selector options={sorts} id="sort" label="Sort By:" /> */}
       </div>
 
-      {searchedWords.length > 0 && (
-        <div className="flex h-[48px] items-center justify-center border-1 border-[#E9EAF0] bg-white">
+      <div className="text-L4 flex h-[48px] items-center justify-center border-1 border-[#E9EAF0] bg-white">
+        {isLoading && <Spinner size={20} />}
+        {resultsNumber > 0 && (
           <p>
-            <span className="text-black">100</span> Results for &rdquo;
-            {searchedWords}&ldquo;
+            <span>{resultsNumber}</span> Results for &rdquo;
+            {searchWords}&ldquo;
           </p>
-        </div>
-      )}
+        )}
+        {resultsNumber <= 0 && !isLoading && (
+          <p>Search for your desired course</p>
+        )}
+      </div>
     </div>
   );
 }

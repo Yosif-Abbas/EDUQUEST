@@ -102,7 +102,7 @@ function Filter() {
                   ))}
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-end gap-x-4">
               <button
                 onClick={handleClearFilter}
                 className="bg-L1 text-L4 rounded-md px-4 py-2 text-sm font-semibold"
