@@ -1,7 +1,10 @@
 import supabase from '../../supabase';
 
-export const getCourses = async ({ sort, filter, search }) => {
-  let query = supabase.from('Courses').select('*');
+
+const PAGE_SIZE = 8;
+
+export const getCourses = async ({ sort, filter, search, page }) => {
+  let query = supabase.from('Courses').select('*', { count: 'exact' });
 
   // Searching
   if (search && search.value) {
@@ -19,14 +22,22 @@ export const getCourses = async ({ sort, filter, search }) => {
   // Sorting
   query = query.order(sort.value, { ascending: sort.order === 'asc' });
 
-  const { data, error } = await query;
+  // Pagination
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error.message);
     throw error;
   }
 
-  return data;
+
+  return { data, count };
 };
 
 export const getCourse = async (id) => {

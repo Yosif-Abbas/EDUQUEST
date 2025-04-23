@@ -21,13 +21,17 @@ export const useCourses = () => {
   const [sortValue, sortOrder] = sortBy.split('-');
   const sort = { value: sortValue, order: sortOrder };
 
-  const { data: courses = [], ...queryInfo } = useQuery({
-    queryKey: ['courses', sort, filter, search],
-    queryFn: () => getCourses({ sort, filter, search }),
+  // Pagination
+  const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'));
+
+  const { data: { data: courses, count } = {}, ...queryInfo } = useQuery({
+    queryKey: ['courses', sort, filter, search, page],
+    queryFn: () => getCourses({ sort, filter, search, page }),
   });
 
   return {
     courses,
+    count,
     ...queryInfo,
   };
 };

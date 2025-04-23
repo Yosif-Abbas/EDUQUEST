@@ -12,6 +12,9 @@ function Search() {
     const searchParams = new URLSearchParams(window.location.search);
     if (searchValue) {
       searchParams.set('search', searchValue);
+      searchParams.delete('page');
+      searchParams.delete('category');
+
       setSearchParams(searchParams);
       setSearchValue('');
     } else {

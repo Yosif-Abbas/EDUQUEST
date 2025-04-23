@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import { useSearchParams } from 'react-router-dom';
 
@@ -16,14 +16,14 @@ const categories = [
 
 function Filter() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filter, setFilter] = useState('');
-
   const [searchParams, setSearchParams] = useSearchParams();
-  let currentFilter = searchParams.get('category') || 'all';
+
+  const [filter, setFilter] = useState(searchParams.get('category') || 'all');
 
   function handleFilter() {
     if (filter) {
       searchParams.set('category', filter);
+      searchParams.delete('page');
     }
     setSearchParams(searchParams);
     setIsModalOpen(false);
@@ -31,11 +31,19 @@ function Filter() {
 
   function handleClearFilter() {
     setFilter('');
-    currentFilter = 'all';
     searchParams.delete('category');
+    searchParams.delete('page');
     setSearchParams(searchParams);
     setIsModalOpen(false);
   }
+
+  useEffect(
+    function () {
+      const filterValue = searchParams.get('category');
+      setFilter(filterValue);
+    },
+    [searchParams],
+  );
 
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -92,8 +100,8 @@ function Filter() {
                         id={category}
                         name="category"
                         checked={filter === category.toLowerCase()}
-                        value={category.toLowerCase()}
                         onChange={(e) => setFilter(e.target.value)}
+                        value={category.toLowerCase()}
                         className="cursor-pointer"
                       />
                     </div>

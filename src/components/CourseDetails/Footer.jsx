@@ -2,11 +2,16 @@ import { FaArrowRight } from 'react-icons/fa';
 import Button from '../Button';
 import Card from '../Card';
 import { useCourses } from '../../hooks/useCourses';
+import Loading from '../Loading';
 
 function Footer() {
-  const { courses: relatedCourses } = useCourses();
+  const { courses: relatedCourses = [], isLoading } = useCourses();
 
-  if (relatedCourses.length < 1) return null;
+  if (relatedCourses?.length < 1) return null;
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
     <footer className="bg-white p-3">

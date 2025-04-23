@@ -29,15 +29,20 @@ function SearchControls({ resultsNumber, isLoading }) {
 
         {/* sort */}
         <SortBy options={sorts} sortbyField="sortBy" vertical={false} />
-        {/* <Selector options={sorts} id="sort" label="Sort By:" /> */}
       </div>
 
       <div className="text-L4 flex h-[48px] items-center justify-center border-1 border-[#E9EAF0] bg-white">
         {isLoading && <Spinner size={20} />}
         {resultsNumber > 0 && (
           <p>
-            <span>{resultsNumber}</span> Results for &rdquo;
-            {searchWords}&ldquo;
+            <span>{resultsNumber}</span> Results
+            {searchWords !== '' && (
+              <span>
+                {' '}
+                for &rdquo;
+                {searchWords}&ldquo;
+              </span>
+            )}
           </p>
         )}
         {resultsNumber <= 0 && !isLoading && (
