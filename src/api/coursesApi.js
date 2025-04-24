@@ -68,8 +68,6 @@ export const getCoursesByTeacherId = async (id) => {
     .select('*')
     .eq('teacher_id', id);
 
-  console.log(id, data);
-
   if (error) {
     console.error(error.message);
     throw error;
