@@ -1,4 +1,3 @@
-import { useCourses } from '../../hooks/useCourses';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
 import { useStudentCourses } from '../../hooks/useStudentCourses';
@@ -6,11 +5,12 @@ import { useCurrentUser } from '../../hooks/useCurrentUser';
 import Spinner from '../../components/Spinner';
 import SortBy from '../../components/filters-sorts/SortBy';
 import Search from '../../components/filters-sorts/Search';
+import Pagination from '../../components/Pagination';
 
 function StudentCourses() {
   const { currentUser: currentstudent, isLoading: isLoadingCurrentUser } =
     useCurrentUser();
-  const { studentCourses, isLoading, isError } = useStudentCourses(
+  const { studentCourses, isLoading, isError, count } = useStudentCourses(
     currentstudent.id,
   );
 
@@ -52,7 +52,7 @@ function StudentCourses() {
           </li>
         </ul>
       </section>
-      <section className="mr-6 space-y-10">
+      <section className="mr-6 space-y-10 pb-6">
         {isLoading && (
           <div className="flex h-100 items-center justify-center">
             <Loading size={120} />
@@ -68,9 +68,7 @@ function StudentCourses() {
           </ul>
         )}
 
-        <ul className="mx-6">
-          <li>pagenation here</li>
-        </ul>
+        <Pagination count={count} />
       </section>
     </>
   );

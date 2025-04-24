@@ -1,6 +1,5 @@
 import supabase from '../../supabase';
 
-
 const PAGE_SIZE = 8;
 
 export const getCourses = async ({ sort, filter, search, page }) => {
@@ -35,7 +34,6 @@ export const getCourses = async ({ sort, filter, search, page }) => {
     console.error(error.message);
     throw error;
   }
-
 
   return { data, count };
 };
@@ -83,7 +81,7 @@ export const getCoursesByTeacherId = async (id) => {
 export async function getStudentCourses({ studentID, sort }) {
   let query = supabase
     .from('student_courses')
-    .select('created_at, id, course_id(*)')
+    .select('created_at, id, course_id(*)', { count: 'exact' })
     .eq('student_id', studentID);
 
   // Sorting
@@ -92,7 +90,7 @@ export async function getStudentCourses({ studentID, sort }) {
     { ascending: sort.order === 'asc' },
   );
 
-  const { data: student_courses, error } = await query;
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error.message);
@@ -100,5 +98,5 @@ export async function getStudentCourses({ studentID, sort }) {
     throw new Error('Error fetching student courses');
   }
 
-  return student_courses;
+  return { data, count };
 }

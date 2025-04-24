@@ -10,7 +10,7 @@ export function useStudentCourses(studentID) {
   const sort = { value: sortValue, order: sortOrder };
 
   const {
-    data: studentCourses = {},
+    data: { data: studentCourses, count } = {},
     isLoading,
     isError,
   } = useQuery({
@@ -18,5 +18,7 @@ export function useStudentCourses(studentID) {
     queryFn: () => getStudentCourses({ studentID, sort }),
   });
 
-  return { studentCourses, isLoading, isError };
+  console.log(studentCourses, count);
+
+  return { studentCourses, count, isLoading, isError };
 }

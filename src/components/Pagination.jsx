@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go';
-import PaginationButton from './paginationButton';
+import PaginationButton from './PaginationButton';
 
 const PAGE_SIZE = 8;
 
@@ -11,7 +11,6 @@ function Pagination({ count }) {
     : Number(searchParams.get('page'));
 
   const pageCount = Math.ceil(count / PAGE_SIZE);
-  console.log(currentPage, pageCount, count);
 
   function nextPage() {
     const next = currentPage === pageCount ? currentPage : currentPage + 1;
