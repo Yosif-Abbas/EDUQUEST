@@ -1,5 +1,4 @@
 import LeftSide from '../components/Login/LeftSide';
-import LogoIcon from '../assets/logo-icon.png';
 import Title from '../components/Title';
 
 function Login() {
@@ -8,7 +7,11 @@ function Login() {
       <LeftSide />
       <div className="bg-main hidden pl-4 text-center sm:flex sm:basis-1/3 sm:flex-col sm:justify-center xl:basis-[35%]">
         <Title>Hello Again 😄</Title>
-        <img src={LogoIcon} alt="Logo Icon" className="" />
+        <img
+          src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//logo-icon.png"
+          alt="Logo Icon"
+          className=""
+        />
       </div>
     </div>
   );

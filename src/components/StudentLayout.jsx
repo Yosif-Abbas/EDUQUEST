@@ -1,9 +1,10 @@
-import defaulUser from '../assets/default-user.jpg';
 import { NavLink, Outlet } from 'react-router-dom';
+
 import Header from './Header';
 import TeacherStudentNavbar from './TeacherStudentNavbar';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import Spinner from './Spinner';
+
 
 function StudentLayout() {
   const {
@@ -24,7 +25,11 @@ function StudentLayout() {
               <Spinner />
             ) : (
               <img
-                src={image_url === null ? defaulUser : image_url}
+                src={
+                  image_url === null
+                    ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                    : image_url
+                }
                 alt="Avatar"
                 className="w-28 rounded-full"
               />

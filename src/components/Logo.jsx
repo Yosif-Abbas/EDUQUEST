@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import image from '../assets/logo.png';
 
 function Logo() {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ function Logo() {
 
   return (
     <img
-      src={image}
+      src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//logo.png"
       alt="eduquest"
       className="w-30 cursor-pointer sm:w-50"
       onClick={handleHomepRedirect}

@@ -1,7 +1,7 @@
-import bigIcon from '../assets/big-icon.png';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { useState } from 'react';
+
 import LanguageButton from './LanguageButton';
 
 function TeacherStudentNavbar({ to = '/student' }) {
@@ -34,7 +34,10 @@ function TeacherStudentNavbar({ to = '/student' }) {
         </ul>
       </nav>
       <figure className="w-10">
-        <img src={bigIcon} alt="Icon" />
+        <img
+          src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//big-icon.png"
+          alt="Icon"
+        />
       </figure>
 
       <LanguageButton />

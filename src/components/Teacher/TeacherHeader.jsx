@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { FaRegBell } from 'react-icons/fa';
 import { IoIosSearch } from 'react-icons/io';
 
-import defaultUser from '../../assets/default-user.jpg';
 import { useTeacher } from '../../hooks/useTeacher';
 
 function TeacherHeader() {
@@ -71,7 +70,11 @@ function TeacherHeader() {
         <button onClick={handleProfile}>
           <figure>
             <img
-              src={isLoading ? defaultUser : teacherImage}
+              src={
+                isLoading
+                  ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                  : teacherImage
+              }
               alt="pictuer"
               className="h-10 w-10 rounded-full object-cover object-top"
             />

@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
+
 import { LuUpload } from 'react-icons/lu';
-import defaultUser from './../../assets/default-user.jpg';
 import { PiGlobeSimple } from 'react-icons/pi';
 import {
   FaFacebookF,
@@ -9,9 +10,10 @@ import {
   FaYoutube,
 } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { useEffect, useState } from 'react';
+
 import { Eye } from '../../components/Eye';
 import { EyeOff } from '../../components/EyeOff';
+
 import { useTeacher } from '../../hooks/useTeacher';
 
 function TeacherSettings() {
@@ -123,7 +125,11 @@ function TeacherSettings() {
           <div className="h-full space-y-5 px-8 lg:col-span-1 lg:w-76">
             <figure className="relative mx-auto h-45 w-45">
               <img
-                src={isLoading ? defaultUser : image}
+                src={
+                  isLoading
+                    ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                    : image
+                }
                 alt="Avatar"
                 className="h-full w-full object-cover object-top"
               />

@@ -1,9 +1,10 @@
 import { CiHeart, CiShoppingCart } from 'react-icons/ci';
-import defaulUser from '../assets/default-user.jpg';
 import { GoBell } from 'react-icons/go';
 import { IoIosLogOut } from 'react-icons/io';
+
 import { useLogout } from '../hooks/useLogout';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+
 import Spinner from './Spinner';
 
 function Header() {
@@ -23,7 +24,11 @@ function Header() {
               <Spinner />
             ) : (
               <img
-                src={image_url === null ? defaulUser : image_url}
+                src={
+                  image_url === null
+                    ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                    : image_url
+                }
                 alt="Avatar"
                 className="h-12 w-12 rounded-full object-cover object-top"
               />

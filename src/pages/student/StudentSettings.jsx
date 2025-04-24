@@ -1,8 +1,11 @@
-import { LuUpload } from 'react-icons/lu';
-import defaulUser from '../../assets/default-user.jpg';
 import { useState } from 'react';
-import Spinner from '../../components/Spinner';
+
 import { useCurrentUser } from '../../hooks/useCurrentUser';
+
+import { LuUpload } from 'react-icons/lu';
+
+
+import Spinner from '../../components/Spinner';
 
 function StudentSettings() {
   const {
@@ -34,7 +37,11 @@ function StudentSettings() {
               <Spinner />
             ) : (
               <img
-                src={image_url === null ? defaulUser : image_url}
+                src={
+                  image_url === null
+                    ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                    : image_url
+                }
                 alt="Avatar"
                 className="h-auto w-full"
               />

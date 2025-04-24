@@ -5,8 +5,6 @@ import { GoStack } from 'react-icons/go';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { IoIosLogOut } from 'react-icons/io';
 
-import logoIcon from '../../assets/logo-icon.png';
-import logo from '../../assets/logo.png';
 import SidebarItem from '../SidebarItem';
 import { useLogout } from '../../hooks/useLogout';
 
@@ -26,9 +24,13 @@ function TeacherSidebar() {
         {/* Logo */}
         <li className="mb-4">
           <Link to="/courses" className="flex justify-center px-2">
-            <img src={logoIcon} alt="Logo Icon" className="w-10 lg:hidden" />
             <img
-              src={logo}
+              src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//logo-icon.png"
+              alt="Logo Icon"
+              className="w-10 lg:hidden"
+            />
+            <img
+              src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//logo.png"
               alt="Logo"
               className="hidden lg:block lg:w-45 lg:px-4 xl:w-60"
             />
