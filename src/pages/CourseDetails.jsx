@@ -8,8 +8,6 @@ import CourseCurriculum from '../components/CourseDetails/CourseCurriculum';
 
 import VideoPlayer from '../components/VideoPlayer';
 
-import Subtitles from '../assets/subtitles.vtt';
-
 import InstructorSection from './../components/CourseDetails/InstructorSection';
 import CourseRating from '../components/CourseDetails/CourseRating';
 import StudentReviews from '../components/CourseDetails/StudentReviews';
@@ -40,7 +38,7 @@ function CourseDetails() {
           <VideoPlayer
             src={course.intro}
             poster={course.image_url}
-            subtitleSrc={Subtitles}
+            subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
           />
 
           <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">

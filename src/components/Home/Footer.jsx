@@ -1,5 +1,4 @@
 import Button from '../Button';
-import HourGlasses from '../../assets/hourglasses.png';
 import { useNavigate } from 'react-router-dom';
 
 function Footer() {
@@ -22,7 +21,7 @@ function Footer() {
       </div>
       <div>
         <img
-          src={HourGlasses}
+          src="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//hourglasses.png"
           alt="Hourglasses"
           className="hidden w-lg md:w-xl lg:block"
         />

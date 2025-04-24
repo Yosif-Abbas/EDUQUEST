@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import VideoPlayer from '../../components/VideoPlayer';
 
-import Subtitles from '../../assets/subtitles.vtt';
 
 import Loading from '../../components/Loading';
 import { useCourse } from '../../hooks/useCourse';
@@ -48,7 +47,7 @@ function WatchCourse() {
           <VideoPlayer
             src={course.intro}
             poster={course.image_url}
-            subtitleSrc={Subtitles}
+            subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
           />
           <LectureHeader />
         </div>
