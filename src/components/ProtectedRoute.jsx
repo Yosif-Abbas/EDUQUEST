@@ -11,16 +11,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const role = currentUser?.role;
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      // if user loaded and not authenticated redirect to login page
+    if (isLoading) return;
+
+    if (!isAuthenticated) {
       navigate('/login');
-    } else if (
-      !isLoading &&
-      isAuthenticated &&
-      allowedRoles &&
-      !allowedRoles.includes(role)
-    ) {
-      // if user loaded and authenticated but role is not allowed for this page, redirect to their dashboard
+    } else if (allowedRoles && !allowedRoles.includes(role)) {
       navigate(`/${role}`);
     }
   }, [isAuthenticated, isLoading, role, allowedRoles, navigate]);

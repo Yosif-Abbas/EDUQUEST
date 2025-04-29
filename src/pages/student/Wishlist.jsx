@@ -2,9 +2,13 @@ import WishlistItem from '../../components/WishlistItem';
 import { useWishlist } from '../../hooks/useWishlist';
 import Loading from '../../components/Loading';
 import Spinner from '../../components/Spinner';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function Wishlist() {
-  const { wishlist, isLoading } = useWishlist();
+  const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
+  const studentId = currentUser?.id;
+  
+  const { wishlist, isLoading } = useWishlist(studentId);
 
   return (
     <section className="space-y-6">

@@ -3,7 +3,6 @@ import Button from '../Button';
 import InputField from '../InputField';
 import Logo from '../Logo';
 import Title from '../Title';
-import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
 import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
@@ -30,7 +29,7 @@ function LeftSide() {
         <LanguageButton />
       </div>
       <Title className="">Login</Title>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
         <InputField
           placeholder="Enter your email"
           id="email"
@@ -65,8 +64,8 @@ function LeftSide() {
         </span>
       </p>
       <div className="text-alt-darker">
-        <h3 className="mb-1 text-center">- OR -</h3>
-        <SocialButtonGroup />
+        {/* <h3 className="mb-1 text-center">- OR -</h3>
+        <SocialButtonGroup /> */}
       </div>
     </div>
   );

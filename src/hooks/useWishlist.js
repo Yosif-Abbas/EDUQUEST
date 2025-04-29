@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { getWishlist } from '../api/wishlistAPI';
 
-export function useWishlist() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['wishlist'],
-    queryFn: getWishlist,
+export function useWishlist(studentId) {
+  const { data: { wishlist, count } = {}, isLoading } = useQuery({
+    queryKey: ['wishlist', studentId],
+    queryFn: () => getWishlist(studentId),
   });
 
   return {
-    wishlist: data,
+    wishlist,
+    count,
     isLoading,
   };
 }

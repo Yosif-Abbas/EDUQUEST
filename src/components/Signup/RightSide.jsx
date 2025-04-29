@@ -3,11 +3,9 @@ import Button from '../Button';
 import InputField from '../InputField';
 import Logo from '../Logo';
 import Title from '../Title';
-import SocialButtonGroup from '../SocialButtonGroup';
 import LanguageButton from '../LanguageButton';
 import { useState } from 'react';
 import { useSignup } from '../../hooks/useSignup';
-import Loading from '../Loading';
 import Spinner from '../Spinner';
 
 function RightSide() {
@@ -181,10 +179,10 @@ function RightSide() {
           <Link to="/login">Log in</Link>
         </span>
       </p>
-      <div className="text-alt-darker">
+      {/* <div className="text-alt-darker">
         <h3 className="mb-1 text-center">- OR -</h3>
         <SocialButtonGroup forLogin={false} />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,7 +1,43 @@
-import { FaCheckCircle, FaTrophy } from 'react-icons/fa';
-import { FaCirclePlay, FaUserGroup } from 'react-icons/fa6';
+import { FaRegHeart, FaTrophy } from 'react-icons/fa';
+import { FaCirclePlay } from 'react-icons/fa6';
+import { MdOutlineFileDownloadDone } from 'react-icons/md';
+import { useEnrolledCourses } from '../../hooks/useEnrolledCourses';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
+import Spinner from '../../components/Spinner';
+import { useWishlist } from '../../hooks/useWishlist';
 
 function StudentDashboard() {
+  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+  const studentId = currentUser?.id;
+
+  // ENROLLED COURSES
+  const {
+    enrolledCourses,
+    isLoading: isLoadingEnrolledCourses,
+    count: enrollCoursesCount,
+  } = useEnrolledCourses(studentId);
+
+  // ACTIVE COURSES
+  const activeCoursesNum = enrolledCourses?.reduce(
+    (acc, course) => acc + Number(course.is_active),
+    0,
+  );
+
+  // COMPLETED COURSES
+  const completedCoursesNum = enrolledCourses?.reduce(
+    (acc, course) => acc + Number(course.is_completed),
+    0,
+  );
+
+  // WISHLIST COURSES
+  const {
+    wishlist,
+    isLoading: isLoadingWishlist,
+    count: wishlistCount,
+  } = useWishlist(studentId);
+
+  console.log(isLoading, isLoadingEnrolledCourses);
+
   return (
     <>
       <section className="mb-10">
@@ -9,19 +45,29 @@ function StudentDashboard() {
         <ul className="flex flex-wrap gap-6">
           <li className="student-dashboard-list-item bg-[#FFEEE8]">
             <span className="text-L6 student-dashboard-list-item-icon">
-              <FaCirclePlay />
+              <MdOutlineFileDownloadDone />
             </span>
             <div>
-              <h3 className="mb-2 text-2xl">(12)</h3>
+              <h3 className="mb-2 text-2xl">
+                {isLoadingEnrolledCourses && (
+                  <Spinner size={25} color="black" />
+                )}
+                {!isLoadingEnrolledCourses && enrollCoursesCount}
+              </h3>
               <p className="text-sm text-[#4E5566]">Enrolled Courses</p>
             </div>
           </li>
           <li className="student-dashboard-list-item bg-[#EBEBFF]">
             <span className="student-dashboard-list-item-icon text-[#564FFD]">
-              <FaCheckCircle />
+              <FaCirclePlay />
             </span>
             <div>
-              <h3 className="mb-2 text-2xl">(6)</h3>
+              <h3 className="mb-2 text-2xl">
+                {isLoadingEnrolledCourses && (
+                  <Spinner size={25} color="black" />
+                )}
+                {!isLoadingEnrolledCourses && activeCoursesNum}
+              </h3>
               <p className="text-sm text-[#4E5566]">Active Courses</p>
             </div>
           </li>
@@ -30,17 +76,25 @@ function StudentDashboard() {
               <FaTrophy />
             </span>
             <div>
-              <h3 className="mb-2 text-2xl">(8)</h3>
-              <p className="text-sm text-[#4E5566]">Complete Courses</p>
+              <h3 className="mb-2 text-2xl">
+                {isLoadingEnrolledCourses && (
+                  <Spinner size={25} color="black" />
+                )}
+                {!isLoadingEnrolledCourses && completedCoursesNum}
+              </h3>
+              <p className="text-sm text-[#4E5566]">Completed Courses</p>
             </div>
           </li>
           <li className="student-dashboard-list-item bg-[#FFF2E5]">
             <span className="student-dashboard-list-item-icon text-[#FD8E1F]">
-              <FaUserGroup />
+              <FaRegHeart />
             </span>
             <div>
-              <h3 className="mb-2 text-2xl">(7)</h3>
-              <p className="text-sm text-[#4E5566]">Course Instructors</p>
+              <h3 className="mb-2 text-2xl">
+                {isLoadingWishlist && <Spinner size={25} color="black" />}
+                {!isLoadingWishlist && wishlistCount}
+              </h3>
+              <p className="text-sm text-[#4E5566]">Wishlist courses</p>
             </div>
           </li>
         </ul>

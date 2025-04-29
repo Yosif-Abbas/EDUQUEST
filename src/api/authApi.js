@@ -48,7 +48,7 @@ export async function getUser(id) {
   let { data, error } = await supabase
     .from('Users')
     .select('*')
-    .eq('userId', id)
+    .eq('user_id', id)
     .single();
 
   if (error) {
@@ -84,7 +84,7 @@ export async function signup({
         last_name,
         role,
         phone_number,
-        userId: signUpData.user.id,
+        user_id: signUpData.user.id,
       },
     ])
     .select()

@@ -76,25 +76,23 @@ export const getCoursesByTeacherId = async (id) => {
   return data;
 };
 
-export async function getStudentCourses({ studentID, sort }) {
-  let query = supabase
+export const getEnrolledCourses = async (studentId) => {
+  let {
+    data: student_courses,
+    isLoading,
+    count,
+    error,
+    isError,
+  } = await supabase
     .from('student_courses')
-    .select('created_at, id, course_id(*)', { count: 'exact' })
-    .eq('student_id', studentID);
-
-  // Sorting
-  query = query.order(
-    sort.value === 'created_at' ? sort.value : `course_id(${sort.value})`,
-    { ascending: sort.order === 'asc' },
-  );
-
-  const { data, error, count } = await query;
+    .select('created_at, id, is_active, is_completed, course_id(*)', {
+      count: 'exact',
+    })
+    .eq('student_id', studentId);
 
   if (error) {
-    console.error(error.message);
-
     throw new Error('Error fetching student courses');
   }
 
-  return { data, count };
-}
+  return { student_courses, isLoading, count, error, isError };
+};

@@ -5,7 +5,6 @@ import TeacherStudentNavbar from './TeacherStudentNavbar';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import Spinner from './Spinner';
 
-
 function StudentLayout() {
   const {
     currentUser: { first_name, last_name, image_url, biography },
@@ -31,7 +30,7 @@ function StudentLayout() {
                     : image_url
                 }
                 alt="Avatar"
-                className="w-28 rounded-full"
+                className="aspect-square w-28 rounded-full object-cover object-top"
               />
             )}
             <div>

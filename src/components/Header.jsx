@@ -1,13 +1,15 @@
-import { CiHeart, CiShoppingCart } from 'react-icons/ci';
-import { GoBell } from 'react-icons/go';
-import { IoIosLogOut } from 'react-icons/io';
+import { TbLogout } from 'react-icons/tb';
 
 import { useLogout } from '../hooks/useLogout';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 
 import Spinner from './Spinner';
+import { FaRegHeart } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+
   const { logout, isLoading: isLoggingOut } = useLogout();
   const {
     currentUser: { first_name, last_name, image_url },
@@ -17,8 +19,11 @@ function Header() {
 
   return (
     <header>
-      <section className="mb-20 flex items-center justify-between gap-5 bg-[#b8c6d0] px-6 py-2">
-        <div className="flex items-center gap-4">
+      <section className="mb-20 flex items-center justify-between gap-5 bg-[#b8c6d0] px-6">
+        <div
+          className="flex cursor-pointer items-center gap-4 py-2"
+          onClick={() => navigate('/student/dashboard')}
+        >
           <figure>
             {isLoading ? (
               <Spinner />
@@ -41,22 +46,22 @@ function Header() {
           )}
         </div>
 
-        <div className="flex items-center gap-3 text-2xl">
-          <button className="cursor-pointer">
-            <GoBell />
+        <div className="flex items-center gap-6 text-2xl">
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              navigate('/student/wishlist');
+            }}
+          >
+            <FaRegHeart />
           </button>
-          <button className="cursor-pointer">
-            <CiHeart />
-          </button>
-          <button className="cursor-pointer">
-            <CiShoppingCart />
-          </button>
+
           <button
             onClick={logout}
             disabled={isLoggingOut}
             className="cursor-pointer"
           >
-            <IoIosLogOut />
+            <TbLogout />
           </button>
         </div>
       </section>
