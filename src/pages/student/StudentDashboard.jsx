@@ -7,7 +7,7 @@ import Spinner from '../../components/Spinner';
 import { useWishlist } from '../../hooks/useWishlist';
 
 function StudentDashboard() {
-  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+  const { currentUser, isLoading } = useCurrentUser();
   const studentId = currentUser?.id;
 
   // ENROLLED COURSES

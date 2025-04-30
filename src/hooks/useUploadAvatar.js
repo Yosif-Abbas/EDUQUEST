@@ -5,10 +5,8 @@ import supabase from '../../supabase';
 export function useUploadAvatar() {
   const queryClient = useQueryClient();
 
-  const { mutate: uploadAvatar, isLoading } = useMutation({
+  const { mutate: uploadAvatar, isPending: isLoading } = useMutation({
     mutationFn: async ({ file, userId }) => {
-      console.log(userId);
-
       if (!file) {
         console.log('No file provided');
         return;
