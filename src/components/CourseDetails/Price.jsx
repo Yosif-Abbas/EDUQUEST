@@ -1,35 +1,40 @@
 import { CiAlarmOn } from 'react-icons/ci';
 import { timeLeftUntil } from '../../utils/helpers';
 
-function Price({ regularPrice, currency, discount, discount_end_date }) {
-  const finalPrice = regularPrice - regularPrice * (discount * 0.01);
-
-  const timeLeft = timeLeftUntil(discount_end_date);
-
+function Price({
+  regularPrice,
+  currency,
+  discount,
+  discount_end_date,
+  isFree,
+  timeLeft,
+}) {
   return (
-    <div className="pb-4">
-      <div className="mb-4 flex items-center justify-between">
-        {!timeLeft ? (
-          <p className="flex items-center text-xl font-normal">
-            {regularPrice} {currency}
-          </p>
+    <div className="">
+      <div className="flex items-center">
+        {isFree ? (
+          <p className="text-2xl tracking-wider uppercase">Free</p>
         ) : (
           <>
-            <p className="flex items-center text-xl font-normal">
-              {finalPrice} {currency}
-              {regularPrice && (
+            <p className="flex items-center text-xl font-normal text-nowrap">
+              {regularPrice} {currency}
+            </p>
+            {timeLeft && (
+              <div className="flex w-full items-center justify-between">
                 <span className="ml-3 text-xs font-normal text-gray-500 line-through">
                   {regularPrice} {currency}
                 </span>
-              )}
-            </p>
-            <span className="self-end bg-[#FFEEE8] px-2 py-1 text-xs font-bold text-[#FF6636]">
-              {discount}% OFF
-            </span>
+                <span className="self-end bg-[#FFEEE8] px-2 py-1 text-xs font-bold text-[#FF6636]">
+                  {discount}% OFF
+                </span>
+              </div>
+            )}
           </>
         )}
       </div>
-      {timeLeft && (
+
+      <div className="mb-4 flex items-center justify-between"></div>
+      {timeLeft && !isFree && (
         <p className="flex items-center text-xs text-[#E34444]">
           <span className="mr-2 text-lg">
             <CiAlarmOn />

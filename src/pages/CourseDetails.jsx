@@ -14,13 +14,32 @@ import StudentReviews from '../components/CourseDetails/StudentReviews';
 import Footer from '../components/CourseDetails/Footer';
 
 import { useCourse } from '../hooks/useCourse';
+import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 function CourseDetails() {
   const { id } = useParams();
 
-  const { course, isLoading, Error } = useCourse(id);
+  const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
 
-  if (isLoading)
+  const userId = currentUser?.id || null;
+
+  const { course, isLoading: isLoadingCourse, Error } = useCourse(id);
+
+  const { enrolledCourses, isLoading: isLoadingEnrolledCourses } =
+    useEnrolledCourses(userId);
+
+  const isEnrolled =
+    !isLoadingEnrolledCourses &&
+    !isLoadingCourse &&
+    enrolledCourses?.some((c) => c.course_id.id === course?.id);
+
+  const isLoadingEnrolledStatus =
+    isLoadingCourse || isLoadingEnrolledCourses || isLoadingUser;
+
+  console.log('isEnrolled', isEnrolled);
+
+  if (isLoadingCourse)
     return (
       <div className="flex h-full w-full items-center justify-center pb-25">
         <Loading size={150} />
@@ -38,7 +57,7 @@ function CourseDetails() {
           <VideoPlayer
             src={course.intro}
             poster={course.image_url}
-            subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
+            subtitleSrc={course.subtitles_url}
           />
 
           <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">
@@ -64,7 +83,11 @@ function CourseDetails() {
           </div>
         </div>
 
-        <CourseSidebar course={course} />
+        <CourseSidebar
+          course={course}
+          isEnrolled={isEnrolled}
+          isLoadingEnrolledStatus={isLoadingEnrolledStatus}
+        />
       </div>
 
       <Footer />

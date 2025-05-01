@@ -4,11 +4,17 @@ import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
 
 import SocialButton from '../SocialButton';
 import Price from './Price';
-import { getFormattedTotalDuration } from '../../utils/helpers';
+import { getFormattedTotalDuration, timeLeftUntil } from '../../utils/helpers';
 import CopyLinkButton from './CopyLinkButton';
+import { useCurrentUser } from './../../hooks/useCurrentUser';
+import { useNavigate } from 'react-router-dom';
+import { useEnrollInCourse } from '../../hooks/useEnrolledCourses';
 
-function CourseSidebar({ course }) {
+function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
+  const navigate = useNavigate();
+
   const {
+    id,
     regularPrice,
     currency,
     discount,
@@ -20,20 +26,44 @@ function CourseSidebar({ course }) {
     course_includes,
   } = course;
 
+  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+  const { enrollInCourse, isLoading: isEnrollingInCourse } =
+    useEnrollInCourse();
+
   const courseDuration = getFormattedTotalDuration(course_sections);
   const number_of_lessons = course_sections.reduce(
     (count, section) => count + (section.Lectures?.length || nol),
     0,
   );
 
+  const timeLeft = timeLeftUntil(discount_end_date);
+
+  const finalPrice = timeLeft
+    ? regularPrice - regularPrice * (discount * 0.01)
+    : regularPrice;
+
+  const isFree = finalPrice <= 0 || discount >= 100;
+
+  const handleEnroll = () => {
+    if (isAuthenticated && currentUser?.role === 'student') {
+      enrollInCourse({ studentId: currentUser.id, courseId: id });
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
-      <Price
-        regularPrice={regularPrice}
-        currency={currency}
-        discount={discount}
-        discount_end_date={discount_end_date}
-      />
+      {!isEnrolled && (
+        <Price
+          regularPrice={regularPrice}
+          currency={currency}
+          discount={discount}
+          discount_end_date={discount_end_date}
+          isFree={isFree}
+          timeLeft={timeLeft}
+        />
+      )}
 
       <ul className="flex flex-col gap-y-1 py-4 font-normal">
         <li className="list-icon">
@@ -72,17 +102,38 @@ function CourseSidebar({ course }) {
         </li>
       </ul>
 
-      <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
-        <button className="bg-[#526D82] px-4 py-2 text-white">
-          Add to Cart
-        </button>
-        <button className="bg-[#DDE6ED] px-4 py-2 text-[#526D82]">
-          Buy Now
-        </button>
-        <button className="border-1 border-gray-300 bg-white px-4 py-2 text-[#526D82]">
-          Add to Wishlist
-        </button>
-      </div>
+      {currentUser?.role !== 'teacher' && (
+        <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
+          {isEnrolled ? (
+            <button className="bg-[#57966c] px-4 py-2 tracking-wider text-white uppercase">
+              Watch Course
+            </button>
+          ) : (
+            <>
+              {isFree ? (
+                <button
+                  className="bg-[#526D82] px-4 py-2 tracking-wider text-white"
+                  onClick={handleEnroll}
+                >
+                  Enroll
+                </button>
+              ) : (
+                <>
+                  <button className="bg-[#526D82] px-4 py-2 text-white">
+                    Add to Cart
+                  </button>
+                  <button className="bg-[#DDE6ED] px-4 py-2 text-[#526D82]">
+                    Buy Now
+                  </button>
+                </>
+              )}
+              <button className="border-1 border-gray-300 bg-white px-4 py-2 text-[#526D82]">
+                Add to Wishlist
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       <div className="py-4">
         <h3>This course includes:</h3>

@@ -9,13 +9,14 @@ export async function updateStudentSettings({
   biography,
   password,
 }) {
-  const { data: passwordData, error: passwordError } =
-    await supabase.auth.updateUser({
+  if (password) {
+    const { error: passwordError } = await supabase.auth.updateUser({
       password,
     });
 
-  if (passwordError) {
-    throw new Error('Error updating password');
+    if (passwordError) {
+      throw new Error('Error updating password');
+    }
   }
 
   const { data, error } = await supabase
@@ -29,7 +30,7 @@ export async function updateStudentSettings({
     throw new Error('Error updating student settings');
   }
 
-  console.log('Student settings updated: ', data, 'password ', passwordData);
+  console.log('Student settings updated: ', data, 'password ');
 
   return data;
 }

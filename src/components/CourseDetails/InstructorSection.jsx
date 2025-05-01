@@ -3,7 +3,6 @@ import Instructor from './Instructor';
 function InstructorSection({ instructor }) {
   if (!instructor) return null;
 
-  console.log(instructor);
 
   return (
     <div>

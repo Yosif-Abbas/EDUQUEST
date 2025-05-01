@@ -96,3 +96,45 @@ export const getEnrolledCourses = async (studentId) => {
 
   return { student_courses, isLoading, count, error, isError };
 };
+
+export const enrollInCourse = async ({ studentId, courseId }) => {
+  // Check if the record exists
+  const { data: existing, error: checkError } = await supabase
+    .from('student_courses')
+    .select('*')
+    .eq('student_id', studentId)
+    .eq('course_id', courseId)
+    .maybeSingle();
+
+  if (checkError) {
+    console.error(checkError.message);
+    throw checkError;
+  }
+
+  if (existing) {
+    console.error('Already enrolled in this course');
+
+    throw new Error('Already enrolled in this course');
+  }
+
+  // Insert if not existing
+  const { data, error } = await supabase
+    .from('student_courses')
+    .insert([
+      {
+        student_id: studentId,
+        course_id: courseId,
+        is_active: false,
+        is_completed: false,
+      },
+    ])
+    .select('*')
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return data;
+};

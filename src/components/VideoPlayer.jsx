@@ -203,7 +203,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
       <div className="relative w-full">
         <video
           ref={videoRef}
-          className="h-full w-full object-cover"
+          className="h-full w-full bg-white object-cover"
           onLoadedMetadata={(e) => {
             handleLoadedMetadata(e);
             setIsLoading(false);
@@ -216,7 +216,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
         >
           <source src={src} type="video/mp4" />
           <track
-            src={subtitleSrc} // Path to the subtitle file
+            src={subtitleSrc}
             kind="subtitles"
             srcLang="en"
             label="English"

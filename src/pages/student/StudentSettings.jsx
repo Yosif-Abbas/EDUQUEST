@@ -28,7 +28,12 @@ function StudentSettings() {
   const [preview, setPreview] = useState(image_url);
   const [file, setFile] = useState(null);
 
-  const { uploadAvatar, isLoading: isUploadingAvatar } = useUploadAvatar();
+  const {
+    uploadAvatar,
+    isLoading: isUploadingAvatar,
+    isSuccess,
+    isError,
+  } = useUploadAvatar();
 
   const fileInputRef = useRef(null);
 
@@ -57,6 +62,8 @@ function StudentSettings() {
     if (!email.trim()) newErrors.email = 'Email is required.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       newErrors.email = 'Invalid email format.';
+    if (password && password.length < 6)
+      newErrors.password = 'Password must be at least 6 characters long.';
     if (password && !confirmPass)
       newErrors.confirmPass = 'Please confirm your password.';
     if (!password && confirmPass)
@@ -115,7 +122,6 @@ function StudentSettings() {
 
   const handleUploadAvatar = () => {
     uploadAvatar({ file, userId });
-    console.log(isUploadingAvatar);
   };
 
   return (
@@ -164,6 +170,15 @@ function StudentSettings() {
           <p className="text-center text-sm font-normal text-[#6E7485]">
             Image size should be under 1MB and image ration needs to be 1:1
           </p>
+
+          <p className="text-sm font-normal text-[#24ab20]">
+            {isSuccess && 'Image uploaded successfully!'}
+          </p>
+
+          <p className="text-sm font-normal text-[#24ab20]">
+            {isError && 'Something wrong happened!'}
+          </p>
+
           <button
             className="bg-L6 mt-4 w-fit px-6 py-3 text-white"
             onClick={handleUploadAvatar}
@@ -283,7 +298,7 @@ function StudentSettings() {
             </div>
 
             <button className="bg-L6 col-start-2 mt-4 w-fit px-6 py-3 text-white">
-              {isUploadingAvatar ? (
+              {isUpdating ? (
                 <Spinner size={25} color="white" />
               ) : (
                 'Save Changes'
