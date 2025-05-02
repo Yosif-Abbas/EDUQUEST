@@ -12,7 +12,7 @@ function CourseHeader({ course }) {
   const instructorFullname = first_name + ' ' + last_name;
 
   return (
-    <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-2 lg:mr-0">
+    <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-1 lg:mr-0">
       <h1 className="text-3xl">{title}</h1>
 
       <div className="flex justify-between px-2 md:px-0">

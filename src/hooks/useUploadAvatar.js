@@ -1,6 +1,7 @@
 // hooks/useUploadAvatar.js
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../../supabase';
+import toast from 'react-hot-toast';
 
 export function useUploadAvatar() {
   const queryClient = useQueryClient();
@@ -43,7 +44,12 @@ export function useUploadAvatar() {
       return publicUrl;
     },
     onSuccess: () => {
+      toast.success('Avatar updated successfully!');
       queryClient.invalidateQueries(['user']);
+    },
+    onError: (error) => {
+      console.error('Error uploading avatar:', error.message);
+      toast.error('Error updating avatar. Please try again.');
     },
   });
 

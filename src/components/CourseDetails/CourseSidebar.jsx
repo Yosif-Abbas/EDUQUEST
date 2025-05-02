@@ -3,12 +3,19 @@ import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
 
 import SocialButton from '../SocialButton';
-import Price from './Price';
-import { getFormattedTotalDuration, timeLeftUntil } from '../../utils/helpers';
 import CopyLinkButton from './CopyLinkButton';
+import Price from './Price';
+import Spinner from '../Spinner';
+
+import { getFormattedTotalDuration, timeLeftUntil } from '../../utils/helpers';
+
 import { useCurrentUser } from './../../hooks/useCurrentUser';
 import { useNavigate } from 'react-router-dom';
-import { useEnrollInCourse } from '../../hooks/useEnrolledCourses';
+import { useEnrollInCourse } from '../../hooks/useEnrollIncourse';
+import { useAddToWishlist } from '../../hooks/useAddToWishlist';
+import { useWishlist } from '../../hooks/useWishlist';
+import { useRemoveFromWishlist } from '../../hooks/useRemoveFromWishlist';
+import { useEffect, useState } from 'react';
 
 function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
   const navigate = useNavigate();
@@ -27,8 +34,19 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
   } = course;
 
   const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+
   const { enrollInCourse, isLoading: isEnrollingInCourse } =
     useEnrollInCourse();
+
+  const { wishlist, isLoading: isLoadingWishlist } = useWishlist(
+    currentUser?.id,
+  );
+
+  const { addToWishlist, isLoading: isAddingToWishlist } = useAddToWishlist();
+  const { removeFromWishlist, isLoading: isRemovingFromWishlist } =
+    useRemoveFromWishlist();
+
+  const isLoadingWishlistProcess = isAddingToWishlist || isRemovingFromWishlist;
 
   const courseDuration = getFormattedTotalDuration(course_sections);
   const number_of_lessons = course_sections.reduce(
@@ -51,6 +69,45 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
       navigate('/login');
     }
   };
+
+  const handleAddToWishlist = () => {
+    if (isAuthenticated) {
+      addToWishlist(
+        { userId: currentUser.id, courseId: id },
+        {
+          onSuccess: () => {
+            setIsInWishlist(true);
+          },
+        },
+      );
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleRemoveFromWishlist = () => {
+    if (isAuthenticated) {
+      removeFromWishlist(
+        { userId: currentUser.id, courseId: id },
+        {
+          onSuccess: () => {
+            setIsInWishlist(false);
+          },
+        },
+      );
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const c = wishlist?.some((item) => item.course_id.id === id);
+  console.log('c', c);
+
+  const [isInWishlist, setIsInWishlist] = useState(() =>
+    wishlist?.some((item) => item.course_id.id === id),
+  );
+
+  console.log('isInWishlist', isInWishlist);
 
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
@@ -104,32 +161,56 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
 
       {currentUser?.role !== 'teacher' && (
         <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
-          {isEnrolled ? (
-            <button className="bg-[#57966c] px-4 py-2 tracking-wider text-white uppercase">
-              Watch Course
-            </button>
+          {isEnrollingInCourse || isLoadingEnrolledStatus ? (
+            <div className="flex w-full items-center justify-center">
+              <Spinner size={54} color="#526D82" />
+            </div>
           ) : (
             <>
-              {isFree ? (
-                <button
-                  className="bg-[#526D82] px-4 py-2 tracking-wider text-white"
-                  onClick={handleEnroll}
-                >
-                  Enroll
+              {isEnrolled ? (
+                <button className="bg-[#57966c] px-4 py-2 tracking-wider text-white uppercase">
+                  Watch Course
                 </button>
               ) : (
                 <>
-                  <button className="bg-[#526D82] px-4 py-2 text-white">
-                    Add to Cart
-                  </button>
-                  <button className="bg-[#DDE6ED] px-4 py-2 text-[#526D82]">
-                    Buy Now
-                  </button>
+                  {isFree ? (
+                    <button
+                      className="bg-[#526D82] px-4 py-2 tracking-wider text-white"
+                      onClick={handleEnroll}
+                    >
+                      Enroll
+                    </button>
+                  ) : (
+                    <>
+                      <button className="bg-[#526D82] px-4 py-2 text-white">
+                        Add to Cart
+                      </button>
+                      <button className="bg-[#DDE6ED] px-4 py-2 text-[#526D82]">
+                        Buy Now
+                      </button>
+                    </>
+                  )}
+                  {isLoadingWishlistProcess ? (
+                    <div className="flex w-full items-center justify-center">
+                      <Spinner size={54} color="#526D82" />
+                    </div>
+                  ) : isInWishlist ? (
+                    <button
+                      className="border-1 border-red-300 bg-white px-4 py-2 text-red-400"
+                      onClick={handleRemoveFromWishlist}
+                    >
+                      Remove from Wishlist
+                    </button>
+                  ) : (
+                    <button
+                      className="border-1 border-gray-300 bg-white px-4 py-2 text-[#526D82]"
+                      onClick={handleAddToWishlist}
+                    >
+                      Add to Wishlist
+                    </button>
+                  )}
                 </>
               )}
-              <button className="border-1 border-gray-300 bg-white px-4 py-2 text-[#526D82]">
-                Add to Wishlist
-              </button>
             </>
           )}
         </div>

@@ -28,12 +28,7 @@ function StudentSettings() {
   const [preview, setPreview] = useState(image_url);
   const [file, setFile] = useState(null);
 
-  const {
-    uploadAvatar,
-    isLoading: isUploadingAvatar,
-    isSuccess,
-    isError,
-  } = useUploadAvatar();
+  const { uploadAvatar, isLoading: isUploadingAvatar } = useUploadAvatar();
 
   const fileInputRef = useRef(null);
 
@@ -77,6 +72,23 @@ function StudentSettings() {
 
     if (Object.keys(newErrors).length > 0) return;
 
+    // currentUser: {
+    //   id: userId,
+    //   first_name,
+    //   last_name,
+    //   email: userEmail,
+    //   phone_number,
+    //   biography,
+    //   image_url,
+    // },
+
+    const hasChanges =
+      email !== userEmail ||
+      firstName !== first_name ||
+      lastName !== last_name ||
+      phone !== phone_number ||
+      bio !== biography;
+
     // create new account
 
     if (!email || !firstName || !lastName || !phone) return;
@@ -84,15 +96,17 @@ function StudentSettings() {
     setPassword('');
     setConfirmPass('');
 
-    updateStudent({
-      id: userId,
-      biography: bio,
-      email,
-      password,
-      first_name: firstName,
-      last_name: lastName,
-      phone_number: phone,
-    });
+    if (hasChanges)
+      updateStudent({
+        id: userId,
+        biography: bio,
+        email,
+        password,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phone,
+      });
+    else newErrors.form = 'No changes made to update.';
   }
 
   const handleUploadClick = () => {
@@ -169,14 +183,6 @@ function StudentSettings() {
           </figure>
           <p className="text-center text-sm font-normal text-[#6E7485]">
             Image size should be under 1MB and image ration needs to be 1:1
-          </p>
-
-          <p className="text-sm font-normal text-[#24ab20]">
-            {isSuccess && 'Image uploaded successfully!'}
-          </p>
-
-          <p className="text-sm font-normal text-[#24ab20]">
-            {isError && 'Something wrong happened!'}
           </p>
 
           <button
@@ -304,6 +310,9 @@ function StudentSettings() {
                 'Save Changes'
               )}
             </button>
+            {errors.form && (
+              <p className="mt-1 text-sm text-red-500">{errors.form}</p>
+            )}
           </form>
         </div>
       </div>

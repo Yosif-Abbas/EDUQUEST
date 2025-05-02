@@ -1,17 +1,55 @@
 import { FaHeart } from 'react-icons/fa';
+import { timeLeftUntil } from '../utils/helpers';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useEnrollInCourse } from '../hooks/useEnrollIncourse';
+import { useNavigate } from 'react-router-dom';
+import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
 
 function WishlistItem({ item }) {
+  const navigate = useNavigate();
+
   const {
-    image = item.image_url,
-    subject = item.courseId.subject,
-    rating = item.courseId.rating,
-    reviews = item.courseId.rating_count,
-    title = item.courseId.title,
-    instructor = item.courseId.teacher_id.user_id,
-    price = item.courseId.regularPrice,
-    discount = item.courseId.discount,
-    currency = item.courseId.currency,
+    id = item.course_id.id,
+    image = item.course_id.image_url,
+    subject = item.course_id.subject,
+    rating = item.course_id.rating,
+    reviews = item.course_id.rating_count,
+    title = item.course_id.title,
+    instructor = item.course_id.teacher_id.user_id,
+    regularPrice = item.course_id.regularPrice,
+    discount = item.course_id.discount,
+    currency = item.course_id.currency,
+    discount_end_date = item.course_id.discount_end_date,
   } = item;
+
+  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+  const { enrolledCourses, isLoading: isLoadingEnrolledCourses } =
+    useEnrolledCourses(currentUser?.id);
+
+  const { enrollInCourse, isLoading: isEnrollingInCourse } =
+    useEnrollInCourse();
+
+  const isEnrolled =
+    !isLoadingEnrolledCourses &&
+    enrolledCourses?.some((c) => c.course_id.id === id);
+
+  const isLoadingEnrolledStatus = isLoading || isLoadingEnrolledCourses;
+
+  const timeLeft = timeLeftUntil(discount_end_date);
+
+  const finalPrice = timeLeft
+    ? regularPrice - regularPrice * (discount * 0.01)
+    : regularPrice;
+
+  const isFree = finalPrice <= 0 || discount >= 100;
+
+  const handleEnroll = () => {
+    if (isAuthenticated && currentUser?.role === 'student') {
+      enrollInCourse({ studentId: currentUser.id, courseId: id });
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <>
@@ -45,22 +83,45 @@ function WishlistItem({ item }) {
         </div>
       </div>
       <div className="col-span-3 flex items-center gap-1 md:col-span-2">
-        <span className="text-sm text-[#876A9A] lg:text-xl">
-          {currency + ' '}
-          {price - (price * discount) / 100}
-        </span>{' '}
-        <span className="text-[12px] text-[#8C94A3] line-through lg:text-lg">
-          {currency + ' '}
-          {price}
-        </span>
+        {isEnrolled || isLoadingEnrolledStatus ? (
+          ''
+        ) : isFree ? (
+          <p className="text-2xl tracking-wider uppercase">Free</p>
+        ) : (
+          <>
+            <span className="text-sm text-[#876A9A] lg:text-xl">
+              {currency + ' '}
+              {regularPrice - (regularPrice * discount) / 100}
+            </span>{' '}
+            <span className="text-[12px] text-[#8C94A3] line-through lg:text-lg">
+              {currency + ' '}
+              {regularPrice}
+            </span>
+          </>
+        )}
       </div>
-      <div className="col-span-4 flex flex-col justify-center gap-1 md:col-span-2 lg:col-span-3 xl:flex-row xl:items-center xl:gap-2">
-        <button className="bg-[#F5F7FA] px-2 py-1 text-[10px] sm:text-[16px] xl:grow xl:px-3 xl:py-2">
-          Buy Now
-        </button>
-        <button className="bg-[#876A9A] px-2 py-1 text-[10px] text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2">
-          Add To Cart
-        </button>
+      <div className="col-span-4 flex flex-col justify-center gap-1 md:col-span-2 lg:col-span-3 xl:flex-row xl:items-center xl:justify-end xl:gap-2">
+        {isEnrolled ? (
+          <button className="bg-[#57966c] px-2 py-1 text-[10px] tracking-wider text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2">
+            Watch Course
+          </button>
+        ) : isFree ? (
+          <button
+            className="bg-L3 px-2 py-1 text-[10px] tracking-wider text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2"
+            onClick={handleEnroll}
+          >
+            Enroll
+          </button>
+        ) : (
+          <>
+            <button className="bg-[#F5F7FA] px-2 py-1 text-[10px] sm:text-[16px] xl:grow xl:px-3 xl:py-2">
+              Buy Now
+            </button>
+            <button className="bg-[#876A9A] px-2 py-1 text-[10px] text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2">
+              Add To Cart
+            </button>
+          </>
+        )}
         <button className="flex justify-center bg-[#F5F7FA] px-2 py-1 text-[16px] text-[#876A9A] xl:px-3 xl:py-2">
           <FaHeart />
         </button>

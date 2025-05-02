@@ -37,8 +37,6 @@ function CourseDetails() {
   const isLoadingEnrolledStatus =
     isLoadingCourse || isLoadingEnrolledCourses || isLoadingUser;
 
-  console.log('isEnrolled', isEnrolled);
-
   if (isLoadingCourse)
     return (
       <div className="flex h-full w-full items-center justify-center pb-25">
@@ -50,17 +48,25 @@ function CourseDetails() {
 
   return (
     <>
-      <CourseHeader course={course} />
+      <div className="">
+        <div className="grid gap-2 lg:grid-cols-[1fr_auto]">
+          <CourseHeader course={course} />
+          {/* This div is important for layout */}
+          <div></div>
+          <div>
+            <VideoPlayer
+              src={course.intro}
+              poster={course.image_url}
+              subtitleSrc={course.subtitles_url}
+            />
+          </div>
 
-      <div className="grid gap-2 lg:grid-cols-[1fr_auto]">
-        <div>
-          <VideoPlayer
-            src={course.intro}
-            poster={course.image_url}
-            subtitleSrc={course.subtitles_url}
+          <CourseSidebar
+            course={course}
+            isEnrolled={isEnrolled}
+            isLoadingEnrolledStatus={isLoadingEnrolledStatus}
           />
-
-          <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-6 lg:mr-0">
+          <div className="mx-auto ml-0 flex max-w-5xl flex-col gap-4 px-4 py-6">
             <CourseDescription
               description={course.description}
               course_benefits={course.course_benefits}
@@ -82,12 +88,6 @@ function CourseDetails() {
             )}
           </div>
         </div>
-
-        <CourseSidebar
-          course={course}
-          isEnrolled={isEnrolled}
-          isLoadingEnrolledStatus={isLoadingEnrolledStatus}
-        />
       </div>
 
       <Footer />

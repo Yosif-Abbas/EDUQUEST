@@ -10,8 +10,6 @@ function Courses() {
 
   if (isError) return <div>Error fetching courses</div>;
 
-  console.log(count);
-
   return (
     <div className="flex h-full flex-col">
       <SearchControls resultsNumber={count} isLoading={isLoading} />

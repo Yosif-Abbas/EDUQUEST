@@ -7,16 +7,16 @@ import { useCurrentUser } from '../../hooks/useCurrentUser';
 function Wishlist() {
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
   const studentId = currentUser?.id;
+
+  const { wishlist, isLoading, count } = useWishlist(studentId);
+
   
-  const { wishlist, isLoading } = useWishlist(studentId);
 
   return (
     <section className="space-y-6">
       <h2 className="ml-6 text-2xl font-normal">
         <span className="font-medium">Wishlist</span>{' '}
-        <span>
-          ({isLoading ? <Spinner color="#ff5a00" /> : wishlist.length})
-        </span>
+        <span>({isLoading ? <Spinner color="#ff5a00" /> : count || 0})</span>
       </h2>
       <ul className="bg-white px-6">
         <li className="student-wishlist-item text-sm text-[#4E5566]">
@@ -31,6 +31,7 @@ function Wishlist() {
             <Loading size={150} />
           </div>
         ) : (
+          wishlist &&
           wishlist.map((item) => (
             <li key={item.id} className="student-wishlist-item">
               <WishlistItem item={item} />

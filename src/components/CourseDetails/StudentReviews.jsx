@@ -6,11 +6,8 @@ function StudentReviews({ studentsFeedback }) {
   const [displayedFeedback, setDisplayedFeedback] = useState(studentsFeedback);
   const [selected, setSelected] = useState(0);
 
-  console.log(studentsFeedback);
-
   useEffect(
     function () {
-      console.log(selected);
       if (selected > 0)
         setDisplayedFeedback(
           studentsFeedback.filter((feedback) => feedback.rating === selected),

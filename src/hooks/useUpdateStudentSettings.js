@@ -2,6 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../../supabase';
 import { updateStudentSettings } from '../api/userApi';
+import toast from 'react-hot-toast';
 
 export function useUpdateStudentSettings() {
   const queryClient = useQueryClient();
@@ -28,6 +29,11 @@ export function useUpdateStudentSettings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['user']);
+      toast.success('settings updated successfully!');
+    },
+    onError: (error) => {
+      console.error('Error updating settings:', error.message);
+      toast.error('Error updating settings. Please try again.');
     },
   });
 
