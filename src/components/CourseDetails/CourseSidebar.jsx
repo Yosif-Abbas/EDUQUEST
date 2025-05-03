@@ -42,6 +42,20 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
     currentUser?.id,
   );
 
+  const [isInWishlist, setIsInWishlist] = useState();
+
+  useEffect(() => {
+    if (isLoadingWishlist) return;
+    if (wishlist?.length > 0) {
+      const isCourseInWishlist = wishlist.some(
+        (item) => item.course_id.id === id,
+      );
+      setIsInWishlist(isCourseInWishlist);
+    } else {
+      setIsInWishlist(false);
+    }
+  }, [isLoadingWishlist, wishlist, id]);
+
   const { addToWishlist, isLoading: isAddingToWishlist } = useAddToWishlist();
   const { removeFromWishlist, isLoading: isRemovingFromWishlist } =
     useRemoveFromWishlist();
@@ -100,14 +114,13 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
     }
   };
 
-  const c = wishlist?.some((item) => item.course_id.id === id);
-  console.log('c', c);
-
-  const [isInWishlist, setIsInWishlist] = useState(() =>
-    wishlist?.some((item) => item.course_id.id === id),
-  );
-
-  console.log('isInWishlist', isInWishlist);
+  const handleWatchCourse = () => {
+    if (isAuthenticated && currentUser?.role === 'student') {
+      navigate(`/courses/${id}/watch`);
+    } else {
+      navigate('/unauthorized');
+    }
+  };
 
   return (
     <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
@@ -168,7 +181,10 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
           ) : (
             <>
               {isEnrolled ? (
-                <button className="bg-[#57966c] px-4 py-2 tracking-wider text-white uppercase">
+                <button
+                  className="bg-[#57966c] px-4 py-2 tracking-wider text-white uppercase"
+                  onClick={handleWatchCourse}
+                >
                   Watch Course
                 </button>
               ) : (

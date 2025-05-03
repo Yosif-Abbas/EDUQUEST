@@ -1,15 +1,18 @@
-import { FaHeart } from 'react-icons/fa';
+import { FaHeart, FaHeartBroken } from 'react-icons/fa';
 import { timeLeftUntil } from '../utils/helpers';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import { useEnrollInCourse } from '../hooks/useEnrollIncourse';
 import { useNavigate } from 'react-router-dom';
 import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
+import { useEffect, useState } from 'react';
+import { useRemoveFromWishlist } from '../hooks/useRemoveFromWishlist';
+import Spinner from './Spinner';
 
-function WishlistItem({ item }) {
+function WishlistItem({ item, wishlist, isLoadingWishlist }) {
   const navigate = useNavigate();
 
   const {
-    id = item.course_id.id,
+    couseId = item.course_id.id,
     image = item.course_id.image_url,
     subject = item.course_id.subject,
     rating = item.course_id.rating,
@@ -22,6 +25,11 @@ function WishlistItem({ item }) {
     discount_end_date = item.course_id.discount_end_date,
   } = item;
 
+  console.log(item);
+
+  const { removeFromWishlist, isLoading: isRemovingFromWishlist } =
+    useRemoveFromWishlist();
+
   const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
   const { enrolledCourses, isLoading: isLoadingEnrolledCourses } =
     useEnrolledCourses(currentUser?.id);
@@ -31,7 +39,7 @@ function WishlistItem({ item }) {
 
   const isEnrolled =
     !isLoadingEnrolledCourses &&
-    enrolledCourses?.some((c) => c.course_id.id === id);
+    enrolledCourses?.some((c) => c.course_id.id === couseId);
 
   const isLoadingEnrolledStatus = isLoading || isLoadingEnrolledCourses;
 
@@ -45,9 +53,41 @@ function WishlistItem({ item }) {
 
   const handleEnroll = () => {
     if (isAuthenticated && currentUser?.role === 'student') {
-      enrollInCourse({ studentId: currentUser.id, courseId: id });
+      enrollInCourse({ studentId: currentUser.id, courseId: couseId });
     } else {
       navigate('/login');
+    }
+  };
+
+  const [isInWishlist, setIsInWishlist] = useState();
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isLoadingWishlist) return;
+    if (wishlist?.length > 0) {
+      const isCourseInWishlist = wishlist.some(
+        (item) => item.course_id.id === couseId,
+      );
+      setIsInWishlist(isCourseInWishlist);
+    } else {
+      setIsInWishlist(false);
+    }
+  }, [isLoadingWishlist, wishlist, couseId]);
+
+  const handleRemoveFromWishlist = () => {
+    if (isAuthenticated && currentUser?.role === 'student') {
+      console.log(currentUser.id, couseId);
+      removeFromWishlist({ userId: currentUser.id, courseId: couseId });
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleWatchCourse = () => {
+    if (isAuthenticated && currentUser?.role === 'student') {
+      navigate(`/courses/${couseId}/watch`);
+    } else {
+      navigate('/unauthorized');
     }
   };
 
@@ -102,7 +142,10 @@ function WishlistItem({ item }) {
       </div>
       <div className="col-span-4 flex flex-col justify-center gap-1 md:col-span-2 lg:col-span-3 xl:flex-row xl:items-center xl:justify-end xl:gap-2">
         {isEnrolled ? (
-          <button className="bg-[#57966c] px-2 py-1 text-[10px] tracking-wider text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2">
+          <button
+            className="bg-[#57966c] px-2 py-1 text-[10px] tracking-wider text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2"
+            onClick={handleWatchCourse}
+          >
             Watch Course
           </button>
         ) : isFree ? (
@@ -110,7 +153,11 @@ function WishlistItem({ item }) {
             className="bg-L3 px-2 py-1 text-[10px] tracking-wider text-white sm:text-[13px] lg:text-[16px] xl:grow xl:px-3 xl:py-2"
             onClick={handleEnroll}
           >
-            Enroll
+            {isEnrollingInCourse ? (
+              <Spinner size={30} color="white" />
+            ) : (
+              'Enroll Now'
+            )}
           </button>
         ) : (
           <>
@@ -122,8 +169,14 @@ function WishlistItem({ item }) {
             </button>
           </>
         )}
-        <button className="flex justify-center bg-[#F5F7FA] px-2 py-1 text-[16px] text-[#876A9A] xl:px-3 xl:py-2">
-          <FaHeart />
+        <button
+          className="flex justify-center bg-[#F5F7FA] px-2 py-1 text-[16px] text-[#876A9A] xl:px-3 xl:py-2"
+          onClick={handleRemoveFromWishlist}
+          disabled={isRemovingFromWishlist}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {isHovered ? <FaHeartBroken /> : <FaHeart />}
         </button>
       </div>
     </>

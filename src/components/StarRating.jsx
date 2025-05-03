@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-const StarRating = ({ rating = 0, size = 16, isHoverEffect = false }) => {
-  const [hovered, setHovered] = useState(0);
+const StarRating = ({
+  rating = 0,
+  size = 16,
+  isHoverEffect = false,
+  currentRating,
+  setCurrentRating,
+}) => {
+  const [hovered, setHovered] = useState(currentRating);
 
   return (
     <div
       className="flex items-center space-x-4"
-      onMouseLeave={() => setHovered(0)} // Reset hover when leaving the entire rating component
+      onMouseLeave={() => setHovered(currentRating)} // Reset hover when leaving the entire rating component
     >
       <div className="relative flex">
         {/* Background (Unfilled) Stars */}
@@ -44,6 +50,7 @@ const StarRating = ({ rating = 0, size = 16, isHoverEffect = false }) => {
                   cursor: 'pointer',
                 }}
                 onMouseEnter={() => setHovered(i + 1)}
+                onClick={() => setCurrentRating?.(i + 1)}
               />
             ))}
           </div>

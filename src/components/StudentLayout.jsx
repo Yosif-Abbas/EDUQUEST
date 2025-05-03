@@ -15,7 +15,7 @@ function StudentLayout() {
     <>
       <TeacherStudentNavbar />
       <Header />
-      <main className="relative">
+      <main className="relative mt-20">
         <div className="absolute -top-20 left-0 z-[-1] h-70 w-full bg-[#526D82]"></div>
         <div></div>
         <section className="relative top-0 container border-1 border-[#FFDDD1] bg-white py-10">

@@ -97,6 +97,22 @@ export const getEnrolledCourses = async (studentId) => {
   return { student_courses, isLoading, count, error, isError };
 };
 
+export const getEnrolledCourse = async ({ studentId, courseId }) => {
+  const { data, error } = await supabase
+    .from('student_courses')
+    .select('*')
+    .eq('student_id', studentId)
+    .eq('course_id', courseId)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return data;
+};
+
 export const enrollInCourse = async ({ studentId, courseId }) => {
   // Check if the record exists
   const { data: existing, error: checkError } = await supabase

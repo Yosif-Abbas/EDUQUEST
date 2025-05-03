@@ -54,8 +54,16 @@ function AppRoutes() {
         <Route path="courses" element={<StudentCourses />} />
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="settings" element={<StudentSettings />} />
-        <Route path="courses/:id/watch" element={<WatchCourse />} />
       </Route>
+
+      <Route
+        path="courses/:id/watch"
+        element={
+          <ProtectedRoute allowedRoles={['student']}>
+            <WatchCourse />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Teacher Routes */}
       <Route

@@ -1,19 +1,22 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import VideoPlayer from '../../components/VideoPlayer';
-
-
 import Loading from '../../components/Loading';
-import { useCourse } from '../../hooks/useCourse';
 import Header from '../../components/Header';
 import CourseHeader from './../../components/CourseWatch/CourseHeader';
 import LectureHeader from '../../components/CourseWatch/LectureHeader';
 
+import TeacherStudentNavbar from '../../components/TeacherStudentNavbar';
 import CourseContent from '../../components/CourseWatch/CourseContent';
 import LectureDescription from '../../components/CourseWatch/LectureDescription';
 import LectureNotes from '../../components/CourseWatch/LectureNotes';
 import LectureFile from '../../components/CourseWatch/LectureFile';
 import CommentsSection from '../../components/CourseWatch/CommentsSection';
-import { useState } from 'react';
+
+import { useCourse } from '../../hooks/useCourse';
+import { useEnrolledCourse } from '../../hooks/useEnrolledCourse';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function WatchCourse() {
   const { id } = useParams();
@@ -23,8 +26,13 @@ function WatchCourse() {
   });
 
   const { course, isError, isLoading } = useCourse(id);
+  const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
 
-  console.log(course);
+  const { enrolledCourse, isLoading: isLoadingEnrolledCourse } =
+    useEnrolledCourse({
+      courseId: id,
+      studentId: currentUser?.id,
+    });
 
   if (isLoading)
     return (
@@ -38,22 +46,35 @@ function WatchCourse() {
   return (
     <div>
       <div>
+        <TeacherStudentNavbar />
         <Header />
-        <CourseHeader course={course} currentLecture={currentLecture} />
+        {!isLoadingEnrolledCourse && (
+          <CourseHeader
+            course={course}
+            currentLecture={currentLecture}
+            enrolledCourse={enrolledCourse}
+          />
+        )}
       </div>
 
-      <div className="grid gap-2 lg:grid-cols-[2fr_1fr]">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
-          <VideoPlayer
-            src={course.intro}
-            poster={course.image_url}
-            subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
-          />
-          <LectureHeader />
+      <div className="grid gap-2 px-2 lg:grid-cols-[2fr_1fr]">
+        {/* These divs are important for layout */}
+        <div>
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
+            <div>
+              <VideoPlayer
+                src={course.intro}
+                poster={course.image_url}
+                subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
+              />
+            </div>
+
+            <LectureHeader />
+          </div>
         </div>
         <CourseContent sections={course.course_sections} />
 
-        <div className="col-start-1 mx-auto flex max-w-5xl flex-col gap-4 px-2 pb-4">
+        <div className="col-start-1 mx-auto flex max-w-5xl flex-col gap-4 pb-4">
           <LectureDescription
             description={
               course.course_sections[currentLecture.sectionIndex].description
@@ -64,8 +85,8 @@ function WatchCourse() {
               course.course_sections[currentLecture.sectionIndex].description
             }
           />
-          <LectureFile />
-          <CommentsSection comments={course.sections[0].comments} />
+          {/* <LectureFile />
+          {/* <CommentsSection comments={course.sections.comments} /> */}
         </div>
       </div>
     </div>

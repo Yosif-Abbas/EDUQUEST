@@ -6,7 +6,7 @@ import Button from '../Button';
 import { useState } from 'react';
 import ReviewModal from '../ReviewModal';
 
-function CourseHeader({ course, currentLecture }) {
+function CourseHeader({ course, currentLecture, enrolledCourse }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { sectionIndex, lectureIndex } = currentLecture;
@@ -16,6 +16,8 @@ function CourseHeader({ course, currentLecture }) {
     (acc, section) => acc + section.Lectures.length,
     0,
   );
+
+  const rated = Boolean(enrolledCourse?.rating);
 
   return (
     <div className="my-6 flex h-18 items-center justify-between bg-[#9DB2BF] px-2 md:h-24">
@@ -50,16 +52,23 @@ function CourseHeader({ course, currentLecture }) {
       {/* Right */}
       <div className="flex w-fit flex-row-reverse flex-wrap justify-center gap-x-2">
         <Button size="sm">Next Lecture</Button>
+
         <Button
           size="sm"
           type="secondary"
-          className="border-none bg-white"
+          className={`border-none ${rated ? 'bg-green-50' : 'bg-white'}`}
           onClick={() => setIsModalOpen(true)}
         >
-          Write A Review
+          {rated ? 'Modify Your Review' : 'Write A Review'}
         </Button>
       </div>
-      <ReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      <ReviewModal
+        rating={enrolledCourse.rating}
+        review_comment={enrolledCourse.review_comment}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

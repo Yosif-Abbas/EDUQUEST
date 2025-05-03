@@ -19,7 +19,7 @@ function Header() {
 
   return (
     <header>
-      <section className="mb-20 flex items-center justify-between gap-5 bg-[#b8c6d0] px-6">
+      <section className="flex items-center justify-between gap-5 bg-[#b8c6d0] px-6">
         <div
           className="flex cursor-pointer items-center gap-4 py-2"
           onClick={() => navigate('/student/dashboard')}

@@ -10,7 +10,14 @@ function Wishlist() {
 
   const { wishlist, isLoading, count } = useWishlist(studentId);
 
-  
+  const uniqueWishlist = wishlist?.reduce((acc, item) => {
+    const existingItem = acc.find((i) => i.course_id.id === item.course_id.id);
+    if (!existingItem) {
+      acc.push(item);
+    }
+
+    return acc;
+  }, []);
 
   return (
     <section className="space-y-6">
@@ -31,10 +38,14 @@ function Wishlist() {
             <Loading size={150} />
           </div>
         ) : (
-          wishlist &&
-          wishlist.map((item) => (
+          uniqueWishlist &&
+          uniqueWishlist.map((item) => (
             <li key={item.id} className="student-wishlist-item">
-              <WishlistItem item={item} />
+              <WishlistItem
+                item={item}
+                wishlist={uniqueWishlist}
+                isLoadingWishlist={isLoading}
+              />
             </li>
           ))
         )}
