@@ -7,7 +7,7 @@ export async function getTeacher() {
   if (currentTeacher.role !== 'teacher') return;
 
   let { data: teacherTitle, error } = await supabase
-    .from('Teachers')
+    .from('teachers')
     .select('title')
     .eq('user_id', currentTeacher.id)
     .single();

@@ -6,7 +6,11 @@ export function useCurrentUser() {
 
   const cachedUser = queryClient.getQueryData(['user']);
 
-  const { data: currentUser, isLoading } = useQuery({
+  const {
+    data: currentUser,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: getCurrentUser,
     enabled: !cachedUser,
@@ -16,5 +20,6 @@ export function useCurrentUser() {
     currentUser: cachedUser || currentUser,
     isLoading: !cachedUser && isLoading,
     isAuthenticated: !!(cachedUser || currentUser),
+    isError,
   };
 }

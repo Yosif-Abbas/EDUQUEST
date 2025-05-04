@@ -125,7 +125,7 @@ export const getFormattedTotalDuration = (sections) => {
   let totalMinutes = 0;
 
   sections.forEach((section) => {
-    section.Lectures?.forEach((lecture) => {
+    section.lectures?.forEach((lecture) => {
       const info = lecture.content_info;
       if (!info) return;
 
@@ -164,7 +164,7 @@ export const getFormattedTotalDuration = (sections) => {
 export const calculateSectionDuration = (section) => {
   let totalMinutes = 0;
 
-  section.Lectures?.forEach((lecture) => {
+  section.lectures?.forEach((lecture) => {
     const info = lecture.content_info;
     if (!info) return;
 

@@ -3,7 +3,7 @@ import supabase from '../../supabase';
 const PAGE_SIZE = 8;
 
 export const getCourses = async ({ sort, filter, search, page }) => {
-  let query = supabase.from('Courses').select('*', { count: 'exact' });
+  let query = supabase.from('courses').select('*', { count: 'exact' });
 
   // Searching
   if (search && search.value) {
@@ -40,16 +40,16 @@ export const getCourses = async ({ sort, filter, search, page }) => {
 
 export const getCourse = async (id) => {
   const { data, error } = await supabase
-    .from('Courses')
+    .from('courses')
     .select(
       `*,
         course_requirements(*),
         course_includes(*),
         course_benefits(*),
-        course_sections(*, Lectures(*, Videos(*))),
-        Teachers(*, Users(*)),
-        Ratings(*),
-        Reviews(*, Users(*))`,
+        course_sections(*, lectures(*, videos(*))),
+        teachers(*, users(*)),
+        ratings(*),
+        reviews(*, users(*))`,
     )
     .eq('id', id)
     .single();
@@ -64,7 +64,7 @@ export const getCourse = async (id) => {
 
 export const getCoursesByTeacherId = async (id) => {
   const { data, error } = await supabase
-    .from('Courses')
+    .from('courses')
     .select('*')
     .eq('teacher_id', id);
 

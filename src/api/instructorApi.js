@@ -2,8 +2,8 @@ import supabase from '../../supabase';
 
 export const getInstructor = async (id) => {
   let { data, error } = await supabase
-    .from('Teachers')
-    .select('*, Users(*)')
+    .from('teachers')
+    .select('*, users(*)')
     .eq('id', id)
     .single();
 

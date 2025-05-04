@@ -36,8 +36,6 @@ function StudentDashboard() {
     count: wishlistCount,
   } = useWishlist(studentId);
 
-  console.log(isLoading, isLoadingEnrolledCourses);
-
   return (
     <>
       <section className="mb-10">

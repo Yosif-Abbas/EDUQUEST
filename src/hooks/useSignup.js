@@ -19,12 +19,13 @@ export function useSignup() {
     }) =>
       signupAPI({ first_name, last_name, role, phone_number, email, password }),
     onSuccess: (user) => {
-      console.log(user);
-      navigate(`/${user?.role}`, { replace: true });
-
+      console.log(user?.role);
       queryClient.setQueryData(['user', user]);
+      // queryClient.invalidateQueries(['user']);
 
       toast.success('Signup successful!');
+
+      navigate(`/${user?.role}`, { replace: true });
     },
     onError: (error) => {
       console.error('Signup failed:', error.message);

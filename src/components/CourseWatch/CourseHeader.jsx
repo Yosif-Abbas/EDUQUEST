@@ -13,7 +13,7 @@ function CourseHeader({ course, currentLecture, enrolledCourse }) {
 
   const numberOfSections = course.course_sections.length;
   const numberOfLectures = course.course_sections.reduce(
-    (acc, section) => acc + section.Lectures.length,
+    (acc, section) => acc + section.lectures.length,
     0,
   );
 

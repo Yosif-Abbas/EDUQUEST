@@ -10,7 +10,7 @@ function PaginationButton({ currentPage, buttonNumber }) {
 
   return (
     <button
-      className={`hover:bg-L2 text-L4 h-12 w-12 rounded-full text-base ${currentPage === buttonNumber && 'hover:bg-L3 bg-L3 text-white'}`}
+      className={`hover:bg-L2 text-L4 h-12 w-12 rounded-full text-base ${currentPage === buttonNumber && 'hover:bg-L3 bg-L3 cursor-not-allowed text-white'}`}
       disabled={currentPage === buttonNumber}
       onClick={handleNumber}
     >

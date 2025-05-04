@@ -28,7 +28,11 @@ function Pagination({ count }) {
 
   return (
     <div className="mx-auto mb-4 flex w-full max-w-100 items-center justify-center gap-x-6">
-      <button onClick={prevPage} disabled={currentPage === 1}>
+      <button
+        onClick={prevPage}
+        disabled={currentPage === 1}
+        className={currentPage === 1 ? 'cursor-not-allowed' : ''}
+      >
         <GoArrowLeft
           size={32}
           color={`${currentPage === 1 ? '#526D8280' : '#1D2026'}`}
@@ -43,7 +47,11 @@ function Pagination({ count }) {
         />
       ))}
 
-      <button onClick={nextPage} disabled={currentPage === pageCount}>
+      <button
+        onClick={nextPage}
+        disabled={currentPage === pageCount}
+        className={currentPage === pageCount ? 'cursor-not-allowed' : ''}
+      >
         <GoArrowRight
           size={32}
           color={`${currentPage === pageCount ? '#526D8280' : '#1D2026'}`}

@@ -20,7 +20,7 @@ export async function updateStudentSettings({
   }
 
   const { data, error } = await supabase
-    .from('Users')
+    .from('users')
     .update({ first_name, last_name, phone_number, email, biography })
     .eq('id', id)
     .select()

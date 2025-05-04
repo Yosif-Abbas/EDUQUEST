@@ -7,8 +7,15 @@ import { PiFolderOpen } from 'react-icons/pi';
 
 import { calculateSectionDuration } from '../../utils/helpers';
 import { getFormattedTotalDuration } from '../../utils/helpers';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function CourseCurriculum({ sections }) {
+  const {
+    currentUser,
+    isLoading: isLoadingUser,
+    isAuthenticated,
+  } = useCurrentUser();
+
   const [openSections, setOpenSections] = useState({});
 
   const toggleSection = (sectionId) => {
@@ -20,7 +27,7 @@ function CourseCurriculum({ sections }) {
 
   // Calculate the total number of lectures
   const lecturesCount = sections.reduce(
-    (count, section) => count + (section.Lectures?.length || 0),
+    (count, section) => count + (section.lectures?.length || 0),
     0,
   );
 
@@ -71,7 +78,7 @@ function CourseCurriculum({ sections }) {
               <div className="flex items-center gap-x-2">
                 <IoPlayCircleOutline color="#564FFD" />
                 <span className="text-nowrap">
-                  {section.Lectures.length} lectures
+                  {section.lectures.length} lectures
                 </span>
                 <CiClock2 color="#FD8E1F" />
                 <span className="text-nowrap">
@@ -83,10 +90,10 @@ function CourseCurriculum({ sections }) {
             {/* Lectures List (Visible only if section is open) */}
             {openSections[section.id] && (
               <ul className="flex flex-col gap-x-2">
-                {section.Lectures.map((lecture) => (
+                {section.lectures?.map((lecture) => (
                   <li
                     key={lecture.id}
-                    className="list-icon cursor-pointer px-2 py-2 hover:bg-gray-100"
+                    className={`list-icon ${isAuthenticated ? 'cursor-pointer' : ''} px-2 py-2 hover:bg-gray-100`}
                   >
                     {lecture.type === 'file' && <CiFileOn />}
                     {lecture.type === 'video' && <FaPlay size={8} />}

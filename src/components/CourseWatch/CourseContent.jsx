@@ -6,7 +6,7 @@ import { CiClock2 } from 'react-icons/ci';
 import { MdOutlinePlayCircle } from 'react-icons/md';
 
 const sectionDuration = (section) => {
-  const minutes = section.Lectures.reduce((acc, lecture) => {
+  const minutes = section?.lectures?.reduce((acc, lecture) => {
     return acc + Number(lecture.content_info.split(' ')[0]);
   }, 0);
   const hours = (minutes / 60).toFixed(2);
@@ -55,7 +55,7 @@ function CourseContent({ sections }) {
               <div className="flex gap-x-1 text-xs text-nowrap text-[#4E5566]">
                 <p className="list-icon">
                   <MdOutlinePlayCircle size={16} color="#876A9A" />
-                  {section.Lectures.length} Lectures
+                  {section?.lectures?.length} Lectures
                 </p>
                 <p className="list-icon">
                   <CiClock2 color="#876A9A" size={16} />

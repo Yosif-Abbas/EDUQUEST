@@ -9,7 +9,6 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
 
   const [currentRating, setCurrentRating] = useState(rating ?? 0);
   const [currentComment, setCurrentComment] = useState(review_comment ?? '');
-  console.log(currentRating);
 
   const handleClose = useCallback(() => {
     onClose();
@@ -33,6 +32,17 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
 
   if (!isOpen) return null;
 
+  const handleSubmitReview = () => {
+    if (currentRating === 0) return;
+    // Submit the review to the server or perform any action you want
+    console.log('Submitting review:', {
+      rating: currentRating,
+      comment: currentComment,
+    });
+    // Close the modal after submitting
+    handleClose();
+  };
+
   return createPortal(
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-gray-500/50 backdrop-blur-xs">
       <div
@@ -42,7 +52,7 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
         <div className="flex items-center justify-between border-b-1 border-gray-200 px-4 py-3">
           <h2 className="text-md font-medium">Write A Review</h2>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="text-gray-500 hover:text-gray-900"
           >
             <IoCloseOutline size={24} />
@@ -70,6 +80,8 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
             className="w-full resize-none overflow-hidden border-1 border-gray-200 p-2 font-normal placeholder:font-normal"
             rows="4"
             placeholder="Write down your feedback here..."
+            value={currentComment}
+            onChange={(e) => setCurrentComment(e.target.value)}
           ></textarea>
         </div>
 
@@ -81,8 +93,13 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
             Cancel
           </button>
           <button
-            className="bg-L6 list-icon hover:bg-L6/90 px-4 py-2 font-normal text-white"
-            onClick={handleClose}
+            className={`bg-L6 list-icon px-4 py-2 font-normal text-white transition ${
+              currentRating === 0
+                ? 'pointer-events-none cursor-not-allowed opacity-50'
+                : 'hover:bg-L6/90 cursor-pointer'
+            }`}
+            onClick={handleSubmitReview}
+            aria-disabled={currentRating === 0}
           >
             Submit Review <PiPaperPlaneRightFill />
           </button>

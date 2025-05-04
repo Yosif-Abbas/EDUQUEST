@@ -33,7 +33,11 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
     course_includes,
   } = course;
 
-  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
+  const {
+    currentUser,
+    isLoading: isLoadingUser,
+    isAuthenticated,
+  } = useCurrentUser();
 
   const { enrollInCourse, isLoading: isEnrollingInCourse } =
     useEnrollInCourse();
@@ -174,7 +178,7 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
 
       {currentUser?.role !== 'teacher' && (
         <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
-          {isEnrollingInCourse || isLoadingEnrolledStatus ? (
+          {isLoadingUser && (isEnrollingInCourse || isLoadingEnrolledStatus) ? (
             <div className="flex w-full items-center justify-center">
               <Spinner size={54} color="#526D82" />
             </div>

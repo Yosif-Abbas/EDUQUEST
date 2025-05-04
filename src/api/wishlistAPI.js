@@ -11,10 +11,9 @@ export async function getWishlist(studentId) {
   } = await supabase
     .from('wishlist')
     // teacher_id(userId(*))
-    .select(
-      'id, course_id(id, image_url, subject, currency, title, teacher_id(user_id(first_name, last_name)), regularPrice, discount, rating, rating_count),user_id',
-      { count: 'exact' },
-    )
+    .select('id, course_id(*, teacher_id(user_id(*))),user_id', {
+      count: 'exact',
+    })
     .eq('user_id', studentId);
 
   if (wishlistError) {
@@ -66,8 +65,7 @@ export async function removeFromWishlist({ courseId, userId }) {
     .delete()
     .eq('course_id', courseId)
     .eq('user_id', userId)
-    .select('*')
-
+    .select('*');
 
   if (error) {
     console.error('Error removing from wishlist:', error.message);

@@ -1,15 +1,17 @@
 import StarRating from '../StarRating';
 
 function CourseHeader({ course }) {
-  const { title, rating, rating_count, Teachers } = course;
+  const { title, rating, rating_count, teachers } = course;
 
-  if (!Teachers) return null;
+  if (!teachers) return null;
 
   const {
-    Users: { first_name, last_name, image_url },
-  } = Teachers;
+    users: { first_name, last_name, image_url },
+  } = teachers;
 
   const instructorFullname = first_name + ' ' + last_name;
+
+  console.log('CourseHeader');
 
   return (
     <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-1 lg:mr-0">

@@ -46,7 +46,7 @@ export async function getCurrentUser() {
 
 export async function getUser(id) {
   let { data, error } = await supabase
-    .from('Users')
+    .from('users')
     .select('*')
     .eq('user_id', id)
     .single();
@@ -76,7 +76,7 @@ export async function signup({
   }
 
   const { data: userData, error: userInsertError } = await supabase
-    .from('Users')
+    .from('users')
     .insert([
       {
         email,
@@ -93,6 +93,12 @@ export async function signup({
   if (userInsertError) {
     throw new Error(userInsertError.message);
   }
+
+  const { error } = await supabase
+    .from('teachers')
+    .insert([{ user_id: userData.id, title: '' }]);
+
+  if (error) throw new Error(error.message);
 
   const { aud, identities, user_metadata, is_anonymous } = signUpData.user;
 

@@ -25,8 +25,6 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
     discount_end_date = item.course_id.discount_end_date,
   } = item;
 
-  console.log(item);
-
   const { removeFromWishlist, isLoading: isRemovingFromWishlist } =
     useRemoveFromWishlist();
 
@@ -44,6 +42,8 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
   const isLoadingEnrolledStatus = isLoading || isLoadingEnrolledCourses;
 
   const timeLeft = timeLeftUntil(discount_end_date);
+
+  console.log(timeLeft, discount_end_date);
 
   const finalPrice = timeLeft
     ? regularPrice - regularPrice * (discount * 0.01)
@@ -122,22 +122,31 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
           </p>
         </div>
       </div>
-      <div className="col-span-3 flex items-center gap-1 md:col-span-2">
+      <div className="col-span-3 flex items-center justify-end gap-1 md:col-span-2">
         {isEnrolled || isLoadingEnrolledStatus ? (
           ''
         ) : isFree ? (
           <p className="text-2xl tracking-wider uppercase">Free</p>
         ) : (
-          <>
+          <div className="flex flex-col items-center gap-x-2 lg:flex-row">
             <span className="text-sm text-[#876A9A] lg:text-xl">
-              {currency + ' '}
-              {regularPrice - (regularPrice * discount) / 100}
+              {finalPrice}
+              {currency}
             </span>{' '}
-            <span className="text-[12px] text-[#8C94A3] line-through lg:text-lg">
-              {currency + ' '}
-              {regularPrice}
-            </span>
-          </>
+            {timeLeft ? (
+              <>
+                <span className="text-[12px] text-[#8C94A3] line-through lg:text-lg">
+                  {regularPrice}
+                  {currency}
+                </span>
+                <span className="bg-[#FFEEE8] px-2 py-1 text-xs font-bold text-nowrap text-[#FF6636]">
+                  {discount}% OFF
+                </span>
+              </>
+            ) : (
+              ''
+            )}
+          </div>
         )}
       </div>
       <div className="col-span-4 flex flex-col justify-center gap-1 md:col-span-2 lg:col-span-3 xl:flex-row xl:items-center xl:justify-end xl:gap-2">

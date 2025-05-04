@@ -123,3 +123,8 @@
   align-items: center;
   gap: 4px;
 }
+
+.cursor-not-allowed {
+  pointer-events: none;
+  cursor: not-allowed;
+}

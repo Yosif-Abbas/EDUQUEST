@@ -48,16 +48,17 @@ function CourseDetails() {
 
   return (
     <>
-      <div className="">
+      <div className="mt-5">
         <div className="grid gap-2 lg:grid-cols-[1fr_auto]">
-          <CourseHeader course={course} />
           {/* This div is important for layout */}
-          <div></div>
+          <CourseHeader course={course} />
+          <div className="col-start-2"></div>
           <div>
             <VideoPlayer
               src={course.intro}
               poster={course.image_url}
               subtitleSrc={course.subtitles_url}
+              className=""
             />
           </div>
 
@@ -79,12 +80,12 @@ function CourseDetails() {
 
             <CourseRating
               rating={course.rating}
-              ratings={course.Ratings?.[0]}
+              ratings={course.ratings?.[0]}
               ratingCount={course.rating_count}
             />
 
             {course?.Reviews?.length > 0 && (
-              <StudentReviews studentsFeedback={course.Reviews} />
+              <StudentReviews studentsFeedback={course.reviews} />
             )}
           </div>
         </div>
