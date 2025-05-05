@@ -16,6 +16,7 @@ import Footer from '../components/CourseDetails/Footer';
 import { useCourse } from '../hooks/useCourse';
 import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useEffect, useState } from 'react';
 
 function CourseDetails() {
   const { id } = useParams();
@@ -29,10 +30,15 @@ function CourseDetails() {
   const { enrolledCourses, isLoading: isLoadingEnrolledCourses } =
     useEnrolledCourses(userId);
 
-  const isEnrolled =
-    !isLoadingEnrolledCourses &&
-    !isLoadingCourse &&
-    enrolledCourses?.some((c) => c.course_id.id === course?.id);
+  const [isEnrolled, setIsEnrolled] = useState(false);
+
+  useEffect(() => {
+    if (enrolledCourses && course?.id) {
+      const found = enrolledCourses.some((c) => c.course_id.id === course.id);
+      console.log('found ', found, enrolledCourses, course);
+      setIsEnrolled(found);
+    }
+  }, [enrolledCourses, course?.id, course]);
 
   const isLoadingEnrolledStatus =
     isLoadingCourse || isLoadingEnrolledCourses || isLoadingUser;
@@ -49,11 +55,11 @@ function CourseDetails() {
   return (
     <>
       <div className="mt-5">
-        <div className="grid gap-2 lg:grid-cols-[1fr_auto]">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]">
           {/* This div is important for layout */}
           <CourseHeader course={course} />
-          <div className="col-start-2"></div>
-          <div>
+          <div className="lg:col-start-2"></div>
+          <div className="w-full">
             <VideoPlayer
               src={course.intro}
               poster={course.image_url}
@@ -65,6 +71,7 @@ function CourseDetails() {
           <CourseSidebar
             course={course}
             isEnrolled={isEnrolled}
+            setIsEnrolled={setIsEnrolled}
             isLoadingEnrolledStatus={isLoadingEnrolledStatus}
           />
           <div className="mx-auto ml-0 flex max-w-5xl flex-col gap-4 px-4 py-6">
@@ -76,7 +83,7 @@ function CourseDetails() {
 
             <CourseCurriculum sections={course.course_sections} />
 
-            <InstructorSection instructor={course.Teachers} />
+            <InstructorSection instructor={course.teachers} />
 
             <CourseRating
               rating={course.rating}
@@ -84,7 +91,7 @@ function CourseDetails() {
               ratingCount={course.rating_count}
             />
 
-            {course?.Reviews?.length > 0 && (
+            {course?.reviews?.length > 0 && (
               <StudentReviews studentsFeedback={course.reviews} />
             )}
           </div>

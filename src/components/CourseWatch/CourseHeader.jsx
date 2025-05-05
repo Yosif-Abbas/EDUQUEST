@@ -67,6 +67,7 @@ function CourseHeader({ course, currentLecture, enrolledCourse }) {
         rating={enrolledCourse.rating}
         review_comment={enrolledCourse.review_comment}
         isOpen={isModalOpen}
+        course={course}
         onClose={() => setIsModalOpen(false)}
       />
     </div>

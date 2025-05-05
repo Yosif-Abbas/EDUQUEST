@@ -17,7 +17,12 @@ import { useWishlist } from '../../hooks/useWishlist';
 import { useRemoveFromWishlist } from '../../hooks/useRemoveFromWishlist';
 import { useEffect, useState } from 'react';
 
-function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
+function CourseSidebar({
+  course,
+  isEnrolled,
+  setIsEnrolled,
+  isLoadingEnrolledStatus,
+}) {
   const navigate = useNavigate();
 
   const {
@@ -32,6 +37,8 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
     course_level,
     course_includes,
   } = course;
+
+  const [studentsEnrolled, setStudentsEnrolled] = useState(students_enrolled);
 
   const {
     currentUser,
@@ -82,7 +89,15 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
 
   const handleEnroll = () => {
     if (isAuthenticated && currentUser?.role === 'student') {
-      enrollInCourse({ studentId: currentUser.id, courseId: id });
+      enrollInCourse(
+        { studentId: currentUser.id, courseId: id },
+        {
+          onSuccess: () => {
+            setIsEnrolled(true);
+            setStudentsEnrolled((n) => n + 1);
+          },
+        },
+      );
     } else {
       navigate('/login');
     }
@@ -127,7 +142,7 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
   };
 
   return (
-    <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
+    <div className="flex flex-col  divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
       {!isEnrolled && (
         <Price
           regularPrice={regularPrice}
@@ -164,7 +179,7 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
           </span>
           Student Enrolled
           <span className="ml-auto text-sm text-gray-500">
-            {students_enrolled}
+            {studentsEnrolled}
           </span>
         </li>
         <li className="list-icon">
@@ -178,7 +193,7 @@ function CourseSidebar({ course, isEnrolled, isLoadingEnrolledStatus }) {
 
       {currentUser?.role !== 'teacher' && (
         <div className="mx-auto flex w-full max-w-80 flex-col gap-y-2 py-4">
-          {isLoadingUser && (isEnrollingInCourse || isLoadingEnrolledStatus) ? (
+          {isLoadingUser || isEnrollingInCourse || isLoadingEnrolledStatus ? (
             <div className="flex w-full items-center justify-center">
               <Spinner size={54} color="#526D82" />
             </div>

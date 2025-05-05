@@ -43,8 +43,6 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
 
   const timeLeft = timeLeftUntil(discount_end_date);
 
-  console.log(timeLeft, discount_end_date);
-
   const finalPrice = timeLeft
     ? regularPrice - regularPrice * (discount * 0.01)
     : regularPrice;
@@ -92,7 +90,9 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
   };
 
   return (
-    <>
+    <li
+      className={`student-wishlist-item px-2 ${isEnrolled ? 'bg-green-100' : ''}`}
+    >
       <div className="col-span-5 flex flex-col gap-2 md:col-span-7 md:flex-row md:gap-4">
         <figure className="flex max-w-65 items-center">
           <img
@@ -188,7 +188,7 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
           {isHovered ? <FaHeartBroken /> : <FaHeart />}
         </button>
       </div>
-    </>
+    </li>
   );
 }
 

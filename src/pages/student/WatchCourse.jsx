@@ -85,8 +85,8 @@ function WatchCourse() {
               course.course_sections[currentLecture.sectionIndex].description
             }
           />
-          {/* <LectureFile />
-          {/* <CommentsSection comments={course.sections.comments} /> */}
+          {/* <LectureFile /> */}
+          {/* <CommentsSection comments={course.course_sections.comments} /> */}
         </div>
       </div>
     </div>

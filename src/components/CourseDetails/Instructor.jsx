@@ -7,7 +7,7 @@ import Spinner from '../Spinner';
 function Instructor({ instructor }) {
   const {
     title,
-    Users: { image_url, first_name, last_name, biography },
+    users: { image_url, first_name, last_name, biography },
   } = instructor;
 
   const { courses, error, isLoading } = useCoursesByTeacher(instructor.id);

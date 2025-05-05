@@ -152,5 +152,17 @@ export const enrollInCourse = async ({ studentId, courseId }) => {
     throw error;
   }
 
+  const { error: coursesError } = await supabase.rpc(
+    'increment_students_enrolled',
+    {
+      course_id: courseId,
+    },
+  );
+
+  if (coursesError) {
+    console.error(error.message);
+    throw error;
+  }
+
   return data;
 };

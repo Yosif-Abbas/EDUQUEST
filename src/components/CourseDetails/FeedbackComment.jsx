@@ -6,7 +6,7 @@ function FeedbackComment({ feedback }) {
     rating,
     text,
     timestamp,
-    Users: { first_name, last_name, image_url },
+    users: { first_name, last_name, image_url },
   } = feedback;
 
   const timeSinceReview = timeSince(timestamp);

@@ -3,18 +3,26 @@ import StarRating from './StarRating';
 import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PiPaperPlaneRightFill } from 'react-icons/pi';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useAddReview } from '../hooks/useAddReview';
 
-const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
+const ReviewModal = ({ isOpen, onClose, rating, review_comment, course }) => {
   const ref = useRef();
+
+  const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
+  const { addReview, isLoading } = useAddReview();
 
   const [currentRating, setCurrentRating] = useState(rating ?? 0);
   const [currentComment, setCurrentComment] = useState(review_comment ?? '');
 
   const handleClose = useCallback(() => {
     onClose();
+  }, [onClose]);
+
+  useEffect(() => {
     setCurrentRating(rating ?? 0);
-    setCurrentComment('');
-  }, [onClose, setCurrentRating, setCurrentComment, rating]);
+    setCurrentComment(review_comment ?? '');
+  }, [rating, review_comment]);
 
   useEffect(() => {
     function handleClick(e) {
@@ -34,13 +42,19 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment }) => {
 
   const handleSubmitReview = () => {
     if (currentRating === 0) return;
-    // Submit the review to the server or perform any action you want
-    console.log('Submitting review:', {
-      rating: currentRating,
-      comment: currentComment,
-    });
-    // Close the modal after submitting
-    handleClose();
+    addReview(
+      {
+        courseId: course.id,
+        userId: currentUser.id,
+        rating: currentRating,
+        comment: currentComment,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
   };
 
   return createPortal(

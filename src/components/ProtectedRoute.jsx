@@ -12,12 +12,10 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   const [timeoutReached, setTimeoutReached] = useState(false);
 
-  console.log(timeoutReached);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeoutReached(true);
-    }, 5000); // 5 seconds
+    }, 3000); // 5 seconds
 
     return () => clearTimeout(timer); // cleanup
   }, []);

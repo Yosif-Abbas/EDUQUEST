@@ -40,13 +40,12 @@ function Wishlist() {
         ) : (
           uniqueWishlist &&
           uniqueWishlist.map((item) => (
-            <li key={item.id} className="student-wishlist-item">
-              <WishlistItem
-                item={item}
-                wishlist={uniqueWishlist}
-                isLoadingWishlist={isLoading}
-              />
-            </li>
+            <WishlistItem
+              item={item}
+              key={item.id}
+              wishlist={uniqueWishlist}
+              isLoadingWishlist={isLoading}
+            />
           ))
         )}
       </ul>
