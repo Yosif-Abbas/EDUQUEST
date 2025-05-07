@@ -121,7 +121,7 @@ export const ratingPercentageHelper = (ratings, ratingCount) => {
   return Object.fromEntries(rounded.map((item) => [item.key, item.value]));
 };
 
-export const getFormattedTotalDuration = (sections) => {
+export const getFormattedTotalDuration = (sections, isByMinutes = false) => {
   let totalMinutes = 0;
 
   sections.forEach((section) => {
@@ -154,6 +154,8 @@ export const getFormattedTotalDuration = (sections) => {
       }
     });
   });
+
+  if (isByMinutes) return totalMinutes;
 
   return totalMinutes < 60
     ? `${Math.round(totalMinutes)} minutes`

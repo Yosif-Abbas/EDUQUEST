@@ -52,6 +52,7 @@ export const getCourse = async (id) => {
         reviews(*, users(*))`,
     )
     .eq('id', id)
+    .order('id', { foreignTable: 'course_sections.lectures', ascending: true })
     .single();
 
   if (error) {

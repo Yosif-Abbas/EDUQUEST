@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import VideoPlayer from '../../components/VideoPlayer';
 import Loading from '../../components/Loading';
@@ -20,13 +20,15 @@ import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function WatchCourse() {
   const { id } = useParams();
-  const [currentLecture, setCurrentLecture] = useState({
-    sectionIndex: 0,
-    lectureIndex: 0,
-  });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentSec = +searchParams.get('sec') || 1;
+  const currentLec = +searchParams.get('lec') || 1;
 
   const { course, isError, isLoading } = useCourse(id);
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
+  const { course_sections } = course;
 
   const { enrolledCourse, isLoading: isLoadingEnrolledCourse } =
     useEnrolledCourse({
@@ -40,6 +42,9 @@ function WatchCourse() {
         <Loading size={150} />
       </div>
     );
+  const lecture = course_sections[currentSec - 1].lectures[currentLec - 1];
+
+  console.log(lecture);
 
   if (isError) return <div>Error fetching course data.</div>;
 
@@ -51,7 +56,8 @@ function WatchCourse() {
         {!isLoadingEnrolledCourse && (
           <CourseHeader
             course={course}
-            currentLecture={currentLecture}
+            currentLec={currentLec}
+            currentSec={currentSec}
             enrolledCourse={enrolledCourse}
           />
         )}
@@ -62,11 +68,13 @@ function WatchCourse() {
         <div>
           <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
             <div>
-              <VideoPlayer
-                src={course.intro}
-                poster={course.image_url}
-                subtitleSrc="https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/subtitles//subtitles.vtt"
-              />
+              {lecture.type === 'video' && (
+                <VideoPlayer
+                  src={lecture.videos[0].video_url}
+                  poster={course.image_url}
+                  subtitleSrc={lecture.videos[0].video_url}
+                />
+              )}
             </div>
 
             <LectureHeader />
@@ -74,16 +82,12 @@ function WatchCourse() {
         </div>
         <CourseContent sections={course.course_sections} />
 
-        <div className="col-start-1 mx-auto flex max-w-5xl flex-col gap-4 pb-4">
+        <div className="col-start-1 mx-auto flex w-full max-w-5xl flex-col gap-4 pb-4">
           <LectureDescription
-            description={
-              course.course_sections[currentLecture.sectionIndex].description
-            }
+            description={course.course_sections[currentLec - 1].description}
           />
           <LectureNotes
-            notes={
-              course.course_sections[currentLecture.sectionIndex].description
-            }
+            notes={course.course_sections[currentLec - 1].description}
           />
           {/* <LectureFile /> */}
           {/* <CommentsSection comments={course.course_sections.comments} /> */}

@@ -4,12 +4,30 @@ import { formatDate } from '../utils/helpers';
 export async function addReview({ rating, comment, courseId, userId }) {
   if (!courseId || !userId || rating === undefined || comment === undefined) {
     console.warn('Missing data:', { courseId, userId, rating, comment });
-    throw error('Missing data');
+    throw error('Something is wrong!');
   }
 
-  const { data: reviewsData, error: reviewsError } = await supabase
+  const { data: existing, error: checkError } = await supabase
     .from('reviews')
-    .insert([
+    .select('*')
+    .eq('user_id', userId)
+    .eq('course_id', courseId)
+    .maybeSingle();
+
+  if (checkError) {
+    console.error(checkError.message);
+    throw checkError;
+  }
+
+  let query = supabase.from('reviews');
+
+  if (existing) {
+    query = query
+      .update({ rating, text: comment, timestamp: formatDate(Date.now()) })
+      .eq('user_id', userId)
+      .eq('course_id', courseId);
+  } else {
+    query = query.insert([
       {
         rating,
         text: comment,
@@ -18,6 +36,9 @@ export async function addReview({ rating, comment, courseId, userId }) {
         timestamp: formatDate(Date.now()),
       },
     ]);
+  }
+
+  const { error: reviewsError } = await query;
 
   if (reviewsError) {
     console.error(reviewsError.message);
@@ -36,8 +57,6 @@ export async function addReview({ rating, comment, courseId, userId }) {
     console.error(error.message);
     throw error;
   }
-
-  const column = `${rating}_stars`;
 
   const { data: ratingsData, error: ratingsError } = await supabase.rpc(
     'increment_rating_column',

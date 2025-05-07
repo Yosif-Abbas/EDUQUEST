@@ -6,10 +6,8 @@ import Button from '../Button';
 import { useState } from 'react';
 import ReviewModal from '../ReviewModal';
 
-function CourseHeader({ course, currentLecture, enrolledCourse }) {
+function CourseHeader({ course, currentLec, currentSec, enrolledCourse }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { sectionIndex, lectureIndex } = currentLecture;
 
   const numberOfSections = course.course_sections.length;
   const numberOfLectures = course.course_sections.reduce(
@@ -29,8 +27,7 @@ function CourseHeader({ course, currentLecture, enrolledCourse }) {
 
         <div className="flex flex-col gap-y-2">
           <h3>
-            Section #{sectionIndex + 1} in ({course.subject}), Lecture #
-            {lectureIndex + 1}
+            Section #{currentSec} in ({course.subject}), Lecture #{currentLec}
           </h3>
           <ul className="flex gap-x-2 text-xs font-normal lg:text-sm">
             <li className="list-icon">

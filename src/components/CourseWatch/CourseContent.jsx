@@ -4,25 +4,37 @@ import { useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { CiClock2 } from 'react-icons/ci';
 import { MdOutlinePlayCircle } from 'react-icons/md';
+import { useSearchParams } from 'react-router-dom';
 
 const sectionDuration = (section) => {
   const minutes = section?.lectures?.reduce((acc, lecture) => {
     return acc + Number(lecture.content_info.split(' ')[0]);
   }, 0);
-  const hours = (minutes / 60).toFixed(2);
+
+  const hours = Math.floor(minutes / 60);
 
   if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
-  else return `${hours} Hour${hours > 1 ? 's' : ''}`;
+  else
+    return `${hours} Hour${hours > 1 ? 's' : ''} ${minutes ? (minutes % 60) + ' min' : ''}`;
 };
 
 function CourseContent({ sections }) {
   const [openSections, setOpenSections] = useState({});
-
   const toggleSection = (sectionId) => {
     setOpenSections((prev) => ({
       ...prev,
       [sectionId]: !prev[sectionId], // Toggle state
     }));
+  };
+  // const sectionMinutes = getFormattedTotalDuration(sections, true);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentSec = +searchParams.get('sec') || 1;
+  const currentLec = +searchParams.get('lec') || 1;
+
+  const handleSelectLecture = ({ sec, lec }) => {
+    setSearchParams({ sec, lec });
   };
 
   return (
@@ -37,7 +49,7 @@ function CourseContent({ sections }) {
       <ProgressBar progress={15} />
 
       <div className="flex flex-col bg-white font-normal">
-        {sections.map((section) => (
+        {sections.map((section, i) => (
           <div key={section.id}>
             <div
               className="list-icon flex h-10 cursor-pointer justify-between px-2 hover:bg-gray-100"
@@ -65,34 +77,38 @@ function CourseContent({ sections }) {
             </div>
             {openSections[section.id] && (
               <ul className="flex flex-col gap-x-2">
-                {section.Lectures.map((lecture) => (
-                  <li
-                    key={lecture.id}
-                    className={`list-icon cursor-pointer px-2 py-2 text-xs transition-all duration-100 hover:bg-gray-100`}
-                  >
+                {section.lectures.map((lecture, j) => (
+                  <li key={lecture.id} className={`list-icon text-xs`}>
                     <div className="flex w-full justify-between">
-                      <div className="flex gap-x-3">
+                      <div className="ml-2 flex gap-x-3">
                         <input
                           type="checkbox"
                           className="scale-150 accent-black outline-none checked:accent-sky-700"
                         />
-                        <span className="">{lecture.title}</span>
                       </div>
 
-                      <p className="list-icon text-gray-500">
-                        {lecture.type === 'video' ? (
-                          open === lecture.name ? (
-                            <FaPause size={8} />
+                      <div
+                        className={`ml-2 flex w-full cursor-pointer justify-between px-2 py-2 transition-all duration-100 hover:bg-gray-100 ${currentSec === i + 1 && currentLec === j + 1 ? 'pointer-events-none cursor-default bg-gray-300 hover:bg-gray-300' : ''}`}
+                        onClick={() =>
+                          handleSelectLecture({ sec: i + 1, lec: j + 1 })
+                        }
+                      >
+                        <span className="">{lecture.title}</span>
+                        <p className="list-icon text-gray-500">
+                          {lecture.type === 'video' ? (
+                            open === lecture.name ? (
+                              <FaPause size={8} />
+                            ) : (
+                              <FaPlay size={8} />
+                            )
                           ) : (
-                            <FaPlay size={8} />
-                          )
-                        ) : (
-                          ''
-                        )}
-                        <span className="min-w-10 text-end">
-                          {lecture.content_info}
-                        </span>
-                      </p>
+                            ''
+                          )}
+                          <span className="min-w-10 text-end">
+                            {lecture.content_info}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </li>
                 ))}

@@ -51,7 +51,7 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment, course }) => {
       },
       {
         onSuccess: () => {
-          onClose();
+          handleClose();
         },
       },
     );

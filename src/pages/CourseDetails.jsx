@@ -35,7 +35,6 @@ function CourseDetails() {
   useEffect(() => {
     if (enrolledCourses && course?.id) {
       const found = enrolledCourses.some((c) => c.course_id.id === course.id);
-      console.log('found ', found, enrolledCourses, course);
       setIsEnrolled(found);
     }
   }, [enrolledCourses, course?.id, course]);
