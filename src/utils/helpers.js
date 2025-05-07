@@ -176,7 +176,7 @@ export const calculateSectionDuration = (section) => {
       // Treat MB as minutes
       const matchMB = lowerInfo.match(/([\d.]+)\s*mb/);
       if (matchMB) {
-        totalMinutes += parseFloat(matchMB[1]);
+        totalMinutes += parseFloat(matchMB[1]) * 4;
       }
     } else if (lecture.type === 'video') {
       // Match hours and minutes in the string

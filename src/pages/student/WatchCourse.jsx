@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 import VideoPlayer from '../../components/VideoPlayer';
@@ -9,10 +8,6 @@ import LectureHeader from '../../components/CourseWatch/LectureHeader';
 
 import TeacherStudentNavbar from '../../components/TeacherStudentNavbar';
 import CourseContent from '../../components/CourseWatch/CourseContent';
-import LectureDescription from '../../components/CourseWatch/LectureDescription';
-import LectureNotes from '../../components/CourseWatch/LectureNotes';
-import LectureFile from '../../components/CourseWatch/LectureFile';
-import CommentsSection from '../../components/CourseWatch/CommentsSection';
 
 import { useCourse } from '../../hooks/useCourse';
 import { useEnrolledCourse } from '../../hooks/useEnrolledCourse';
@@ -42,9 +37,10 @@ function WatchCourse() {
         <Loading size={150} />
       </div>
     );
+
   const lecture = course_sections[currentSec - 1].lectures[currentLec - 1];
 
-  console.log(lecture);
+  console.log(lecture.type && lecture.file_url);
 
   if (isError) return <div>Error fetching course data.</div>;
 
@@ -63,38 +59,50 @@ function WatchCourse() {
         )}
       </div>
 
-      <div className="grid gap-2 px-2 lg:grid-cols-[2fr_1fr]">
+      <div className="grid gap-2 px-2 pb-4 lg:grid-cols-[2fr_1fr]">
         {/* These divs are important for layout */}
         <div>
           <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
             <div>
               {lecture.type === 'video' && (
                 <VideoPlayer
+                  key={lecture.videos[0].id}
                   src={lecture.videos[0].video_url}
                   poster={course.image_url}
                   subtitleSrc={lecture.videos[0].video_url}
                 />
               )}
+              {lecture.type === 'file' && (
+                <div className="mx-auto aspect-video h-130 w-110 max-w-5xl overflow-hidden rounded-lg shadow-md">
+                  <iframe
+                    src={lecture.file_url}
+                    className="h-full w-full"
+                    title="Lecture PDF"
+                  />
+                </div>
+              )}
             </div>
 
-            <LectureHeader />
+            <LectureHeader lecture={lecture} />
           </div>
         </div>
         <CourseContent sections={course.course_sections} />
-
-        <div className="col-start-1 mx-auto flex w-full max-w-5xl flex-col gap-4 pb-4">
-          <LectureDescription
-            description={course.course_sections[currentLec - 1].description}
-          />
-          <LectureNotes
-            notes={course.course_sections[currentLec - 1].description}
-          />
-          {/* <LectureFile /> */}
-          {/* <CommentsSection comments={course.course_sections.comments} /> */}
-        </div>
       </div>
     </div>
   );
 }
 
 export default WatchCourse;
+
+{
+  /* <div className="col-start-1 mx-auto flex w-full max-w-5xl flex-col gap-4 pb-4">
+          <LectureDescription
+            description={course.course_sections[currentLec - 1].description}
+          />
+          <LectureNotes
+            notes={course.course_sections[currentLec - 1].description}
+          />
+          <LectureFile />
+          <CommentsSection comments={course.course_sections.comments} />
+        </div> */
+}

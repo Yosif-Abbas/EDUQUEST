@@ -11,6 +11,8 @@
     "start": "json-server data/data.json"
   },
   "dependencies": {
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-query": "^5.66.0",

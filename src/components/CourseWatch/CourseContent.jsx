@@ -5,6 +5,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { CiClock2 } from 'react-icons/ci';
 import { MdOutlinePlayCircle } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
+import { calculateSectionDuration } from '../../utils/helpers';
 
 const sectionDuration = (section) => {
   const minutes = section?.lectures?.reduce((acc, lecture) => {
@@ -71,7 +72,7 @@ function CourseContent({ sections }) {
                 </p>
                 <p className="list-icon">
                   <CiClock2 color="#876A9A" size={16} />
-                  {sectionDuration(section)}
+                  {calculateSectionDuration(section)}
                 </p>
               </div>
             </div>

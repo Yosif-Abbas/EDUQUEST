@@ -1,17 +1,32 @@
-function LectureHeader() {
-  return (
-    <div className="col-start-1">
-      <h1 className="pb-3 text-xl lg:text-2xl">1. Intoduction in math</h1>
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
 
-      <div className="flex justify-between">
-        {/* left */}
-        <div className="flex min-w-68">
+function LectureHeader({ lecture }) {
+  return (
+    <div className="col-start-1 flex items-center justify-between pb-3">
+      <h1 className="text-xl lg:text-2xl">{lecture?.title}</h1>
+
+      <p className="text-xs font-normal text-gray-500">
+        Last Updated:
+        <span className="text-black"> {formatDate(lecture?.created_at)}</span>
+      </p>
+    </div>
+  );
+}
+
+export default LectureHeader;
+
+{
+  /* <div className="flex min-w-68">
           <ul className="flex w-fit justify-between">
             {Array.from({ length: 5 }, () => {
               'https://picsum.photos/102';
-            }).map((_, index) => (
+            }).map((item, index) => (
               <img
-                src="https://picsum.photos/102"
+                src=""
                 key={index}
                 width={30}
                 className={`transform rounded-full border-2 border-[#fff]`}
@@ -26,21 +41,5 @@ function LectureHeader() {
             <p className="">512</p>
             <p className="text-[#4E5566]">Student Watching</p>
           </div>
-        </div>
-        {/* right */}
-        <div className="flex flex-row-reverse flex-wrap gap-x-2 self-end text-xs font-normal text-gray-500">
-          <p>
-            Comment:
-            <span className="text-black"> 145</span>
-          </p>
-          <p>
-            Last Updated:
-            <span className="text-black"> Oct 26,2020</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+        </div> */
 }
-
-export default LectureHeader;
