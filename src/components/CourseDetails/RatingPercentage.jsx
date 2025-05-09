@@ -1,21 +1,26 @@
 import StarRating from '../StarRating';
 
-function RatingPercentage({ rating, ratingPercentage }) {
+function RatingPercentage({
+  rating,
+  ratingPercentage,
+  fillColor = '#FD8E1F',
+  emptyColor = '#FFF2E5',
+}) {
   return (
     <li className="list-icon w-full">
-      <StarRating rating={rating} />
+      <StarRating rating={rating} fillColor={fillColor} />
       <span className="hidden text-xs whitespace-nowrap text-gray-500 duration-700 sm:block">
-        {rating} Star Rating
+        {rating} Star
       </span>
 
       <div
         className="mr-4 ml-2 h-2 w-full max-w-100 sm:ml-4"
         style={{
           background: `linear-gradient(to right, 
-            #FD8E1F 0%, 
-            #FD8E1F ${ratingPercentage}%, 
-            #FFF2E5 ${ratingPercentage}%, 
-            #FFF2E5 100%)`,
+            ${fillColor} 0%, 
+            ${fillColor} ${ratingPercentage}%, 
+            ${emptyColor} ${ratingPercentage}%, 
+            ${emptyColor} 100%)`,
         }}
       ></div>
       <span className="hidden min-w-10 text-xs whitespace-nowrap text-gray-500 md:block">

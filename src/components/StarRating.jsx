@@ -7,6 +7,7 @@ const StarRating = ({
   isHoverEffect = false,
   currentRating,
   setCurrentRating,
+  fillColor = '#FD8E1F',
 }) => {
   const [hovered, setHovered] = useState(currentRating);
 
@@ -31,7 +32,7 @@ const StarRating = ({
             overflow: 'hidden',
           }}
         >
-          <div className="flex gap-x-1 text-[#FD8E1F]">
+          <div className={`flex gap-x-1 text-[${fillColor}]`}>
             {[...Array(5)].map((_, i) => (
               <FaStar key={i} className="text-xl" size={size} />
             ))}

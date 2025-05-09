@@ -1,94 +1,94 @@
-import {
-  FaCommentDots,
-  FaCreditCard,
-  FaRegStar,
-  FaStar,
-  FaTrophy,
-} from 'react-icons/fa';
+import { FaCommentDots, FaRegStar, FaStar, FaTrophy } from 'react-icons/fa';
 import { FaCirclePlay, FaUserGroup } from 'react-icons/fa6';
-import { HiClipboardList } from 'react-icons/hi';
-import { IoLayers, IoPersonCircleSharp } from 'react-icons/io5';
 import { VscVmActive } from 'react-icons/vsc';
 
+import SummaryCard from '../../components/Teacher/SummaryCard';
+
+import { useCoursesByTeacher } from '../../hooks/useCoursesByTeacher';
+import { useCurrentUser } from './../../hooks/useCurrentUser';
+import Loading from '../../components/Loading';
+import RatingPercentage from '../../components/CourseDetails/RatingPercentage';
+import { useTeacherRatings } from '../../hooks/useTeacherRatings';
+import { ratingHelper, ratingPercentageHelper } from '../../utils/helpers';
+import StarRating from '../../components/StarRating';
+
 function TeacherDashboard() {
+  const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
+
+  const teacherId = currentUser?.userTeacher?.id;
+
+  const {
+    courses,
+    error,
+    isLoading: isLoadingCourses,
+  } = useCoursesByTeacher(teacherId);
+
+  if (isLoadingUser) {
+    <div className="flex h-full w-full items-center justify-center">
+      <Loading />;
+    </div>;
+  }
+
+  // uploaded and active courses
+  const uploadedCourses = courses?.length;
+
+  // students enrolled
+  const students = courses?.reduce((acc, course) => {
+    return acc + course.students_enrolled;
+  }, 0);
+
+  // ratings
+  const {
+    ratings = {
+      '1_stars': 0,
+      '2_stars': 0,
+      '3_stars': 0,
+      '4_stars': 0,
+      '5_stars': 0,
+    },
+  } = useTeacherRatings(teacherId);
+
+  const { ratingCount, rating } = ratingHelper(ratings);
+
+  const ratingPercentage = ratingPercentageHelper(ratings, ratingCount);
+
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-12">
-      <section className="teacher-dashboard-stats col-span-full rounded-lg">
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <FaCirclePlay />
-          </div>
-          <div>
-            <h2 className="text-xl">(957)</h2>
-            <p className="text-[12px] text-[#4E5566]">Enrolled Courses</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <VscVmActive />
-          </div>
-          <div>
-            <h2 className="text-xl">(19)</h2>
-            <p className="text-[12px] text-[#4E5566]">Active Courses</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <FaUserGroup />
-          </div>
-          <div>
-            <h2 className="text-xl">(241)</h2>
-            <p className="text-[12px] text-[#4E5566]">Course Instructors</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <FaTrophy />
-          </div>
-          <div>
-            <h2 className="text-xl">(951)</h2>
-            <p className="text-[12px] text-[#4E5566]">Complete Courses</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <IoPersonCircleSharp />
-          </div>
-          <div>
-            <h2 className="text-xl">(1,674,767)</h2>
-            <p className="text-[12px] text-[#4E5566]">Students</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <HiClipboardList />
-          </div>
-          <div>
-            <h2 className="text-xl">(3)</h2>
-            <p className="text-[12px] text-[#4E5566]">Online Courses</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <FaCreditCard />
-          </div>
-          <div>
-            <h2 className="text-xl">($7,461)</h2>
-            <p className="text-[12px] text-[#4E5566]">Total Earning</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-2">
-          <div className="bg-[#FFEEE8] p-4 text-lg text-[#FF6636]">
-            <IoLayers />
-          </div>
-          <div>
-            <h2 className="text-xl">(56,489)</h2>
-            <p className="text-[12px] text-[#4E5566]">Courses Sold</p>
-          </div>
-        </div>
+      <section className="col-span-full grid rounded-lg lg:grid-cols-[1fr_1fr_1fr]">
+        <SummaryCard
+          icon={<FaCirclePlay color="#FF6636" />}
+          value={uploadedCourses}
+          color="#FFF2E5"
+          label="Uploaded Courses"
+          isLoading={isLoadingCourses}
+        />
+        <SummaryCard
+          icon={<VscVmActive color="#564FFD" />}
+          value={uploadedCourses}
+          label="Active Courses"
+          color="#EBEBFF"
+          explain="Courses available for students to enroll in"
+          isLoading={isLoadingCourses}
+        />
+        <SummaryCard
+          icon={<FaUserGroup color="#E34444" />}
+          value={students.toLocaleString()}
+          label="Students"
+          color="#FFF0F0"
+          explain="Students enrolled in your courses"
+          isLoading={isLoadingCourses}
+        />
+        {/* <SummaryCard
+          icon={<FaTrophy color="#23BD33" />}
+          value={0}
+          label="Completed Courses"
+          color="#E1F7E3"
+          explain="Courses completed by your students"
+          isLoading={isLoadingCourses}
+        /> */}
       </section>
 
-      <section className="col-span-full rounded-lg lg:col-span-4 xl:col-span-3">
+      {/* <section className="col-span-full rounded-lg lg:col-span-4 xl:col-span-3">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Recent Activity</h2>
           <select
@@ -128,9 +128,9 @@ function TeacherDashboard() {
             </div>
           </li>
         </ul>
-      </section>
+      </section> */}
 
-      <section className="col-span-full rounded-lg lg:col-span-8 xl:col-span-3">
+      {/* <section className="col-span-full rounded-lg lg:col-span-8 xl:col-span-3">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Profile View</h2>
           <select
@@ -158,101 +158,35 @@ function TeacherDashboard() {
           </select>
         </div>
         <div className="p-2">(Chart)</div>
+      </section> */}
+
+      <section className="col-span-full space-y-1 xl:col-span-8">
+        <div className="flex items-center justify-between border-b-1 border-white p-2">
+          <h2>Overall Courses Rating</h2>
+        </div>
+
+        <div className="flex gap-x-4">
+          <div className="flex w-50 flex-col items-center justify-center gap-y-4 bg-[#FFF2E5] py-4">
+            <h1 className="mb-2 text-4xl">{rating}</h1>
+            <StarRating rating={rating} size={18} fillColor="#876A9A" />
+            <p className="text-xs">Teacher Rating</p>
+          </div>
+
+          <ul className="flex w-full flex-col justify-between gap-y-2">
+            {Array.from({ length: 5 }, (_, i) => 5 - i).map((i) => (
+              <RatingPercentage
+                key={i}
+                rating={i}
+                ratingPercentage={ratingPercentage[`${i}_stars`]}
+                fillColor="#876A9A"
+                emptyColor="#E9EAF0"
+              />
+            ))}
+          </ul>
+        </div>
       </section>
 
       <section className="col-span-full rounded-lg xl:col-span-4">
-        <div className="flex items-center justify-between border-b-1 border-white p-2">
-          <h2>Overall Course Rating</h2>
-          <select
-            name="recent-activity"
-            className="text-sm text-[#6E7485] focus:outline-1 focus:outline-[#6E7485]"
-          >
-            <option value="today">Today</option>
-            <option value="week">Last Week</option>
-            <option value="month">Last Month</option>
-          </select>
-        </div>
-        <div className="p-2">(Overall Raiting)</div>
-        <ul className="mt-6 p-2">
-          <li className="mb-2 flex gap-4">
-            {/* <FaRegStar /> */}
-            <div className="text-pinky-violet flex items-center gap-1 text-[14px]">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <span className="ml-1 font-medium text-[#6E7485]">5 Star</span>
-            </div>
-            <div className="flex grow items-center">
-              <span className="after:bg-pinky-violet relative mr-3 block h-2 w-full bg-white after:absolute after:left-0 after:h-full after:w-[56%] after:content-['']"></span>
-              <span className="block w-10 text-sm">56%</span>
-            </div>
-          </li>
-          <li className="mb-2 flex gap-4">
-            {/* <FaRegStar /> */}
-            <div className="text-pinky-violet flex items-center gap-1 text-[14px]">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaRegStar />
-              <span className="ml-1 font-medium text-[#6E7485]">4 Star</span>
-            </div>
-            <div className="flex grow items-center">
-              <span className="after:bg-pinky-violet relative mr-3 block h-2 w-full bg-white after:absolute after:left-0 after:h-full after:w-[37%] after:content-['']"></span>
-              <span className="block w-10 text-sm">37%</span>
-            </div>
-          </li>
-          <li className="mb-2 flex gap-4">
-            {/* <FaRegStar /> */}
-            <div className="text-pinky-violet flex items-center gap-1 text-[14px]">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaRegStar />
-              <FaRegStar />
-              <span className="ml-1 font-medium text-[#6E7485]">3 Star</span>
-            </div>
-            <div className="flex grow items-center">
-              <span className="after:bg-pinky-violet relative mr-3 block h-2 w-full bg-white after:absolute after:left-0 after:h-full after:w-[8%] after:content-['']"></span>
-              <span className="block w-10 text-sm">8%</span>
-            </div>
-          </li>
-          <li className="mb-2 flex gap-4">
-            {/*  */}
-            <div className="text-pinky-violet flex items-center gap-1 text-[14px]">
-              <FaStar />
-              <FaStar />
-              <FaRegStar />
-              <FaRegStar />
-              <FaRegStar />
-              <span className="ml-1 font-medium text-[#6E7485]">2 Star</span>
-            </div>
-            <div className="flex grow items-center">
-              <span className="after:bg-pinky-violet relative mr-3 block h-2 w-full bg-white after:absolute after:left-0 after:h-full after:w-[1%] after:content-['']"></span>
-              <span className="block w-10 text-sm">1%</span>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            {/* <FaRegStar /> */}
-            <div className="text-pinky-violet flex items-center gap-1 text-[14px]">
-              <FaStar />
-              <FaRegStar />
-              <FaRegStar />
-              <FaRegStar />
-              <FaRegStar />
-              <span className="ml-1 font-medium text-[#6E7485]">5 Star</span>
-            </div>
-            <div className="flex grow items-center">
-              <span className="after:bg-pinky-violet relative mr-3 block h-2 w-full bg-white after:absolute after:left-0 after:h-full after:w-[56%] after:content-['']"></span>
-              <span className="block basis-10 text-sm">{'<'}1%</span>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section className="col-span-full rounded-lg xl:col-span-8">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Course Overview</h2>
           <select
@@ -271,3 +205,25 @@ function TeacherDashboard() {
 }
 
 export default TeacherDashboard;
+{
+  /* <SummaryCard
+    icon={<IoPersonCircleSharp />}
+    value="(1,674,767)"
+    label="Students"
+  /> 
+  <SummaryCard
+    icon={<HiClipboardList />}
+    value="(3)"
+    label="Online Courses"
+  />
+  <SummaryCard
+    icon={<FaCreditCard />}
+    value="($7,461)"
+    label="Total Earning"
+  />
+  <SummaryCard
+    icon={<IoLayers />}
+    value="(56,489)"
+    label="Courses Sold"
+  /> */
+}

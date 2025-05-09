@@ -42,8 +42,8 @@ function StudentDashboard() {
         <h2 className="mb-6 ml-6 text-2xl font-bold">Dashboard</h2>
         <ul className="flex flex-wrap gap-6">
           <li className="student-dashboard-list-item bg-[#FFEEE8]">
-            <span className="text-L6 student-dashboard-list-item-icon">
-              <MdOutlineFileDownloadDone />
+            <span className="student-dashboard-list-item-icon">
+              <MdOutlineFileDownloadDone color='#ff6636' />
             </span>
             <div>
               <h3 className="mb-2 text-2xl">

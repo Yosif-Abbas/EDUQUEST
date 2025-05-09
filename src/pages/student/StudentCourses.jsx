@@ -72,7 +72,7 @@ function StudentCourses() {
           </ul>
         )}
 
-        <Pagination count={count} />
+        {/* <Pagination count={count} /> */}
       </section>
     </>
   );

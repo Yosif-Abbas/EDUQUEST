@@ -2,21 +2,25 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import { useSearchParams } from 'react-router-dom';
+import { useCategories } from '../../hooks/useGetCategories';
 
-const categories = [
-  'Science',
-  'Mathematics',
-  'Thinking & Speaking',
-  'Economics & Business',
-  'Writing',
-  'History & Social Studies',
-  'Language',
-  'Other',
-];
+// const categories = [
+//   'Science',
+//   'Mathematics',
+//   'Thinking & Speaking',
+//   'Economics & Business',
+//   'Writing',
+//   'History & Social Studies',
+//   'Language',
+//   'Other',
+// ];
 
 function Filter() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const {categories, isLoading} = useCategories();
+  console.log(categories)
 
   const [filter, setFilter] = useState(searchParams.get('category') || 'all');
 
@@ -111,14 +115,15 @@ function Filter() {
             <div className="flex justify-end gap-x-4">
               <button
                 onClick={handleClearFilter}
-                className="bg-L1 text-L4 rounded-md px-4 py-2 text-sm font-semibold"
+                className="bg-[#dde6ed] text-L4 rounded-md px-4 py-2 text-sm font-semibold"
               >
                 Clear
               </button>
 
               <button
                 onClick={handleFilter}
-                className="bg-L4 rounded-md px-4 py-2 text-sm font-semibold text-white"
+                className={`bg-[#27374d] rounded-md px-4 py-2 text-sm font-semibold text-white ${!filter?"cursor-not-allowed opacity-40":""}`}
+                disabled={!filter}
               >
                 Apply
               </button>

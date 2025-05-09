@@ -87,7 +87,8 @@ function StudentSettings() {
       firstName !== first_name ||
       lastName !== last_name ||
       phone !== phone_number ||
-      bio !== biography;
+      bio !== biography ||
+      password !== '';
 
     // create new account
 
@@ -186,9 +187,9 @@ function StudentSettings() {
           </p>
 
           <button
-            className="bg-L6 mt-4 w-fit px-6 py-3 text-white"
+            className="mt-4 w-fit bg-[#ff6636] px-6 py-3 text-white"
             onClick={handleUploadAvatar}
-            disabled={isUploadingAvatar}
+            disabled={isUploadingAvatar || !file}
             type="button"
           >
             {isUploadingAvatar ? (
@@ -303,7 +304,7 @@ function StudentSettings() {
               </div>
             </div>
 
-            <button className="bg-L6 col-start-2 mt-4 w-fit px-6 py-3 text-white">
+            <button className="col-start-2 mt-4 w-fit bg-[#ff6636] px-6 py-3 text-white">
               {isUpdating ? (
                 <Spinner size={25} color="white" />
               ) : (

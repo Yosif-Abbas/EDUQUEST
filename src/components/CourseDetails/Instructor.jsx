@@ -12,6 +12,8 @@ function Instructor({ instructor }) {
 
   const { courses, error, isLoading } = useCoursesByTeacher(instructor.id);
 
+  console.log(courses);
+
   // students count
   const teacherStudents = courses.reduce(
     (acc, course) => course.students_enrolled + acc,

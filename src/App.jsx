@@ -1,6 +1,7 @@
 import AppRoutes from './AppRoutes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import './index.css';
 
 import './App.css';
 import { Toaster } from 'react-hot-toast';

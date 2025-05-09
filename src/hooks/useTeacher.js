@@ -3,7 +3,7 @@ import { getTeacher } from '../api/teacherAPI';
 
 export function useTeacher() {
   const { data: teacher, isLoading } = useQuery({
-    queryKey: ['user-teacher'],
+    queryKey: ['user'],
     queryFn: getTeacher,
   });
 

@@ -15,10 +15,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeoutReached(true);
-    }, 3000); // 5 seconds
+    }, 3000);
 
-    return () => clearTimeout(timer); // cleanup
+    return () => clearTimeout(timer);
   }, []);
+
+  // console.log(currentUser, isLoading, isAuthenticated);
 
   useEffect(() => {
     if (isLoading || currentUser === null) return;
@@ -30,7 +32,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     }
   }, [isAuthenticated, isLoading, role, allowedRoles, navigate, currentUser]);
 
-  if ((!timeoutReached || isLoading) && currentUser === null) {
+  if ((!timeoutReached || isLoading) && !currentUser) {
     return (
       <div className="bg-L2 flex h-screen items-center justify-center">
         <Loading size={150} />

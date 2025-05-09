@@ -11,7 +11,7 @@ function Courses() {
   if (isError) return <div>Error fetching courses</div>;
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="mt-4 flex h-full flex-col">
       <SearchControls resultsNumber={count} isLoading={isLoading} />
 
       <div className="flex h-full flex-col justify-between py-6">

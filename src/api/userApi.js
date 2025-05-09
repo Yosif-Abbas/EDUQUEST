@@ -9,13 +9,14 @@ export async function updateStudentSettings({
   biography,
   password,
 }) {
-  if (password) {
-    const { error: passwordError } = await supabase.auth.updateUser({
-      password,
+  if (password || email) {
+    const { error: updateError } = await supabase.auth.updateUser({
+      ...(password && { password }),
+      ...(email && { email }),
     });
 
-    if (passwordError) {
-      throw new Error('Error updating password');
+    if (updateError) {
+      throw new Error('Error updating user information');
     }
   }
 
