@@ -68,19 +68,7 @@ function StudentSettings() {
 
     setErrors(newErrors);
 
-    console.log(newErrors);
-
     if (Object.keys(newErrors).length > 0) return;
-
-    // currentUser: {
-    //   id: userId,
-    //   first_name,
-    //   last_name,
-    //   email: userEmail,
-    //   phone_number,
-    //   biography,
-    //   image_url,
-    // },
 
     const hasChanges =
       email !== userEmail ||
@@ -89,8 +77,6 @@ function StudentSettings() {
       phone !== phone_number ||
       bio !== biography ||
       password !== '';
-
-    // create new account
 
     if (!email || !firstName || !lastName || !phone) return;
 
@@ -136,7 +122,7 @@ function StudentSettings() {
   };
 
   const handleUploadAvatar = () => {
-    uploadAvatar({ file, userId });
+    uploadAvatar({ file, userId }, { onSuccess: setFile(null) });
   };
 
   return (
@@ -146,7 +132,7 @@ function StudentSettings() {
       <div className="flex flex-col gap-y-10 md:flex-row md:gap-10 lg:gap-20">
         <div className="flex flex-col items-start">
           <figure
-            className="relative h-110 w-110 md:h-80 md:w-80 lg:h-110 lg:w-110"
+            className="relative h-110 w-110 cursor-pointer md:h-80 md:w-80 lg:h-110 lg:w-110"
             onClick={handleUploadClick}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -195,7 +181,7 @@ function StudentSettings() {
             {isUploadingAvatar ? (
               <Spinner size={25} color="white" />
             ) : (
-              'change photo'
+              'Update photo'
             )}
           </button>
         </div>
@@ -250,11 +236,6 @@ function StudentSettings() {
                   onChange={(e) => setBio(e.target.value)}
                   className="w-full border-1 border-white px-4 py-3 placeholder:font-normal"
                 />
-                {errors.biography && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.biography}
-                  </p>
-                )}
               </div>
               <div>
                 <label className="mb-1 block text-sm">New Password</label>

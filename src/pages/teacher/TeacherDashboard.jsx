@@ -11,6 +11,8 @@ import RatingPercentage from '../../components/CourseDetails/RatingPercentage';
 import { useTeacherRatings } from '../../hooks/useTeacherRatings';
 import { ratingHelper, ratingPercentageHelper } from '../../utils/helpers';
 import StarRating from '../../components/StarRating';
+import Spinner from '../../components/Spinner';
+import CourseEnrollmentChart from '../../components/Teacher/CourseEnrollementPieChart';
 
 function TeacherDashboard() {
   const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
@@ -46,6 +48,7 @@ function TeacherDashboard() {
       '4_stars': 0,
       '5_stars': 0,
     },
+    isLoading: isLoadingRatings,
   } = useTeacherRatings(teacherId);
 
   const { ratingCount, rating } = ratingHelper(ratings);
@@ -161,13 +164,17 @@ function TeacherDashboard() {
       </section> */}
 
       <section className="col-span-full space-y-1 xl:col-span-8">
-        <div className="flex items-center justify-between border-b-1 border-white p-2">
+        <div className="mb-4 flex items-center justify-between border-b-1 border-white p-2">
           <h2>Overall Courses Rating</h2>
         </div>
 
         <div className="flex gap-x-4">
           <div className="flex w-50 flex-col items-center justify-center gap-y-4 bg-[#FFF2E5] py-4">
-            <h1 className="mb-2 text-4xl">{rating}</h1>
+            {isLoadingRatings || isLoadingCourses ? (
+              <Spinner size={45} color="#876A9A" />
+            ) : (
+              <h1 className="mb-2 text-4xl">{rating}</h1>
+            )}
             <StarRating rating={rating} size={18} fillColor="#876A9A" />
             <p className="text-xs">Teacher Rating</p>
           </div>
@@ -180,15 +187,17 @@ function TeacherDashboard() {
                 ratingPercentage={ratingPercentage[`${i}_stars`]}
                 fillColor="#876A9A"
                 emptyColor="#E9EAF0"
+                animationDuration={1000}
+                animationDelay={250}
               />
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="col-span-full rounded-lg xl:col-span-4">
+      <section className="col-span-full xl:col-span-4">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
-          <h2>Course Overview</h2>
+          <h2>Courses Chart</h2>
           <select
             name="recent-activity"
             className="text-sm text-[#6E7485] focus:outline-1 focus:outline-[#6E7485]"
@@ -198,7 +207,9 @@ function TeacherDashboard() {
             <option value="month">Last Month</option>
           </select>
         </div>
-        <div className="p-2">(Chart)</div>
+        <div className="p-2">
+          {courses && <CourseEnrollmentChart data={courses} />}
+        </div>
       </section>
     </div>
   );

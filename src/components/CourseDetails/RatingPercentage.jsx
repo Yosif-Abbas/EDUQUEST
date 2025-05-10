@@ -5,6 +5,8 @@ function RatingPercentage({
   ratingPercentage,
   fillColor = '#FD8E1F',
   emptyColor = '#FFF2E5',
+  animationDuration = 500,
+  animationDelay = 100,
 }) {
   return (
     <li className="list-icon w-full">
@@ -14,15 +16,20 @@ function RatingPercentage({
       </span>
 
       <div
-        className="mr-4 ml-2 h-2 w-full max-w-100 sm:ml-4"
+        className={`relative mr-4 ml-2 h-2 w-full max-w-100 sm:ml-4`}
         style={{
-          background: `linear-gradient(to right, 
-            ${fillColor} 0%, 
-            ${fillColor} ${ratingPercentage}%, 
-            ${emptyColor} ${ratingPercentage}%, 
-            ${emptyColor} 100%)`,
+          background: emptyColor,
         }}
-      ></div>
+      >
+        <div
+          className="absolute top-0 left-0 h-full transition-all"
+          style={{
+            width: `${ratingPercentage}%`,
+            backgroundColor: fillColor,
+            transition: `width ${animationDuration}ms ${animationDelay}ms`,
+          }}
+        />
+      </div>
       <span className="hidden min-w-10 text-xs whitespace-nowrap text-gray-500 md:block">
         {ratingPercentage < 1 ? '<1.0' : ratingPercentage.toFixed(1)} %
       </span>

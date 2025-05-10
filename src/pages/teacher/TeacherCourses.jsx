@@ -1,13 +1,23 @@
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useCourses } from './../../hooks/useCourses';
+import { useCoursesByTeacher } from './../../hooks/useCoursesByTeacher';
 
 function TeacherCourses() {
-  const { courses, isLoading, isError } = useCourses();
+  const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
 
-  if (isError) return <div>Error fetching courses</div>;
+  const teacherId = currentUser?.userTeacher?.id;
 
-  if (isLoading)
+  const {
+    courses,
+    error,
+    isLoading: isLoadingCourses,
+  } = useCoursesByTeacher(teacherId);
+
+  if (error) return <div>Error fetching courses</div>;
+
+  if (isLoadingCourses || isLoadingUser)
     return (
       <div className="flex h-full w-full items-center justify-center pb-25">
         <Loading size={150} />
@@ -17,7 +27,7 @@ function TeacherCourses() {
   return (
     <div>
       {/* <div></div> */}
-      <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         {courses &&
           courses.map((course) => <Card course={course} key={course.id} />)}
       </ul>

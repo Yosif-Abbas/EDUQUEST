@@ -1,6 +1,4 @@
-
-
-@import "tailwindcss";
+@import 'tailwindcss';
 
 .container {
   margin: 0 auto;
@@ -8,12 +6,16 @@
   /* width: 600px; */
 }
 
+.required:after {
+  content: ' *';
+  color: red;
+}
+
 @media (max-width: 768px) {
   .container {
     /* padding: 0; */
   }
 }
-
 
 @theme {
   --color-main: #526d82;
@@ -32,7 +34,6 @@
 
   --breakpoint-xs: 480px;
 }
-
 
 @layer {
   .teacher-navlink {
