@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCategories } from '../api/coursesApi';
 
-
 export function useCategories() {
   const {
     data: categories = [],

@@ -3,13 +3,15 @@ import { FaRegBell } from 'react-icons/fa';
 import { IoIosSearch } from 'react-icons/io';
 
 import { useTeacher } from '../../hooks/useTeacher';
+import { useNavigate } from 'react-router-dom';
 
 function TeacherHeader() {
-  const [showSearchInput, setShowSearchInput] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showSearchInput, setShowSearchInput] = useState(false);
+  // const [showNotification, setShowNotification] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
 
   const { teacher = {}, isLoading } = useTeacher();
+  const navigate = useNavigate();
 
   const {
     first_name: firstName,
@@ -17,15 +19,17 @@ function TeacherHeader() {
     image_url: teacherImage,
   } = teacher;
 
-  function handleSearch() {
-    setShowSearchInput((pre) => !pre);
-  }
-  function handleNotification() {
-    setShowNotification((pre) => !pre);
-  }
+  // function handleSearch() {
+  //   setShowSearchInput((pre) => !pre);
+  // }
+  // function handleNotification() {
+  //   setShowNotification((pre) => !pre);
+  // }
+
   function handleProfile() {
-    setShowProfile((pre) => !pre);
+    navigate('/teacher/dashboard');
   }
+
   return (
     <div className="mb-6 flex items-center justify-between">
       <h3 className="text-sm sm:text-xl">
@@ -33,7 +37,21 @@ function TeacherHeader() {
         {firstName + ' ' + lastName}
       </h3>
 
-      <section className="relative z-20 flex items-center gap-3 text-lg">
+      <button onClick={handleProfile}>
+        <figure>
+          <img
+            src={
+              isLoading
+                ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                : teacherImage
+            }
+            alt="pictuer"
+            className="h-12 w-12 rounded-full object-cover object-top"
+          />
+        </figure>
+      </button>
+
+      {/* <section className="relative z-20 flex items-center gap-3 text-lg">
         <button
           onClick={handleSearch}
           className="h-fit rounded-xl bg-white p-2 transition lg:hidden"
@@ -67,24 +85,10 @@ function TeacherHeader() {
           className={`absolute top-[120%] right-13 h-100 w-70 rounded-xl bg-white p-2 ${!showNotification && 'hidden'}`}
         ></div>
 
-        <button onClick={handleProfile}>
-          <figure>
-            <img
-              src={
-                isLoading
-                  ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
-                  : teacherImage
-              }
-              alt="pictuer"
-              className="h-10 w-10 rounded-full object-cover object-top"
-            />
-          </figure>
-        </button>
-
         <div
           className={`absolute top-[120%] right-0 h-100 w-50 rounded-xl bg-white p-2 ${!showProfile && 'hidden'}`}
         ></div>
-      </section>
+      </section> */}
     </div>
   );
 }

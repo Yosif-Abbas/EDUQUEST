@@ -198,14 +198,6 @@ function TeacherDashboard() {
       <section className="col-span-full xl:col-span-4">
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Courses Chart</h2>
-          <select
-            name="recent-activity"
-            className="text-sm text-[#6E7485] focus:outline-1 focus:outline-[#6E7485]"
-          >
-            <option value="today">Today</option>
-            <option value="week">Last Week</option>
-            <option value="month">Last Month</option>
-          </select>
         </div>
         <div className="p-2">
           {courses && <CourseEnrollmentChart data={courses} />}

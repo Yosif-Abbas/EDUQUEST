@@ -74,8 +74,9 @@ function CourseSidebar({
   const isLoadingWishlistProcess = isAddingToWishlist || isRemovingFromWishlist;
 
   const courseDuration = getFormattedTotalDuration(course_sections);
-  const number_of_lessons = course_sections.reduce(
-    (count, section) => count + (section.Lectures?.length || nol),
+
+  const number_of_lessons = course_sections?.reduce(
+    (count, section) => count + (section.lectures?.length || 0),
     0,
   );
 
@@ -142,7 +143,7 @@ function CourseSidebar({
   };
 
   return (
-    <div className="flex flex-col  divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
+    <div className="flex flex-col divide-y-1 divide-[#DDE6ED] bg-white p-6 lg:row-span-2 lg:max-h-fit lg:max-w-100">
       {!isEnrolled && (
         <Price
           regularPrice={regularPrice}

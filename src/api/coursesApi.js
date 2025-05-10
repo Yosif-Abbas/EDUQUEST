@@ -106,12 +106,12 @@ export const getEnrolledCourse = async ({ studentId, courseId }) => {
     .eq('course_id', courseId)
     .single();
 
-    if (error && status !== 406) {
-      console.error(error.message);
-      throw error;
-    }
-  
-    return data ?? null; 
+  if (error && status !== 406) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return data ?? null;
 };
 
 export const enrollInCourse = async ({ studentId, courseId }) => {
@@ -168,17 +168,17 @@ export const enrollInCourse = async ({ studentId, courseId }) => {
   return data;
 };
 
-
 export async function getCategories() {
-  const { data, error } = await supabase
-    .from('courses')
-    .select('category');
+  const { data, error } = await supabase.from('courses').select('category');
 
   if (error) {
     console.error('Error fetching categories:', error.message);
     return [];
   }
-  const uniqueCategories = [...new Set(data.map(row => row.category))];
+  const uniqueCategories = [...new Set(data.map((row) => row.category))];
 
-  return uniqueCategories;
+  const filteredCategories = uniqueCategories.filter((cat) => cat !== 'Other');
+  filteredCategories.push('Other');
+
+  return filteredCategories;
 }

@@ -26,7 +26,9 @@ function TeacherCourses() {
 
   return (
     <div>
-      {/* <div></div> */}
+      <div className="mb-4">
+        <h1 className="text-2xl">Your Courses</h1>
+      </div>
       <ul className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         {courses &&
           courses.map((course) => <Card course={course} key={course.id} />)}
