@@ -58,8 +58,9 @@ export const ratingHelper = (ratings) => {
     ratings['4_stars'] * 4 +
     ratings['5_stars'] * 5;
 
-  const rating = (totalRating / ratingCount).toFixed(1);
-
+  let rating = (totalRating / ratingCount).toFixed(1);
+  rating = isNaN(rating) ? 0 : parseFloat(rating);
+  
   return { ratingCount, rating };
 };
 

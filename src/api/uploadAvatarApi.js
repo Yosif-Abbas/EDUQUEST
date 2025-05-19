@@ -32,3 +32,12 @@ export async function uploadAvatarApi({ file, userId }) {
 
   return publicUrl;
 }
+
+export async function uploadFile(file, path, bucket) {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file);
+
+  if (error) throw error;
+  return data.fullPath;
+}

@@ -31,7 +31,12 @@ function RatingPercentage({
         />
       </div>
       <span className="hidden min-w-10 text-xs whitespace-nowrap text-gray-500 md:block">
-        {ratingPercentage < 1 ? '<1.0' : ratingPercentage.toFixed(1)} %
+        {ratingPercentage < 1
+          ? ratingPercentage === 0
+            ? '0'
+            : '<1.0'
+          : ratingPercentage.toFixed(1)}{' '}
+        %
       </span>
     </li>
   );

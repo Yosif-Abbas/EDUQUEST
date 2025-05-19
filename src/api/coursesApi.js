@@ -182,3 +182,168 @@ export async function getCategories() {
 
   return filteredCategories;
 }
+
+export async function createNewCourse({ course, teacherId }) {
+  if (!course) return;
+  const {
+    // courses table data
+    subject,
+    title,
+    regularPrice,
+    discount,
+    discount_end_date,
+    currency,
+    image_url,
+    intro,
+    rating,
+    rating_count,
+    students_enrolled,
+    description,
+    course_duration,
+    number_of_lessons,
+    course_level,
+    category,
+
+    // course_benefits
+    course_benefits,
+    // course_requirements
+    course_requirements,
+    // course_includes
+    course_includes,
+    //course_sections
+    course_sections,
+  } = course;
+
+  const { data, error } = await supabase
+    .from('courses')
+    .insert([
+      {
+        subject,
+        title,
+        image_url,
+        intro,
+        regularPrice: Number(regularPrice) || 0,
+        discount: Number(discount) || 0,
+        discount_end_date: discount_end_date || null,
+        currency,
+        rating: Number(rating) || 0,
+        rating_count: Number(rating_count) || 0,
+        students_enrolled: Number(students_enrolled) || 0,
+        description,
+        course_duration: Number(course_duration) || 0,
+        number_of_lessons: Number(number_of_lessons) || 0,
+        course_level,
+        category,
+        teacher_id: teacherId,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Create course error:', error.message);
+    throw error;
+  }
+
+  console.log(data);
+
+  // benefits
+  const { data: benefits, error: benefitsError } = await supabase
+    .from('course_benefits')
+    .insert(course_benefits.map((text) => ({ text, course_id: data.id })))
+    .select();
+
+  if (benefitsError) {
+    console.error('Create course error:', benefitsError.message);
+    throw benefitsError;
+  }
+
+  // requirements
+  const { data: requirements, error: requirementsError } = await supabase
+    .from('course_requirements')
+    .insert(course_requirements.map((text) => ({ text, course_id: data.id })))
+    .select();
+
+  if (requirementsError) {
+    console.error('Create course error:', requirementsError.message);
+    throw requirementsError;
+  }
+
+  // includes
+  const { data: includes, error: includesError } = await supabase
+    .from('course_includes')
+    .insert(course_includes.map((text) => ({ text, course_id: data.id })))
+    .select();
+
+  if (includesError) {
+    console.error('Create course error:', includesError.message);
+    throw includesError;
+  }
+
+  const { data: ratings, error: ratingsError } = await supabase
+    .from('ratings')
+    .insert([
+      {
+        course_id: data.id,
+        '1_stars': 0,
+        '2_stars': 0,
+        '3_stars': 0,
+        '4_stars': 0,
+        '5_stars': 0,
+      },
+    ])
+    .select();
+
+  if (ratingsError) {
+    console.error('Create course error:', ratingsError.message);
+    throw ratingsError;
+  }
+
+  for (const section of course_sections) {
+    // Insert course section
+    const { data: sectionData, error: sectionError } = await supabase
+      .from('course_sections')
+      .insert({
+        title: section.title,
+        duration: section.duration,
+        description: section.description,
+        course_id: data.id,
+      })
+      .select()
+      .single();
+
+    if (sectionError) throw sectionError;
+
+    const sectionId = sectionData.id;
+
+    for (const lecture of section.lectures) {
+      // Insert lecture
+      const { data: lectureData, error: lectureError } = await supabase
+        .from('lectures')
+        .insert({
+          title: lecture.title,
+          type: lecture.type,
+          content_info: lecture.content_info,
+          file_url: lecture.type === 'file' ? lecture.file_url : null,
+          section_id: sectionId,
+        })
+        .select()
+        .single();
+
+      if (lectureError) throw lectureError;
+
+      const lectureId = lectureData.id;
+
+      if (lecture.type === 'video') {
+        const { error: videoError } = await supabase.from('videos').insert({
+          video_url: lecture.file_url,
+          lecture_id: lectureId,
+        });
+
+        if (videoError) throw videoError;
+      }
+    }
+  }
+
+  return data;
+}

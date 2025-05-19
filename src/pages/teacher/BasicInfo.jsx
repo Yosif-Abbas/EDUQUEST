@@ -1,16 +1,32 @@
 import Loading from '../../components/Loading';
 import { useCategories } from '../../hooks/useGetCategories';
 
-function BasicInfo() {
+function BasicInfo({ course, setCourse }) {
   const { categories, error, isLoading } = useCategories();
+  const {
+    title: courseTitle = '',
+    subject: courseSubject = '',
+    category: courseCategory = '',
+    regularPrice: price = '',
+    currency: courseCurrency = 'LE',
+    course_level: courseLevel = '',
+    discount: courseDiscount = '',
+    discount_end_date: discountEndDate = '',
+    description,
+  } = course ?? {};
+
+  const handleChangeField = (value, field) => {
+    setCourse((prevCourse) => ({
+      ...prevCourse,
+      [field]: value,
+    }));
+  };
 
   if (isLoading) {
     <div className="flex h-full w-full items-center justify-center">
       <Loading />
     </div>;
   }
-
-  console.log(categories);
 
   return (
     <>
@@ -23,6 +39,8 @@ function BasicInfo() {
           id="title"
           placeholder="Your course title"
           className="required border-1 border-white p-2 pl-4"
+          value={courseTitle}
+          onChange={(e) => handleChangeField(e.target.value, 'title')}
         />
       </div>
 
@@ -36,6 +54,8 @@ function BasicInfo() {
             id="subject"
             placeholder="Your course Subject"
             className="border-1 border-white p-2 pl-4"
+            value={courseSubject}
+            onChange={(e) => handleChangeField(e.target.value, 'subject')}
           />
         </div>
 
@@ -45,6 +65,8 @@ function BasicInfo() {
           </label>
           <select
             id="category"
+            defaultValue={courseCategory}
+            onChange={(e) => handleChangeField(e.target.value, 'category')}
             className="w-full border-1 border-white p-2 pl-4 text-gray-700"
           >
             {categories.map((option, index) => (
@@ -60,14 +82,27 @@ function BasicInfo() {
       <div className="flex flex-col justify-between gap-2 lg:flex-row">
         <div className="mb-2 flex w-full gap-1.5 lg:w-1/2">
           <div className="flex grow flex-col gap-1.5">
-            <label htmlFor="price" className="required">
-              Price
-            </label>
-
+            <div className="flex items-center gap-x-2">
+              <label htmlFor="price" className="required">
+                Price
+              </label>
+              <span className="text-[10px] text-gray-500">
+                0 is a free course,
+              </span>
+              <span className="text-[10px] text-gray-500">
+                max price is 2500LE{' '}
+              </span>
+            </div>
             <input
-              type="text"
+              type="number"
+              min={0}
+              max={2500}
               id="price"
               placeholder="Price"
+              value={price > 2500 ? 2500 : price && price < 0 ? 0 : price}
+              onChange={(e) =>
+                handleChangeField(e.target.value, 'regularPrice')
+              }
               className="border-1 border-white p-2 pl-4"
             />
           </div>
@@ -78,6 +113,9 @@ function BasicInfo() {
             <input
               type="text"
               id="currency"
+              value={'LE'}
+              disabled
+              onChange={(e) => handleChangeField(e.target.value, 'currency')}
               placeholder="ex:LE"
               className="w-15 border-1 border-white p-2"
             />
@@ -89,7 +127,8 @@ function BasicInfo() {
           </label>
           <select
             id="level"
-            defaultValue={''}
+            defaultValue={courseLevel}
+            onChange={(e) => handleChangeField(e.target.value, 'course_level')}
             className="border-1 border-white p-2 pl-4 text-gray-700"
           >
             {[1, 2, 3].map((option, index) => (
@@ -108,6 +147,14 @@ function BasicInfo() {
           <input
             type="text"
             id="discount"
+            value={
+              courseDiscount > 100
+                ? 100
+                : courseDiscount && courseDiscount < 0
+                  ? 0
+                  : courseDiscount
+            }
+            onChange={(e) => handleChangeField(e.target.value, 'discount')}
             placeholder="discount %"
             className="border-1 border-white p-2 pl-4"
           />
@@ -117,28 +164,28 @@ function BasicInfo() {
             Discount end-date
           </label>
           <input
-            type="date"
+            type="datetime-local"
+            value={discountEndDate?.replace(' ', 'T') || ''}
+            onChange={(e) =>
+              handleChangeField(e.target.value, 'discount_end_date')
+            }
             id="discount-end-date"
             className="border-1 border-white p-2 pl-4"
           />
         </div>
       </div>
 
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-        {/* <div className="relative flex min-w-fit flex-col gap-1.5 sm:basis-[250px]">
-          <label htmlFor="duration">Course Duration</label>
-          <input
-            type="text"
-            id="duration"
-            placeholder="Course Duration"
-            className="border-1 border-white p-2 pl-4"
-          />
-          <select className="absolute right-0 bottom-0 w-17 p-2 text-gray-700">
-            <option value={'day'}>Day</option>
-            <option value={'week'}>week</option>
-            <option value={'month'}>month</option>
-          </select>
-        </div> */}
+      <div className="mb-10 flex flex-col gap-1.5">
+        <label htmlFor="description" className="required mb-2 text-lg">
+          Course Description
+        </label>
+        <textarea
+          id="description"
+          placeholder="Enter your course description"
+          value={description}
+          onChange={(e) => handleChangeField(e.target.value, 'description')}
+          className="h-62 w-full border-1 border-white p-2 pl-4"
+        ></textarea>
       </div>
     </>
   );

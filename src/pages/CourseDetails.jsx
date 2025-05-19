@@ -84,11 +84,7 @@ function CourseDetails() {
 
             <InstructorSection instructor={course.teachers} />
 
-            <CourseRating
-              rating={course.rating}
-              ratings={course.ratings?.[0]}
-              ratingCount={course.rating_count}
-            />
+            <CourseRating ratings={course.ratings?.[0]} />
 
             {course?.reviews?.length > 0 && (
               <StudentReviews studentsFeedback={course.reviews} />

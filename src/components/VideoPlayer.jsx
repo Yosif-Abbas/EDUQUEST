@@ -11,7 +11,13 @@ import {
 import { PiSubtitlesSlashThin, PiSubtitlesThin } from 'react-icons/pi';
 import Spinner from './Spinner';
 
-const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
+const VideoPlayer = ({
+  src,
+  poster,
+  subtitleSrc,
+  className = '',
+  isSmall = false,
+}) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const idleTimeout = useRef(null);
@@ -200,10 +206,10 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
           <Spinner size={72} />
         </div>
       )}
-      <div className="relative w-full">
+      <div className="relative aspect-video w-full">
         <video
           ref={videoRef}
-          className="h-full w-full bg-white object-cover"
+          className="absolute inset-0 h-full w-full bg-white object-cover object-center"
           onLoadedMetadata={(e) => {
             handleLoadedMetadata(e);
             setIsLoading(false);
@@ -235,7 +241,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
 
       {/* Custom Controls */}
       <div
-        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 bg-[#77777777] px-6 pt-2 pb-2 transition-all duration-300 ${isControlsVisible ? 'block' : 'translate-y-full'}`}
+        className={`absolute right-0 bottom-0 left-0 flex flex-col space-y-2 bg-[#77777777] transition-all duration-300 ${isSmall ? 'px-2 py-1' : 'px-6 py-2'} ${isControlsVisible ? 'block' : 'translate-y-full'}`}
         onMouseEnter={() => {
           setIsMouseOverControls(true);
           setIsControlsVisible(true);
@@ -249,7 +255,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
         {/* Progress Bar */}
         <input
           type="range"
-          className="h-1 w-full cursor-pointer appearance-none [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-thumb]:pointer-events-none [&::-webkit-slider-thumb]:h-0 [&::-webkit-slider-thumb]:w-0 [&::-webkit-slider-thumb]:opacity-0"
+          className="h-[2px] w-full cursor-pointer appearance-none [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-thumb]:pointer-events-none [&::-webkit-slider-thumb]:h-0 [&::-webkit-slider-thumb]:w-0 [&::-webkit-slider-thumb]:opacity-0"
           min="0"
           max="100"
           value={progress}
@@ -261,19 +267,22 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
 
         {/* Control Buttons */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center justify-between gap-x-6">
+          <div className="flex items-center justify-between gap-x-2">
             {/* Play / Pause */}
-            <button onClick={togglePlay} className="p-2 text-white">
+            <button
+              onClick={togglePlay}
+              className={`${isSmall ? '' : 'p-2'} text-white`}
+            >
               {isPlaying ? (
-                <Pause size={isFullscreen ? 28 : 24} />
+                <Pause size={isFullscreen ? 28 : isSmall ? 12 : 24} />
               ) : (
-                <Play size={isFullscreen ? 28 : 24} />
+                <Play size={isFullscreen ? 28 : isSmall ? 12 : 24} />
               )}
             </button>
 
             {/* Time */}
             <span
-              className={`${isFullscreen ? 'text-lg' : 'text-base'} font-thin text-white`}
+              className={`${isFullscreen ? 'text-lg' : isSmall ? 'text-[10px]' : 'text-sm md:text-base'} font-thin text-white`}
             >
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
@@ -281,14 +290,14 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
             <div className="flex items-center">
               <button onClick={toggleMute} className="p-2 text-white">
                 {isMuted ? (
-                  <VolumeX size={isFullscreen ? 28 : 24} />
+                  <VolumeX size={isFullscreen ? 28 : isSmall ? 12 : 24} />
                 ) : (
-                  <Volume2 size={isFullscreen ? 28 : 24} />
+                  <Volume2 size={isFullscreen ? 28 : isSmall ? 12 : 24} />
                 )}
               </button>
               <input
                 type="range"
-                className="custom-slider h-1 w-24"
+                className={`custom-slider h-1 ${isFullscreen ? 'w-24' : isSmall ? 'w-10' : 'w-24'}`}
                 min="0"
                 max="1"
                 step="0.01"
@@ -302,7 +311,7 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
           </div>
 
           <div
-            className={`flex items-center justify-between ${isFullscreen ? 'gap-x-8' : 'gap-x-4'}`}
+            className={`flex items-center justify-between ${isFullscreen ? 'gap-x-8' : isSmall ? '' : 'gap-x-4'}`}
           >
             {/* CC Button (Placeholder) */}
             <button
@@ -313,24 +322,28 @@ const VideoPlayer = ({ src, poster, subtitleSrc, className = '' }) => {
                 className={`${subtitleSrc !== undefined ? 'cursor-pointer' : 'cursor-auto'} text-white`}
               >
                 {subtitlesEnabled || subtitleSrc === undefined ? (
-                  <PiSubtitlesSlashThin size={isFullscreen ? 28 : 24} />
+                  <PiSubtitlesSlashThin
+                    size={isFullscreen ? 28 : isSmall ? 12 : 24}
+                  />
                 ) : (
-                  <PiSubtitlesThin size={isFullscreen ? 28 : 24} />
+                  <PiSubtitlesThin
+                    size={isFullscreen ? 28 : isSmall ? 12 : 24}
+                  />
                 )}
               </span>
             </button>
 
             {/* Settings */}
             <button className="p-2 text-white">
-              <Settings size={isFullscreen ? 28 : 24} />
+              <Settings size={isFullscreen ? 28 : isSmall ? 12 : 24} />
             </button>
 
             {/* Fullscreen Toggle */}
             <button onClick={toggleFullscreen} className="p-2 text-white">
               {isFullscreen ? (
-                <Minimize size={isFullscreen ? 28 : 24} />
+                <Minimize size={isFullscreen ? 28 : isSmall ? 12 : 24} />
               ) : (
-                <Maximize size={isFullscreen ? 28 : 24} />
+                <Maximize size={isFullscreen ? 28 : isSmall ? 12 : 24} />
               )}
             </button>
           </div>
