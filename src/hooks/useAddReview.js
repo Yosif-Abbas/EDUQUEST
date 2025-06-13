@@ -17,7 +17,7 @@ export const useAddReview = () => {
       ]);
     },
     onError: (error) => {
-      console.error(error.message);
+      console.log(error);
       toast.error('Error adding a Review');
     },
   });

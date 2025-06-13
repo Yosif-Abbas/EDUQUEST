@@ -21,6 +21,7 @@ export async function addReview({ rating, comment, courseId, userId }) {
 
   let query = supabase.from('reviews');
 
+  // check if the review already exists
   if (existing) {
     query = query
       .update({ rating, text: comment, timestamp: formatDate(Date.now()) })
@@ -45,6 +46,7 @@ export async function addReview({ rating, comment, courseId, userId }) {
     throw reviewsError;
   }
 
+  // update the student_courses table
   const { data, error } = await supabase
     .from('student_courses')
     .update({ rating: rating, review_comment: comment })
@@ -58,6 +60,7 @@ export async function addReview({ rating, comment, courseId, userId }) {
     throw error;
   }
 
+  // update the rating column in the courses table
   const { data: ratingsData, error: ratingsError } = await supabase.rpc(
     'increment_rating_column',
     {

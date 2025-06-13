@@ -1,7 +1,8 @@
+import { ratingHelper } from '../../utils/helpers';
 import StarRating from '../StarRating';
 
 function CourseHeader({ course }) {
-  const { title, rating, rating_count, teachers } = course;
+  const { title, ratings, teachers } = course;
 
   if (!teachers) return null;
 
@@ -10,6 +11,8 @@ function CourseHeader({ course }) {
   } = teachers;
 
   const instructorFullname = first_name + ' ' + last_name;
+
+  const { ratingCount, rating } = ratingHelper(ratings);
 
   return (
     <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-1 lg:mr-0">
@@ -37,7 +40,7 @@ function CourseHeader({ course }) {
           </span>
 
           <span className="ml-1 text-xs font-normal text-gray-500">
-            ({rating_count} Ratings)
+            ({ratingCount || 0} Ratings)
           </span>
         </div>
       </div>

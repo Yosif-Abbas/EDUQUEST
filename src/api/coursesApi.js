@@ -184,7 +184,13 @@ export async function getCategories() {
 }
 
 export async function createNewCourse({ course, teacherId }) {
-  if (!course) return;
+  console.log('Received course data:', course);
+  if (!course) {
+    throw new Error('Course data is required');
+  }
+  if (!teacherId) {
+    throw new Error('Teacher ID is required');
+  }
   const {
     // courses table data
     subject,
@@ -218,22 +224,22 @@ export async function createNewCourse({ course, teacherId }) {
     .from('courses')
     .insert([
       {
-        subject,
-        title,
-        image_url,
-        intro,
-        regularPrice: Number(regularPrice) || 0,
-        discount: Number(discount) || 0,
+        subject: subject || '',
+        title: title || '',
+        image_url: image_url || '',
+        intro: intro || '',
+        regularPrice: regularPrice ? Number(regularPrice) : 0,
+        discount: discount ? Number(discount) : 0,
         discount_end_date: discount_end_date || null,
-        currency,
-        rating: Number(rating) || 0,
-        rating_count: Number(rating_count) || 0,
-        students_enrolled: Number(students_enrolled) || 0,
-        description,
-        course_duration: Number(course_duration) || 0,
-        number_of_lessons: Number(number_of_lessons) || 0,
-        course_level,
-        category,
+        currency: currency || 'LE',
+        rating: rating ? Number(rating) : 0,
+        rating_count: rating_count ? Number(rating_count) : 0,
+        students_enrolled: students_enrolled ? Number(students_enrolled) : 0,
+        description: description || '',
+        course_duration: course_duration ? Number(course_duration) : 0,
+        number_of_lessons: number_of_lessons ? Number(number_of_lessons) : 0,
+        course_level: course_level || 1,
+        category: category || 'Other',
         teacher_id: teacherId,
       },
     ])
@@ -300,47 +306,71 @@ export async function createNewCourse({ course, teacherId }) {
   }
 
   for (const section of course_sections) {
-    // Insert course section
+    // Validate section data
+    if (!section.title) {
+      throw new Error('Section title is required');
+    }
+
+    // Insert course section with proper data formatting
     const { data: sectionData, error: sectionError } = await supabase
       .from('course_sections')
       .insert({
-        title: section.title,
-        duration: section.duration,
-        description: section.description,
+        title: section.title || '',
+        duration: section.duration ? Number(section.duration) : 0,
+        description: section.description || '',
         course_id: data.id,
       })
       .select()
       .single();
 
-    if (sectionError) throw sectionError;
+    if (sectionError) {
+      console.error('Section insertion error:', sectionError);
+      throw sectionError;
+    }
 
     const sectionId = sectionData.id;
 
+    // Validate lectures array
+    if (!section.lectures || !Array.isArray(section.lectures)) {
+      continue; // Skip if no lectures or invalid lectures array
+    }
+
     for (const lecture of section.lectures) {
-      // Insert lecture
+      if (!lecture.title) {
+        console.warn('Skipping lecture without title');
+        continue;
+      }
+
+      // Insert lecture with proper data formatting
       const { data: lectureData, error: lectureError } = await supabase
         .from('lectures')
         .insert({
-          title: lecture.title,
-          type: lecture.type,
-          content_info: lecture.content_info,
-          file_url: lecture.type === 'file' ? lecture.file_url : null,
+          title: lecture.title || '',
+          type: lecture.type || 'text',
+          content_info: lecture.content_info || '',
+          file_url: lecture.type === 'file' ? lecture.file_url || '' : null,
           section_id: sectionId,
         })
         .select()
         .single();
 
-      if (lectureError) throw lectureError;
+      if (lectureError) {
+        console.error('Lecture insertion error:', lectureError);
+        throw lectureError;
+      }
 
       const lectureId = lectureData.id;
 
-      if (lecture.type === 'video') {
+      if (lecture.type === 'video' && lecture.file_url) {
         const { error: videoError } = await supabase.from('videos').insert({
           video_url: lecture.file_url,
           lecture_id: lectureId,
         });
 
-        if (videoError) throw videoError;
+        if (videoError) {
+          console.error('Video insertion error:', videoError);
+          throw videoError;
+        }
       }
     }
   }

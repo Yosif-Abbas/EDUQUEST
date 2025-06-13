@@ -124,13 +124,13 @@ function Curriculum({ course, setCourse }) {
       {course_sections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="mb-4 bg-[#9DB2BF] p-6">
           <div className="mb-5 flex items-center justify-between">
-            <span className="flex items-center gap-2">
+            <span className="mr-4 flex w-full items-center gap-2">
               <HiBars3 />
-              <h3 className="text-nowrap">
+              <h3 className="required text-nowrap">
                 Section ({String(sectionIndex + 1).padStart(2, '0')}):
               </h3>
               <input
-                className="outline-none"
+                className="grow truncate border-b-1 border-gray-500 outline-none"
                 value={section.title}
                 onChange={(e) =>
                   updateSectionField(sectionIndex, 'title', e.target.value)
@@ -183,7 +183,7 @@ function Curriculum({ course, setCourse }) {
                   ) : (
                     <>
                       <button
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 bg-gray-100 px-4 py-2 transition-all duration-150 hover:bg-gray-200"
                         onClick={() =>
                           fileInputRefs.current[
                             `${sectionIndex}-${lectureIndex}`
@@ -191,7 +191,7 @@ function Curriculum({ course, setCourse }) {
                         }
                       >
                         <UploadIcon size={16} />
-                        <span>upload</span>
+                        <span>Upload</span>
                       </button>
 
                       {/* video */}

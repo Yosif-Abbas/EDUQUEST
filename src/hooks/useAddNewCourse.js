@@ -16,6 +16,7 @@ const getVideoDuration = (file) => {
 };
 
 export const useAddNewCourse = ({ course, teacherId }) => {
+  console.log(course);
   const { mutate: createNewCourse, isPending: isLoading } = useMutation({
     mutationFn: async () => {
       const thumbnailPath = `thumbnails/${course.title}-${Date.now()}.jpg`;
@@ -26,6 +27,7 @@ export const useAddNewCourse = ({ course, teacherId }) => {
       const introUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/intros/${introsPath}`;
 
       const updatedCourse = structuredClone(course);
+      console.log(updatedCourse);
 
       for (const [
         sectionIndex,
@@ -64,7 +66,7 @@ export const useAddNewCourse = ({ course, teacherId }) => {
               ].content_info = `${duration} sec`;
             } else {
               const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-              secDuration += sizeMB * 4 * 60; 
+              secDuration += sizeMB * 4 * 60;
               updatedCourse.course_sections[sectionIndex].lectures[
                 lectureIndex
               ].content_info = `${sizeMB} MB`;
@@ -76,10 +78,16 @@ export const useAddNewCourse = ({ course, teacherId }) => {
             ].file;
           }
         }
-        updatedCourse.course_sectoins[sectionIndex].duration = secDuration;
-      }
 
-      console.log(updatedCourse);
+        console.log(course?.course_sections?.length);
+
+        if (updatedCourse?.course_sections?.length > 0) {
+          updatedCourse.course_sections[sectionIndex].duration =
+            Math.round(secDuration);
+        } else {
+          throw new Error('Course must contain at least one section.');
+        }
+      }
 
       createNewCourseApi({
         course: {
@@ -94,7 +102,7 @@ export const useAddNewCourse = ({ course, teacherId }) => {
       toast.success('Course created successfully!');
     },
     onError: (error) => {
-      console.error(error.message);
+      console.error(error);
       toast.error(error.message);
     },
   });

@@ -11,7 +11,6 @@ import { useCurrentUser } from './../../hooks/useCurrentUser';
 function NewCourse() {
   const { currentUser } = useCurrentUser();
   const teacherId = currentUser?.userTeacher?.id;
-  console.log(currentUser);
 
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -21,7 +20,7 @@ function NewCourse() {
     subject: '',
     category: '',
     regularPrice: '',
-    currenc: '',
+    currency: 'LE',
     course_level: '',
     discount: '',
     discount_end_date: '',
@@ -128,14 +127,28 @@ function NewCourse() {
     return null;
   };
 
-  function handleNext() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // const error = validateCourse(course);
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   createNewCourse();
+    // }
+
+    createNewCourse();
+  };
+
+  function handleNext(e) {
+    e.preventDefault();
     // Savieg Logic
 
     if (currentTab !== newCourseInfoTabs.length - 1)
       setCurrentTab((pre) => pre + 1);
   }
 
-  function handlePrevious() {
+  function handlePrevious(e) {
+    e.preventDefault();
     if (currentTab !== 0) setCurrentTab((pre) => pre - 1);
   }
 
@@ -160,10 +173,13 @@ function NewCourse() {
 
         {newCourseInfoTabs[currentTab].element}
 
-        <div className="mt-8 flex justify-between">
+        <form
+          className="mt-8 flex justify-between"
+          onSubmit={(e) => handleSubmit(e)}
+        >
           {newCourseInfoTabs[currentTab].id !== 0 && (
             <button
-              onClick={handlePrevious}
+              onClick={(e) => handlePrevious(e)}
               className="border-pinky-violet border-1 px-2 py-1 text-sm md:px-4 md:py-2 md:text-[16px]"
             >
               Previous
@@ -172,20 +188,20 @@ function NewCourse() {
 
           {newCourseInfoTabs[currentTab].id === newCourseInfoTabs.length - 1 ? (
             <button
-              onClick={createNewCourse}
+              type="submit"
               className="bg-pinky-violet ml-auto px-2 py-1 text-sm text-white md:px-4 md:py-2 md:text-[16px]"
             >
               {isLoading ? <Spinner color="#fff" /> : 'Publish'}
             </button>
           ) : (
             <button
-              onClick={handleNext}
+              onClick={(e) => handleNext(e)}
               className="bg-pinky-violet ml-auto px-2 py-1 text-sm text-white md:px-4 md:py-2 md:text-[16px]"
             >
               Save & Next
             </button>
           )}
-        </div>
+        </form>
       </section>
     </main>
   );

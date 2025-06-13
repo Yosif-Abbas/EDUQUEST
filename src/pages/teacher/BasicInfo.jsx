@@ -113,7 +113,7 @@ function BasicInfo({ course, setCourse }) {
             <input
               type="text"
               id="currency"
-              value={'LE'}
+              value={courseCurrency}
               disabled
               onChange={(e) => handleChangeField(e.target.value, 'currency')}
               placeholder="ex:LE"
