@@ -23,6 +23,15 @@ export async function addReview({ rating, comment, courseId, userId }) {
 
   // check if the review already exists
   if (existing) {
+    // update the ratings table
+    const { data: ratingsData, error: ratingsError } = await supabase.rpc(
+      'decrement_ratings',
+      {
+        p_course_id: courseId,
+        p_rating: existing.rating,
+      },
+    );
+
     query = query
       .update({ rating, text: comment, timestamp: formatDate(Date.now()) })
       .eq('user_id', userId)
@@ -60,18 +69,31 @@ export async function addReview({ rating, comment, courseId, userId }) {
     throw error;
   }
 
-  // update the rating column in the courses table
+  // update the ratings table
   const { data: ratingsData, error: ratingsError } = await supabase.rpc(
-    'increment_rating_column',
+    'increment_ratings',
     {
-      course_id: courseId,
-      rating,
+      p_course_id: courseId,
+      p_rating: rating,
     },
   );
 
   if (ratingsError) {
     console.error(ratingsError.message);
     throw ratingsError;
+  }
+
+  // update the rating column in the courses table
+  const { data: ratingData, error: ratingError } = await supabase.rpc(
+    'increment_rating_column',
+    {
+      course_id: courseId,
+    },
+  );
+
+  if (ratingError) {
+    console.error(ratingError.message);
+    throw ratingError;
   }
 
   return data;

@@ -12,7 +12,9 @@ function CourseHeader({ course }) {
 
   const instructorFullname = first_name + ' ' + last_name;
 
-  const { ratingCount, rating } = ratingHelper(ratings);
+  const { ratingCount, rating } = ratingHelper(ratings[0]);
+
+  console.log(ratingCount, rating, ratings);
 
   return (
     <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-1 lg:mr-0">
@@ -22,7 +24,7 @@ function CourseHeader({ course }) {
         <div className="flex">
           <img
             src={image_url}
-            key={instructorFullname}
+            alt={instructorFullname}
             width={38}
             className="h-10 w-10 transform rounded-full border-2 border-[#DDE6ED] object-cover object-top"
           />
