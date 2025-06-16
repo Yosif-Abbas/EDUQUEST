@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import CourseSubject from './CourseSubject';
-import { LuUserRound } from 'react-icons/lu';
 import { FaStar } from 'react-icons/fa';
+import { LuUserRound } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 import { timeLeftUntil } from './../utils/helpers';
+import CourseSubject from './CourseSubject';
 
 const no_image_url =
   'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg';
@@ -46,19 +46,22 @@ function Card({ course, className }) {
           <CourseSubject subject={course.subject} />
           {!isFree ? (
             <div className="flex flex-col items-end">
-              <div className="flex items-center gap-1">
-                {timeLeft && (
-                  <>
-                    <span className="self-end bg-[#FFEEE8] px-1 text-xs font-bold text-[#FF6636] md:px-2 md:py-1">
-                      {discount}% OFF
-                    </span>
-                    <span className="ml-3 text-xs font-normal text-gray-500 line-through">
-                      {regularPrice}
-                      {currency}
-                    </span>
-                  </>
-                )}
-              </div>
+              {discount > 0 && (
+                <div className="flex items-center gap-1">
+                  {timeLeft && (
+                    <>
+                      <span className="self-end bg-[#FFEEE8] px-1 text-xs font-bold text-[#FF6636] md:px-2 md:py-1">
+                        {discount}% OFF
+                      </span>
+
+                      <span className="ml-3 text-xs font-normal text-gray-500 line-through">
+                        {regularPrice}
+                        {currency}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
               <p className="flex items-center text-sm text-[#FF6636] md:text-lg">
                 {finalPrice}
                 {currency}
@@ -88,4 +91,3 @@ function Card({ course, className }) {
 }
 
 export default Card;
-

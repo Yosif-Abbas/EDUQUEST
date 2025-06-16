@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { FaRegBell } from 'react-icons/fa';
-import { IoIosSearch } from 'react-icons/io';
-
-import { useTeacher } from '../../hooks/useTeacher';
 import { useNavigate } from 'react-router-dom';
+import { useTeacher } from '../../hooks/useTeacher';
+import Spinner from '../Spinner';
 
 function TeacherHeader() {
   // const [showSearchInput, setShowSearchInput] = useState(false);
@@ -38,16 +35,20 @@ function TeacherHeader() {
       </h3>
 
       <button onClick={handleProfile}>
-        <figure>
-          <img
-            src={
-              isLoading
-                ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
-                : teacherImage
-            }
-            alt="pictuer"
-            className="h-12 w-12 rounded-full object-cover object-top"
-          />
+        <figure className="h-12 max-h-12 w-12 max-w-12 rounded-full">
+          {isLoading ? (
+            <Spinner size={25} color="white" />
+          ) : (
+            <img
+              src={
+                !teacherImage
+                  ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
+                  : teacherImage
+              }
+              alt="pictuer"
+              className="h-12 w-12 rounded-full object-cover object-top"
+            />
+          )}
         </figure>
       </button>
 

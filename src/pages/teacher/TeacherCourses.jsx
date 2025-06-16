@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
-import { useCourses } from './../../hooks/useCourses';
 import { useCoursesByTeacher } from './../../hooks/useCoursesByTeacher';
 
 function TeacherCourses() {
@@ -29,10 +29,25 @@ function TeacherCourses() {
       <div className="mb-4">
         <h1 className="text-2xl">Your Courses</h1>
       </div>
-      <ul className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        {courses &&
-          courses.map((course) => <Card course={course} key={course.id} />)}
-      </ul>
+      {courses.length === 0 ? (
+        <div className="flex h-full flex-col items-center justify-center gap-4">
+          <h2 className="text-2xl">
+            You don&apos;t currently have any courses added
+          </h2>
+
+          <Link
+            to="/teacher/newCourse"
+            className="bg-pinky-violet hover:bg-pinky-violet/80 rounded-lg px-4 py-2 font-bold text-white transition"
+          >
+            Add a course
+          </Link>
+        </div>
+      ) : (
+        <ul className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+          {courses &&
+            courses.map((course) => <Card course={course} key={course.id} />)}
+        </ul>
+      )}
     </div>
   );
 }
