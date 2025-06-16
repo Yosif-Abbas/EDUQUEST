@@ -4,26 +4,28 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import Layout from './components/Layout';
 
-import Home from './pages/Home';
-import Courses from './pages/Courses';
 import CourseDetails from './pages/CourseDetails';
+import Courses from './pages/Courses';
+import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
+import Signup from './pages/Signup';
 
 import StudentLayout from './components/StudentLayout';
 
-import StudentDashboard from './pages/student/StudentDashboard';
 import StudentCourses from './pages/student/StudentCourses';
-import Wishlist from './pages/student/Wishlist';
+import StudentDashboard from './pages/student/StudentDashboard';
 import StudentSettings from './pages/student/StudentSettings';
 import WatchCourse from './pages/student/WatchCourse';
+import Wishlist from './pages/student/Wishlist';
 
 import TeacherLayout from './components/TeacherLayout';
 
-import TeacherDashboard from './pages/teacher/TeacherDashboard';
-import TeacherCourses from './pages/teacher/TeacherCourses';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import NewCourse from './pages/teacher/NewCourse';
+import TeacherCourses from './pages/teacher/TeacherCourses';
+import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherSettings from './pages/teacher/TeacherSettings';
 
 function AppRoutes() {
@@ -32,6 +34,8 @@ function AppRoutes() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="*" element={<NotFound />} />
