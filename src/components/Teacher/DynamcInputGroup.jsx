@@ -13,6 +13,7 @@ const DynamicInputGroup = ({
   maxItems = 10,
   placeholder = 'Enter text...',
   isRequired = true,
+  error,
 }) => {
   return (
     <div>
@@ -24,6 +25,10 @@ const DynamicInputGroup = ({
           <span className="ml-2 text-xs font-normal text-gray-600">
             max {maxItems}
           </span>
+        )}
+
+        {error && (
+          <span className="ml-2 text-xs font-normal text-red-500">{error}</span>
         )}
       </h2>
 
@@ -38,7 +43,7 @@ const DynamicInputGroup = ({
             placeholder={placeholder}
             value={item}
             onChange={(e) => onChange(e.target.value, index, name)}
-            className="grow border-1 border-white p-2 pl-4"
+            className={`grow border-1 ${error ? 'border-red-500' : 'border-white'} p-2 pl-4`}
           />
           {items.length > 1 && (
             <button

@@ -27,7 +27,7 @@ function TeacherCourses() {
   return (
     <div>
       <div className="mb-4">
-        <h1 className="text-2xl">Your Courses</h1>
+        <h1 className="text-2xl">My Courses</h1>
       </div>
       {courses.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-4">

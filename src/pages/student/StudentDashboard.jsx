@@ -43,7 +43,7 @@ function StudentDashboard() {
         <ul className="flex flex-wrap gap-6">
           <li className="student-dashboard-list-item bg-[#FFEEE8]">
             <span className="student-dashboard-list-item-icon">
-              <MdOutlineFileDownloadDone color='#ff6636' />
+              <MdOutlineFileDownloadDone color="#ff6636" />
             </span>
             <div>
               <h3 className="mb-2 text-2xl">
@@ -95,14 +95,6 @@ function StudentDashboard() {
               <p className="text-sm text-[#4E5566]">Wishlist courses</p>
             </div>
           </li>
-        </ul>
-      </section>
-      <section>
-        <h2 className="mb-6 ml-6 text-2xl font-bold">
-          Let&apos;s start learning, (Kareem)
-        </h2>
-        <ul className="flex flex-wrap gap-6">
-          <li className="student-dashboard-list-item"></li>
         </ul>
       </section>
     </>

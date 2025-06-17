@@ -3,7 +3,7 @@ import { BsUpload } from 'react-icons/bs';
 import DynamicInputGroup from '../../components/Teacher/DynamcInputGroup';
 import VideoPlayer from './../../components/VideoPlayer';
 
-function AdvancedInfo({ course, setCourse }) {
+function AdvancedInfo({ course, setCourse, errors, showErrors }) {
   const {
     image_url,
     intro,
@@ -105,9 +105,16 @@ function AdvancedInfo({ course, setCourse }) {
     <>
       <div className="mb-10 flex flex-col gap-6 lg:flex-row xl:items-center">
         <div className="basis-1/2">
-          <label className="required mb-2 text-lg">Course Thumbnail</label>
+          <label className="required mb-2 text-lg">
+            Course Thumbnail{' '}
+            {showErrors && errors.image_url && (
+              <span className="text-sm text-red-500">({errors.image_url})</span>
+            )}
+          </label>
           <div className="flex flex-col items-start gap-4 xl:flex-row xl:items-center">
-            <figure className="aspect-[12/8] min-h-[160px] min-w-[230px] bg-white">
+            <figure
+              className={`aspect-[12/8] min-h-[160px] min-w-[230px] ${showErrors && errors.image_url ? 'border-2 border-red-500' : 'bg-white'}`}
+            >
               {thumbnailPreview ? (
                 <img
                   src={thumbnailPreview}
@@ -141,9 +148,16 @@ function AdvancedInfo({ course, setCourse }) {
           </div>
         </div>
         <div className="basis-1/2">
-          <label className="required mb-2 text-lg">Course Trailer</label>
+          <label className="required mb-2 text-lg">
+            Course Trailer{' '}
+            {showErrors && errors.intro && (
+              <span className="text-sm text-red-500">({errors.intro})</span>
+            )}
+          </label>
           <div className="flex flex-col items-start gap-4 xl:flex-row xl:items-center">
-            <figure className="aspect-[12/8] min-h-[160px] min-w-[230px] bg-white">
+            <figure
+              className={`aspect-[12/8] min-h-[160px] min-w-[230px] ${showErrors && errors.intro ? 'border-2 border-red-500' : 'bg-white'}`}
+            >
               {trailerPreview ? (
                 <VideoPlayer src={trailerPreview} isSmall />
               ) : null}
@@ -183,6 +197,7 @@ function AdvancedInfo({ course, setCourse }) {
           onChange={updateListField}
           placeholder="You will teach"
           maxItems={6}
+          error={showErrors && errors.course_benefits}
         />
 
         <DynamicInputGroup
@@ -194,6 +209,7 @@ function AdvancedInfo({ course, setCourse }) {
           onChange={updateListField}
           placeholder="Add a course requirement"
           maxItems={6}
+          error={showErrors && errors.course_requirements}
         />
 
         <DynamicInputGroup
@@ -207,6 +223,7 @@ function AdvancedInfo({ course, setCourse }) {
           datalistOptions={['24h', 'idk', 'idc', 'lmao']}
           placeholder="Course will include"
           maxItems={6}
+          error={showErrors && errors.course_includes}
         />
       </div>
       {/* You can handle form submission here */}

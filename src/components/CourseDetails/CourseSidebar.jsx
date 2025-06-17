@@ -147,6 +147,7 @@ function CourseSidebar({
       {!isEnrolled && (
         <Price
           regularPrice={regularPrice}
+          finalPrice={finalPrice}
           currency={currency}
           discount={discount}
           discount_end_date={discount_end_date}

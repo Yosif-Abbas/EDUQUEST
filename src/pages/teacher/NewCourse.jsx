@@ -11,6 +11,8 @@ import { useCurrentUser } from './../../hooks/useCurrentUser';
 function NewCourse() {
   const { currentUser } = useCurrentUser();
   const teacherId = currentUser?.userTeacher?.id;
+  const [errors, setErrors] = useState({});
+  const [showErrors, setShowErrors] = useState(false);
 
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -44,7 +46,13 @@ function NewCourse() {
         duration: 0,
         description: '',
         lectures: [
-          { title: '', type: 'video', content_info: '', file_url: '' },
+          {
+            title: '',
+            type: 'video',
+            content_info: '',
+            file_url: '',
+            questions: [], // Array of quiz questions
+          },
         ],
       },
     ],
@@ -61,19 +69,40 @@ function NewCourse() {
       id: 0,
       icon: <FaInfoCircle />,
       title: 'Basic Information',
-      element: <BasicInfo course={course} setCourse={setCourse} />,
+      element: (
+        <BasicInfo
+          course={course}
+          setCourse={setCourse}
+          errors={errors}
+          showErrors={showErrors}
+        />
+      ),
     },
     {
       id: 1,
       icon: <FaClipboardList />,
       title: 'Advanced Information',
-      element: <AdvancedInfo course={course} setCourse={setCourse} />,
+      element: (
+        <AdvancedInfo
+          course={course}
+          setCourse={setCourse}
+          errors={errors}
+          showErrors={showErrors}
+        />
+      ),
     },
     {
       id: 2,
       icon: <PiMonitorPlayFill />,
       title: 'Curriculum',
-      element: <Curriculum course={course} setCourse={setCourse} />,
+      element: (
+        <Curriculum
+          course={course}
+          setCourse={setCourse}
+          errors={errors}
+          showErrors={showErrors}
+        />
+      ),
     },
     // {
     //   id: 3,
@@ -89,62 +118,190 @@ function NewCourse() {
   });
 
   const validateCourse = (course) => {
-    if (
-      !course.title ||
-      !course.subject ||
-      !course.category ||
-      !course.regularPrice ||
-      !course.currency ||
-      !course.description
-    ) {
-      return 'Missing basic course info';
+    const newErrors = {};
+
+    // Basic Info Validation
+    if (!course.title?.trim()) {
+      newErrors.title = 'Course title is required';
+    } else if (course.title.length < 5) {
+      newErrors.title = 'Course title must be at least 5 characters long';
     }
 
-    if (!course.image_url || !course.intro) {
-      return 'Thumbnail or trailer is missing';
+    if (!course.subject?.trim()) {
+      newErrors.subject = 'Subject is required';
     }
 
-    if (course.description.length < 20) {
-      return 'Course description is too short';
+    if (!course.category?.trim()) {
+      newErrors.category = 'Category is required';
     }
 
-    if (!course.course_benefits?.filter((b) => b.trim()).length) {
-      return 'At least add one of what you will teach';
+    if (!course.regularPrice || course.regularPrice <= 0) {
+      newErrors.regularPrice = 'Regular price must be greater than 0';
     }
 
-    for (let section of course.course_sections) {
-      if (!section.title || !section.lectures?.length) {
-        return 'Each section must have a title and at least one lecture';
-      }
+    if (!course.course_level?.trim()) {
+      newErrors.course_level = 'Course level is required';
+    }
 
-      for (let lecture of section.lectures) {
-        if (!lecture.title || (!lecture.content_info && !lecture.file_url)) {
-          return 'Each lecture must have a title and a video or a file';
+    // Description Validation
+    if (!course.description?.trim()) {
+      newErrors.description = 'Course description is required';
+    } else if (course.description.length < 30) {
+      newErrors.description =
+        'Course description must be at least 30 characters long';
+    } else if (course.description.length > 800) {
+      newErrors.description =
+        'Course description can not exceed 800 characters';
+    }
+
+    // Media Validation
+    if (!course.image_url) {
+      newErrors.image_url = 'Course thumbnail is required';
+    }
+
+    if (!course.intro) {
+      newErrors.intro = 'Course trailer/intro video is required';
+    }
+
+    // Benefits Validation
+    const validBenefits = course.course_benefits?.filter(
+      (b) => b.trim().length > 0,
+    );
+    if (!validBenefits?.length) {
+      newErrors.course_benefits =
+        'At least one (What you will teach) is required';
+    }
+
+    // Requirements Validation
+    const validRequirements = course.course_requirements?.filter(
+      (r) => r.trim().length > 0,
+    );
+    if (!validRequirements?.length) {
+      newErrors.course_requirements = 'At least one requirement is required';
+    }
+
+    // Course Includes Validation
+    const validIncludes = course.course_includes?.filter(
+      (i) => i.trim().length > 0,
+    );
+    if (!validIncludes?.length) {
+      newErrors.course_includes = 'At least one course include is required';
+    }
+
+    // Sections and Lectures Validation
+    if (!course.course_sections?.length) {
+      newErrors.course_sections = 'At least one section is required';
+    } else {
+      course.course_sections.forEach((section, sectionIndex) => {
+        if (!section.title?.trim()) {
+          newErrors[`section_${sectionIndex}_title`] =
+            'Section title is required';
+        } else if (section.title.length < 5) {
+          newErrors[`section_${sectionIndex}_title`] =
+            'Section title must be at least 5 characters long';
         }
+
+        if (!section.description?.trim()) {
+          newErrors[`section_${sectionIndex}_description`] =
+            'Section description is required';
+        } else if (section.description.length < 30) {
+          newErrors[`section_${sectionIndex}_description`] =
+            'Section description must be at least 30 characters long';
+        } else if (section.description.length > 500) {
+          newErrors[`section_${sectionIndex}_description`] =
+            'Section description cannot exceed 500 characters';
+        }
+
+        if (!section.lectures?.length) {
+          newErrors[`section_${sectionIndex}_lectures`] =
+            'Section must have at least one lecture';
+        } else {
+          section.lectures.forEach((lecture, lectureIndex) => {
+            if (!lecture.title?.trim()) {
+              newErrors[
+                `section_${sectionIndex}_lecture_${lectureIndex}_title`
+              ] = 'Lecture title is required';
+            } else if (lecture.title.length < 5) {
+              newErrors[
+                `section_${sectionIndex}_lecture_${lectureIndex}_title`
+              ] = 'Lecture title must be at least 5 characters long';
+            }
+
+            // Quiz validation
+            if (lecture.type === 'quiz') {
+              if (!lecture.questions?.length) {
+                newErrors[
+                  `section_${sectionIndex}_lecture_${lectureIndex}_questions`
+                ] = 'At least one question is required for quiz';
+              } else {
+                lecture.questions.forEach((question, questionIndex) => {
+                  if (!question.question?.trim()) {
+                    newErrors[
+                      `section_${sectionIndex}_lecture_${lectureIndex}_question_${questionIndex}`
+                    ] = 'Question text is required';
+                  }
+                  if (!question.correctAnswer) {
+                    newErrors[
+                      `section_${sectionIndex}_lecture_${lectureIndex}_correct_answer_${questionIndex}`
+                    ] = 'Correct answer must be selected';
+                  }
+                  if (
+                    !question.answer_a?.trim() ||
+                    !question.answer_b?.trim() ||
+                    !question.answer_c?.trim() ||
+                    !question.answer_d?.trim()
+                  ) {
+                    newErrors[
+                      `section_${sectionIndex}_lecture_${lectureIndex}_answers_${questionIndex}`
+                    ] = 'All answer options are required';
+                  }
+                });
+              }
+            } else if (!lecture.file_url) {
+              newErrors[
+                `section_${sectionIndex}_lecture_${lectureIndex}_file`
+              ] = 'Lecture file is required';
+            }
+          });
+        }
+      });
+    }
+
+    // Discount Validation
+    if (course.discount) {
+      const discount = Number(course.discount);
+      if (isNaN(discount) || discount < 0 || discount > 100) {
+        newErrors.discount = 'Discount must be a number between 0 and 100';
+      }
+      if (discount > 0 && !course.discount_end_date) {
+        newErrors.discount_end_date =
+          'Discount end date is required when discount is provided';
       }
     }
 
-    return null;
+    return Object.keys(newErrors).length > 0 ? newErrors : null;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const error = validateCourse(course);
-    // if (error) {
-    //   console.log(error);
-    // } else {
-    //   createNewCourse();
-    // }
-
-    createNewCourse();
+    // const validationErrors = validateCourse(course);
+    const validationErrors = false;
+    if (validationErrors) {
+      setErrors(validationErrors);
+      setShowErrors(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setErrors({});
+      setShowErrors(false);
+      createNewCourse();
+    }
   };
 
   function handleNext(e) {
     e.preventDefault();
-    // Savieg Logic
-
-    if (currentTab !== newCourseInfoTabs.length - 1)
+    if (currentTab !== newCourseInfoTabs.length - 1) {
       setCurrentTab((pre) => pre + 1);
+    }
   }
 
   function handlePrevious(e) {
@@ -154,6 +311,14 @@ function NewCourse() {
 
   return (
     <main>
+      {showErrors && Object.keys(errors).length > 0 && (
+        <div
+          className="mb-4 border-l-4 border-red-500 bg-red-100 p-4 text-red-700"
+          role="alert"
+        >
+          <ul className="list-inside list-disc">{Object.values(errors)[0]}</ul>
+        </div>
+      )}
       <ul className={`flex border-b border-white`}>
         {newCourseInfoTabs.map(({ id, icon, title }) => (
           <li

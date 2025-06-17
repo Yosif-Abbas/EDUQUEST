@@ -60,7 +60,7 @@ export const ratingHelper = (ratings) => {
 
   let rating = (totalRating / ratingCount).toFixed(1);
   rating = isNaN(rating) ? 0 : parseFloat(rating);
-  
+
   return { ratingCount, rating };
 };
 
@@ -123,7 +123,7 @@ export const ratingPercentageHelper = (ratings, ratingCount) => {
 };
 
 export const getFormattedTotalDuration = (sections, isByMinutes = false) => {
-  let totalMinutes = 0;
+  let totalSeconds = 0;
 
   sections.forEach((section) => {
     section.lectures?.forEach((lecture) => {
@@ -133,39 +133,58 @@ export const getFormattedTotalDuration = (sections, isByMinutes = false) => {
       const lowerInfo = info.toLowerCase();
 
       if (lecture.type === 'file') {
-        // Treat MB as minutes
+        // Treat MB as minutes (4 minutes per MB)
         const matchMB = lowerInfo.match(/([\d.]+)\s*mb/);
         if (matchMB) {
-          totalMinutes += parseFloat(matchMB[1]);
+          totalSeconds += parseFloat(matchMB[1]) * 4 * 60;
         }
       } else if (lecture.type === 'video') {
-        // Match hours and minutes in the string
+        // Match hours, minutes, and seconds in the string
         const matchHours = lowerInfo.match(/([\d.]+)\s*hour/);
         const matchMinutes = lowerInfo.match(/([\d.]+)\s*minute/);
+        const matchSeconds = lowerInfo.match(/([\d.]+)\s*sec/);
 
-        let minutes = 0;
+        let seconds = 0;
         if (matchHours) {
-          minutes += parseFloat(matchHours[1]) * 60;
+          seconds += parseFloat(matchHours[1]) * 3600;
         }
         if (matchMinutes) {
-          minutes += parseFloat(matchMinutes[1]);
+          seconds += parseFloat(matchMinutes[1]) * 60;
+        }
+        if (matchSeconds) {
+          seconds += parseFloat(matchSeconds[1]);
         }
 
-        totalMinutes += minutes;
+        totalSeconds += seconds;
+      } else if (lecture.type === 'quiz') {
+        // Each question takes about 2 minutes
+        const matchQuestions = lowerInfo.match(/(\d+)\s*questions/);
+        if (matchQuestions) {
+          totalSeconds += parseInt(matchQuestions[1]) * 2 * 60;
+        }
       }
     });
   });
 
-  if (isByMinutes) return totalMinutes;
+  if (isByMinutes) return Math.round(totalSeconds / 60);
 
-  return totalMinutes < 60
-    ? `${Math.round(totalMinutes)} minutes`
-    : `${Math.floor(totalMinutes / 60) > 0 ? Math.floor(totalMinutes / 60) + 'h' : ''} ${totalMinutes % 60 ? (totalMinutes % 60) + 'm' : ''}`;
+  // Format the duration
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes > 0 ? minutes + 'm' : ''}`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${seconds > 0 ? seconds + 's' : ''}`;
+  } else {
+    return `${seconds}s`;
+  }
 };
 
 // Calculate total duration of a section with formatted output
 export const calculateSectionDuration = (section) => {
-  let totalMinutes = 0;
+  let totalSeconds = 0;
 
   section.lectures?.forEach((lecture) => {
     const info = lecture.content_info;
@@ -174,35 +193,52 @@ export const calculateSectionDuration = (section) => {
     const lowerInfo = info.toLowerCase();
 
     if (lecture.type === 'file') {
-      // Treat MB as minutes
+      // Treat MB as minutes (4 minutes per MB)
       const matchMB = lowerInfo.match(/([\d.]+)\s*mb/);
       if (matchMB) {
-        totalMinutes += parseFloat(matchMB[1]) * 4;
+        totalSeconds += parseFloat(matchMB[1]) * 4 * 60;
       }
     } else if (lecture.type === 'video') {
-      // Match hours and minutes in the string
+      // Match hours, minutes, and seconds in the string
       const matchHours = lowerInfo.match(/([\d.]+)\s*hour/);
       const matchMinutes = lowerInfo.match(/([\d.]+)\s*minute/);
+      const matchSeconds = lowerInfo.match(/([\d.]+)\s*sec/);
 
-      let minutes = 0;
+      let seconds = 0;
       if (matchHours) {
-        minutes += parseFloat(matchHours[1]) * 60;
+        seconds += parseFloat(matchHours[1]) * 3600;
       }
       if (matchMinutes) {
-        minutes += parseFloat(matchMinutes[1]);
+        seconds += parseFloat(matchMinutes[1]) * 60;
+      }
+      if (matchSeconds) {
+        seconds += parseFloat(matchSeconds[1]);
       }
 
-      totalMinutes += minutes;
+      totalSeconds += seconds;
+    } else if (lecture.type === 'quiz') {
+      // Each question takes about 2 minutes
+      const matchQuestions = lowerInfo.match(/(\d+)\s*questions/);
+      if (matchQuestions) {
+        totalSeconds += parseInt(matchQuestions[1]) * 2 * 60;
+      }
     }
   });
 
-  if (totalMinutes < 60) {
-    return `${Math.round(totalMinutes)} minutes`;
+  // Format the duration
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes > 0 ? minutes + 'm' : ''}`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${seconds > 0 ? seconds + 's' : ''}`;
   } else {
-    const hours = totalMinutes / 60;
-    return `${Math.floor(hours) ? Math.floor(hours) + 'h' : ''} ${totalMinutes % 60 ? (totalMinutes % 60) + 'm' : ''}`;
+    return `${seconds}s`;
   }
 };
+
 export const formatDate = (timestamp) => {
   const date = new Date(timestamp);
 

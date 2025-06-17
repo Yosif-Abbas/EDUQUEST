@@ -1,11 +1,14 @@
 import { UploadIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { HiBars3 } from 'react-icons/hi2';
 import { RiEdit2Line } from 'react-icons/ri';
+import { IoIosArrowDown } from 'react-icons/io';
 
-function Curriculum({ course, setCourse }) {
+function Curriculum({ course, setCourse, errors, showErrors }) {
   const fileInputRefs = useRef({});
+  const [collapsedQuestions, setCollapsedQuestions] = useState({});
+  const [collapsedLectures, setCollapsedLectures] = useState({});
 
   const { course_sections } = course;
 
@@ -115,14 +118,113 @@ function Curriculum({ course, setCourse }) {
     });
   };
 
+  const addQuizQuestion = (sectionIndex, lectureIndex) => {
+    console.log(
+      'Adding question to section',
+      sectionIndex,
+      'lecture',
+      lectureIndex,
+    );
+    setCourse((prev) => {
+      // Create a deep copy of the course sections
+      const newSections = JSON.parse(JSON.stringify(prev.course_sections));
+      const lecture = newSections[sectionIndex].lectures[lectureIndex];
+
+      // Initialize questions array if it doesn't exist
+      if (!lecture.questions) {
+        lecture.questions = [];
+      }
+
+      // Create a new question object
+      const newQuestion = {
+        question: '',
+        correctAnswer: '',
+        answer_a: '',
+        answer_b: '',
+        answer_c: '',
+        answer_d: '',
+      };
+
+      // Add the new question to the array
+      lecture.questions = [...lecture.questions, newQuestion];
+
+      return {
+        ...prev,
+        course_sections: newSections,
+      };
+    });
+  };
+
+  const updateQuizQuestion = (
+    sectionIndex,
+    lectureIndex,
+    questionIndex,
+    field,
+    value,
+  ) => {
+    setCourse((prev) => {
+      const newSections = [...prev.course_sections];
+      const lecture = newSections[sectionIndex].lectures[lectureIndex];
+      lecture.questions[questionIndex][field] = value;
+      return {
+        ...prev,
+        course_sections: newSections,
+      };
+    });
+  };
+
+  const removeQuizQuestion = (sectionIndex, lectureIndex, questionIndex) => {
+    console.log(
+      'Removing question',
+      questionIndex,
+      'from section',
+      sectionIndex,
+      'lecture',
+      lectureIndex,
+    );
+    setCourse((prev) => {
+      // Create a deep copy of the course sections
+      const newSections = JSON.parse(JSON.stringify(prev.course_sections));
+      const lecture = newSections[sectionIndex].lectures[lectureIndex];
+      lecture.questions = lecture.questions.filter(
+        (_, index) => index !== questionIndex,
+      );
+      return {
+        ...prev,
+        course_sections: newSections,
+      };
+    });
+  };
+
   const isLectureFileUploaded = (lecture) => {
     return !!lecture.file_url || !!lecture.file;
   };
 
-  function onAddQuestion() {}
+  const toggleQuestionCollapse = (
+    sectionIndex,
+    lectureIndex,
+    questionIndex,
+  ) => {
+    const key = `${sectionIndex}-${lectureIndex}-${questionIndex}`;
+    setCollapsedQuestions((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const toggleLectureCollapse = (sectionIndex, lectureIndex) => {
+    const key = `${sectionIndex}-${lectureIndex}`;
+    setCollapsedLectures((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
   return (
     <div>
+      {showErrors && errors.course_sections && (
+        <div className="mb-4 text-red-500">{errors.course_sections}</div>
+      )}
       {course_sections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="mb-4 bg-[#9DB2BF] p-6">
           <div className="mb-5 flex items-center justify-between">
@@ -130,9 +232,14 @@ function Curriculum({ course, setCourse }) {
               <HiBars3 />
               <h3 className="required text-nowrap">
                 Section ({String(sectionIndex + 1).padStart(2, '0')}):
+                {showErrors && errors[`section_${sectionIndex}_title`] && (
+                  <span className="ml-2 text-sm text-red-500">
+                    ({errors[`section_${sectionIndex}_title`]})
+                  </span>
+                )}
               </h3>
               <input
-                className="grow truncate border-b-1 border-gray-500 outline-none"
+                className={`grow truncate border-b-1 outline-none ${showErrors && errors[`section_${sectionIndex}_title`] ? 'border-red-500' : 'border-gray-500'}`}
                 value={section.title}
                 onChange={(e) =>
                   updateSectionField(sectionIndex, 'title', e.target.value)
@@ -157,22 +264,42 @@ function Curriculum({ course, setCourse }) {
             </span>
           </div>
 
+          {showErrors && errors[`section_${sectionIndex}_lectures`] && (
+            <div className="mb-4 text-red-500">
+              {errors[`section_${sectionIndex}_lectures`]}
+            </div>
+          )}
+
           <ul className="flex flex-col gap-4">
             {section.lectures?.map((lecture, lectureIndex) => (
               <li
                 key={lectureIndex}
                 className="flex flex-col bg-white px-4 py-2"
               >
-                <div className="flex flex-col items-center justify-between bg-white px-4 py-2 md:flex-row">
+                <div className="flex">
                   <div className="flex w-full items-center gap-x-2">
-                    <h3 className="text-nowrap">
+                    <h3 className="required text-nowrap">
                       Lecture ({String(lectureIndex + 1).padStart(2, '0')}):
+                      {showErrors &&
+                        errors[
+                          `section_${sectionIndex}_lecture_${lectureIndex}_title`
+                        ] && (
+                          <span className="ml-2 text-sm text-red-500">
+                            (
+                            {
+                              errors[
+                                `section_${sectionIndex}_lecture_${lectureIndex}_title`
+                              ]
+                            }
+                            )
+                          </span>
+                        )}
                     </h3>
                     {isLectureFileUploaded(lecture) ||
                     lecture.type === 'quiz' ? (
                       <div className="w-full">
                         <input
-                          className="w-full truncate border-b px-2 py-1 outline-none"
+                          className={`w-full truncate border-b px-2 py-1 outline-none ${showErrors && errors[`section_${sectionIndex}_lecture_${lectureIndex}_title`] ? 'border-red-500' : ''}`}
                           value={lecture.title}
                           onChange={(e) =>
                             updateLectureField(
@@ -185,63 +312,68 @@ function Curriculum({ course, setCourse }) {
                         />
                       </div>
                     ) : (
-                      lecture.type !== 'quiz' && (
-                        <>
-                          <button
-                            className="flex items-center gap-2 bg-gray-100 px-4 py-2 transition-all duration-150 hover:bg-gray-200"
-                            onClick={() =>
-                              fileInputRefs.current[
+                      <>
+                        <button
+                          className={`flex items-center gap-2 px-4 py-2 transition-all duration-150 ${showErrors && errors[`section_${sectionIndex}_lecture_${lectureIndex}_file`] ? 'bg-red-100 text-red-600' : 'bg-gray-100 hover:bg-gray-200'}`}
+                          onClick={() =>
+                            fileInputRefs.current[
+                              `${sectionIndex}-${lectureIndex}`
+                            ]?.click()
+                          }
+                        >
+                          <UploadIcon size={16} />
+                          <span>
+                            {showErrors &&
+                            errors[
+                              `section_${sectionIndex}_lecture_${lectureIndex}_file`
+                            ]
+                              ? 'Upload Required'
+                              : 'Upload'}
+                          </span>
+                        </button>
+
+                        {/* video */}
+                        {lecture.type === 'video' && (
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept="video/mp4, video/webm"
+                            ref={(el) =>
+                              (fileInputRefs.current[
                                 `${sectionIndex}-${lectureIndex}`
-                              ]?.click()
+                              ] = el)
                             }
-                          >
-                            <UploadIcon size={16} />
-                            <span>Upload</span>
-                          </button>
+                            onChange={(e) =>
+                              handleLectureFileUpload(
+                                e,
+                                sectionIndex,
+                                lectureIndex,
+                              )
+                            }
+                          />
+                        )}
 
-                          {/* video */}
-                          {lecture.type === 'video' && (
-                            <input
-                              type="file"
-                              className="hidden"
-                              accept="video/mp4, video/webm"
-                              ref={(el) =>
-                                (fileInputRefs.current[
-                                  `${sectionIndex}-${lectureIndex}`
-                                ] = el)
-                              }
-                              onChange={(e) =>
-                                handleLectureFileUpload(
-                                  e,
-                                  sectionIndex,
-                                  lectureIndex,
-                                )
-                              }
-                            />
-                          )}
-
-                          {/* file */}
-                          {lecture.type === 'file' && (
-                            <input
-                              type="file"
-                              className="hidden"
-                              accept=".pdf, .doc, .docx, .ppt, .pptx, .txt"
-                              ref={(el) =>
-                                (fileInputRefs.current[
-                                  `${sectionIndex}-${lectureIndex}`
-                                ] = el)
-                              }
-                              onChange={(e) =>
-                                handleLectureFileUpload(
-                                  e,
-                                  sectionIndex,
-                                  lectureIndex,
-                                )
-                              }
-                            />
-                          )}
-                        </>
-                      )
+                        {/* file */}
+                        {lecture.type === 'file' && (
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept=".pdf, .doc, .docx, .ppt, .pptx, .txt"
+                            ref={(el) =>
+                              (fileInputRefs.current[
+                                `${sectionIndex}-${lectureIndex}`
+                              ] = el)
+                            }
+                            onChange={(e) =>
+                              handleLectureFileUpload(
+                                e,
+                                sectionIndex,
+                                lectureIndex,
+                              )
+                            }
+                          />
+                        )}
+                      </>
                     )}
                   </div>
 
@@ -259,16 +391,12 @@ function Curriculum({ course, setCourse }) {
                         )
                       }
                     >
-                      {/* <option value="">Contents</option> */}
                       <option value="video">Video</option>
                       <option value="file">File</option>
-                      <option value="quiz">quiz</option>
+                      <option value="quiz">Quiz</option>
                     </select>
 
                     <div className="flex gap-x-2">
-                      {/* <button>
-                      <RiEdit2Line />
-                    </button> */}
                       <button
                         className={
                           section.lectures.length > 1
@@ -284,100 +412,155 @@ function Curriculum({ course, setCourse }) {
                           color={section.lectures.length > 1 ? '#E25E35' : ''}
                         />
                       </button>
+                      {lecture.type === 'quiz' && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            toggleLectureCollapse(sectionIndex, lectureIndex)
+                          }
+                          className="text-gray-500 hover:text-gray-700 md:p-2"
+                        >
+                          {collapsedLectures[
+                            `${sectionIndex}-${lectureIndex}`
+                          ] ? (
+                            <IoIosArrowDown className="rotate-180 transform" />
+                          ) : (
+                            <IoIosArrowDown />
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {lecture.type === 'quiz' && (
-                  <div className="h-4xl bgg-red-500 w-full">
-                    <div className="relative">
-                      <span className="absolute top-2 left-4">Question: </span>
+                {lecture.type === 'quiz' &&
+                  !collapsedLectures[`${sectionIndex}-${lectureIndex}`] && (
+                    <div className="mt-4 w-full">
+                      {lecture.questions?.map((question, questionIndex) => (
+                        <div
+                          key={`${sectionIndex}-${lectureIndex}-${questionIndex}`}
+                          className="mb-6"
+                        >
+                          <div className="mb-4 flex items-center gap-2 rounded-xl bg-gray-100 p-2">
+                            <span className="text-xl text-nowrap">
+                              Q{questionIndex + 1}.
+                            </span>
+                            <input
+                              type="text"
+                              value={question.question}
+                              onChange={(e) =>
+                                updateQuizQuestion(
+                                  sectionIndex,
+                                  lectureIndex,
+                                  questionIndex,
+                                  'question',
+                                  e.target.value,
+                                )
+                              }
+                              placeholder="Enter your question"
+                              className="w-full rounded border p-2"
+                            />
 
-                      <input
-                        type="text"
-                        className="mb-4 h-10 w-full border px-24 py-2 outline-0"
-                      />
-                    </div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeQuizQuestion(
+                                  sectionIndex,
+                                  lectureIndex,
+                                  questionIndex,
+                                );
+                              }}
+                              className="p-2 text-red-500 hover:text-red-700"
+                            >
+                              <FaRegTrashAlt />
+                            </button>
 
-                    <div className="relative mb-1 flex items-center gap-4">
-                      <span className="absolute top-2 left-4">A.</span>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                toggleQuestionCollapse(
+                                  sectionIndex,
+                                  lectureIndex,
+                                  questionIndex,
+                                )
+                              }
+                              className="p-2 text-gray-500 hover:text-gray-700"
+                            >
+                              {collapsedQuestions[
+                                `${sectionIndex}-${lectureIndex}-${questionIndex}`
+                              ] ? (
+                                <IoIosArrowDown className="rotate-180 transform" />
+                              ) : (
+                                <IoIosArrowDown />
+                              )}
+                            </button>
+                          </div>
 
-                      <input
-                        type="text"
-                        name="answerA"
-                        className="h-10 w-full border px-8 py-2 outline-0"
-                      />
-                      <input
-                        type="radio"
-                        name="correctAnswer"
-                        value="a"
-                        className="h-6 w-6 border outline-0"
-                      />
-                    </div>
+                          {!collapsedQuestions[
+                            `${sectionIndex}-${lectureIndex}-${questionIndex}`
+                          ] && (
+                            <>
+                              {['a', 'b', 'c', 'd'].map((option) => (
+                                <div
+                                  key={`${sectionIndex}-${lectureIndex}-${questionIndex}-${option}`}
+                                  className="mb-2 flex items-center gap-2"
+                                >
+                                  <input
+                                    type="radio"
+                                    name={`correctAnswer_${sectionIndex}_${lectureIndex}_${questionIndex}`}
+                                    checked={question.correctAnswer === option}
+                                    onChange={() =>
+                                      updateQuizQuestion(
+                                        sectionIndex,
+                                        lectureIndex,
+                                        questionIndex,
+                                        'correctAnswer',
+                                        option,
+                                      )
+                                    }
+                                    className="h-4 w-4"
+                                  />
+                                  <input
+                                    type="text"
+                                    value={question[`answer_${option}`]}
+                                    onChange={(e) =>
+                                      updateQuizQuestion(
+                                        sectionIndex,
+                                        lectureIndex,
+                                        questionIndex,
+                                        `answer_${option}`,
+                                        e.target.value,
+                                      )
+                                    }
+                                    placeholder={`Option ${option.toUpperCase()}`}
+                                    className="flex-1 rounded border p-2"
+                                  />
+                                </div>
+                              ))}
+                            </>
+                          )}
+                        </div>
+                      ))}
 
-                    <div className="relative mb-1 flex items-center gap-4">
-                      <span className="absolute top-2 left-4">B.</span>
-
-                      <input
-                        type="text"
-                        name="answerA"
-                        className="h-10 w-full border px-8 py-2 outline-0"
-                      />
-                      <input
-                        type="radio"
-                        name="correctAnswer"
-                        value="b"
-                        className="h-6 w-6 border outline-0"
-                      />
-                    </div>
-
-                    <div className="relative mb-1 flex items-center gap-4">
-                      <span className="absolute top-2 left-4">C.</span>
-
-                      <input
-                        type="text"
-                        name="answerA"
-                        className="h-10 w-full border px-8 py-2 outline-0"
-                      />
-                      <input
-                        type="radio"
-                        name="correctAnswer"
-                        value="c"
-                        className="h-6 w-6 border outline-0"
-                      />
-                    </div>
-
-                    <div className="relative mb-1 flex items-center gap-4">
-                      <span className="absolute top-2 left-4">D.</span>
-
-                      <input
-                        type="text"
-                        name="answerA"
-                        className="h-10 w-full border px-8 py-2 outline-0"
-                      />
-                      <input
-                        type="radio"
-                        name="correctAnswer"
-                        value="d"
-                        className="h-6 w-6 border outline-0"
-                      />
-                    </div>
-
-                    <div>
                       <button
-                        onClick={onAddQuestion}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addQuizQuestion(sectionIndex, lectureIndex);
+                        }}
                         className="bg-pinky-violet hover:bg-pinky-violet/95 w-full px-4 py-2 text-white"
                       >
-                        Add
+                        Add Question
                       </button>
                     </div>
-                  </div>
-                )}
+                  )}
               </li>
             ))}
           </ul>
 
           <button
+            type="button"
             className="text-pinky-violet mt-5 w-full bg-[#92b1c4] px-4 py-2"
             onClick={() => handleAddLecture(sectionIndex)}
           >
@@ -395,12 +578,13 @@ function Curriculum({ course, setCourse }) {
                 handleChangeSectionDescription(e.target.value, sectionIndex)
               }
               placeholder="Enter your section description"
-              className="h-24 w-full border-1 border-white p-2 pl-4"
+              className={`h-24 w-full border-1 p-2 pl-4 ${showErrors && errors[`section_${sectionIndex}_description`] ? 'border-red-500' : 'border-white'}`}
             ></textarea>
           </div>
         </div>
       ))}
       <button
+        type="button"
         className="text-pinky-violet mt-5 w-full bg-[#9DB2BF59] px-4 py-2"
         onClick={handleAddSection}
       >

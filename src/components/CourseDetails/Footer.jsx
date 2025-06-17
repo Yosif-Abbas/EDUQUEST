@@ -4,13 +4,17 @@ import Card from '../Card';
 import { useCourses } from '../../hooks/useCourses';
 import Loading from '../Loading';
 
-function Footer() {
-  const { courses: relatedCourses = [], isLoading } = useCourses();
+function Footer({ category }) {
+  const { courses, isLoading } = useCourses();
+
+  // Filter courses by matching category
+  const relatedCourses =
+    courses?.filter((course) => course.category === category) || [];
 
   if (relatedCourses?.length < 1) return null;
 
   if (isLoading) {
-    <Loading />;
+    return <Loading />;
   }
 
   return (
@@ -26,7 +30,7 @@ function Footer() {
         </Button>
       </div>
 
-      <ul className="flex w-full snap-x gap-x-6 overflow-x-scroll">
+      <ul className="flex w-full snap-x justify-center gap-x-6 overflow-x-scroll">
         {relatedCourses.slice(0, 4).map((course) => {
           return (
             <Card key={course.id} course={course} className="snap-start" />

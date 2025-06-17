@@ -14,8 +14,6 @@ function CourseHeader({ course }) {
 
   const { ratingCount, rating } = ratingHelper(ratings[0]);
 
-  console.log(ratingCount, rating, ratings);
-
   return (
     <div className="mx-auto mb-4 flex w-full flex-col gap-y-4 lg:col-span-1 lg:mr-0">
       <h1 className="text-3xl">{title}</h1>

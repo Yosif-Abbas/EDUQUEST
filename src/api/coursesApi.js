@@ -346,8 +346,11 @@ export async function createNewCourse({ course, teacherId }) {
         .from('lectures')
         .insert({
           title: lecture.title || '',
-          type: lecture.type || 'text',
-          content_info: lecture.content_info || '',
+          type: lecture.type || 'video',
+          content_info:
+            lecture.type === 'quiz'
+              ? `${lecture.questions?.length || 0} questions`
+              : lecture.content_info || '',
           file_url: lecture.type === 'file' ? lecture.file_url || '' : null,
           section_id: sectionId,
         })
@@ -360,6 +363,32 @@ export async function createNewCourse({ course, teacherId }) {
       }
 
       const lectureId = lectureData.id;
+
+      // Insert quiz questions
+      if (lecture.type === 'quiz') {
+        if (lecture.questions && lecture.questions.length > 0) {
+          lecture.questions.forEach(async (question) => {
+            const { error: questionsError } = await supabase
+              .from('questions')
+              .insert([
+                {
+                  lecture_id: lectureId,
+                  question: question.question,
+                  correct_answer: question.correctAnswer,
+                  answer_a: question.answer_a,
+                  answer_b: question.answer_b,
+                  answer_c: question.answer_c,
+                  answer_d: question.answer_d,
+                },
+              ]);
+
+            if (questionsError) {
+              console.error('Quiz questions insertion error:', questionsError);
+              throw questionsError;
+            }
+          });
+        }
+      }
 
       if (lecture.type === 'video' && lecture.file_url) {
         const { error: videoError } = await supabase.from('videos').insert({

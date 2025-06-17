@@ -25,7 +25,9 @@ function Card({ course, className }) {
   const isFree = finalPrice <= 0 || discount >= 100;
 
   return (
-    <li className={`h-fit w-full border border-gray-300 bg-white ${className}`}>
+    <li
+      className={`h-fit w-full border border-gray-300 bg-white ${className} max-w-90`}
+    >
       <figure
         onClick={handleCourseRedirect}
         className="h-28 cursor-pointer overflow-hidden transition-opacity duration-200 hover:opacity-75 sm:h-32 md:h-36 lg:h-42 xl:h-48"
@@ -68,7 +70,25 @@ function Card({ course, className }) {
               </p>
             </div>
           ) : (
-            <p className="text-lg uppercase">Free</p>
+            <div className="flex flex-col items-end">
+              {discount > 0 && (
+                <div className="flex items-center gap-1">
+                  {timeLeft && (
+                    <>
+                      <span className="self-end bg-[#FFEEE8] px-1 text-xs font-bold text-[#FF6636] md:px-2 md:py-1">
+                        {discount}% OFF
+                      </span>
+
+                      <span className="ml-3 text-xs font-normal text-gray-500 line-through">
+                        {regularPrice}
+                        {currency}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
+              <p className="text-lg text-[#FF6636] uppercase">Free</p>
+            </div>
           )}
         </div>
 
