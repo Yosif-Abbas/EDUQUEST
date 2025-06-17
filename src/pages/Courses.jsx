@@ -4,8 +4,11 @@ import Pagination from '../components/Pagination';
 import SearchControls from '../components/SearchControls';
 
 import { useCourses } from '../hooks/useCourses';
+import { useQuestions } from '../hooks/useQuestions';
 
 function Courses() {
+  
+
   const { courses = [], isLoading, isError, count } = useCourses();
 
   if (isError) return <div>Error fetching courses</div>;

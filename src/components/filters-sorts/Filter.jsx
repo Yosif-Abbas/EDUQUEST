@@ -19,8 +19,7 @@ function Filter() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const {categories, isLoading} = useCategories();
-  console.log(categories)
+  const { categories, isLoading } = useCategories();
 
   const [filter, setFilter] = useState(searchParams.get('category') || 'all');
 
@@ -115,14 +114,14 @@ function Filter() {
             <div className="flex justify-end gap-x-4">
               <button
                 onClick={handleClearFilter}
-                className="bg-[#dde6ed] text-L4 rounded-md px-4 py-2 text-sm font-semibold"
+                className="text-L4 rounded-md bg-[#dde6ed] px-4 py-2 text-sm font-semibold"
               >
                 Clear
               </button>
 
               <button
                 onClick={handleFilter}
-                className={`bg-[#27374d] rounded-md px-4 py-2 text-sm font-semibold text-white ${!filter?"cursor-not-allowed opacity-40":""}`}
+                className={`rounded-md bg-[#27374d] px-4 py-2 text-sm font-semibold text-white ${!filter ? 'cursor-not-allowed opacity-40' : ''}`}
                 disabled={!filter}
               >
                 Apply
