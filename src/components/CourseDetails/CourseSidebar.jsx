@@ -3,19 +3,19 @@ import { FiBarChart } from 'react-icons/fi';
 import { LuNotepadText, LuUsersRound } from 'react-icons/lu';
 
 import SocialButton from '../SocialButton';
+import Spinner from '../Spinner';
 import CopyLinkButton from './CopyLinkButton';
 import Price from './Price';
-import Spinner from '../Spinner';
 
 import { getFormattedTotalDuration, timeLeftUntil } from '../../utils/helpers';
 
-import { useCurrentUser } from './../../hooks/useCurrentUser';
-import { useNavigate } from 'react-router-dom';
-import { useEnrollInCourse } from '../../hooks/useEnrollIncourse';
-import { useAddToWishlist } from '../../hooks/useAddToWishlist';
-import { useWishlist } from '../../hooks/useWishlist';
-import { useRemoveFromWishlist } from '../../hooks/useRemoveFromWishlist';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAddToWishlist } from '../../hooks/useAddToWishlist';
+import { useEnrollInCourse } from '../../hooks/useEnrollIncourse';
+import { useRemoveFromWishlist } from '../../hooks/useRemoveFromWishlist';
+import { useWishlist } from '../../hooks/useWishlist';
+import { useCurrentUser } from './../../hooks/useCurrentUser';
 
 function CourseSidebar({
   course,
@@ -218,6 +218,12 @@ function CourseSidebar({
                     </button>
                   ) : (
                     <>
+                      <button
+                        className="bg-[#526D82] px-4 py-2 tracking-wider text-white"
+                        onClick={handleEnroll}
+                      >
+                        Enroll
+                      </button>
                       <button className="bg-[#526D82] px-4 py-2 text-white">
                         Add to Cart
                       </button>

@@ -119,6 +119,8 @@ function Curriculum({ course, setCourse }) {
     return !!lecture.file_url || !!lecture.file;
   };
 
+  function onAddQuestion() {}
+
   return (
     <div>
       {course_sections.map((section, sectionIndex) => (
@@ -159,125 +161,222 @@ function Curriculum({ course, setCourse }) {
             {section.lectures?.map((lecture, lectureIndex) => (
               <li
                 key={lectureIndex}
-                className="flex flex-col items-center justify-between bg-white px-4 py-2 md:flex-row"
+                className="flex flex-col bg-white px-4 py-2"
               >
-                <div className="flex w-full items-center gap-x-2">
-                  <h3 className="text-nowrap">
-                    Lecture ({String(lectureIndex + 1).padStart(2, '0')}):
-                  </h3>
-                  {isLectureFileUploaded(lecture) ? (
-                    <div className="w-full">
-                      <input
-                        className="w-full truncate px-2 py-1 outline-none"
-                        value={lecture.title}
-                        onChange={(e) =>
-                          updateLectureField(
-                            sectionIndex,
-                            lectureIndex,
-                            'title',
-                            e.target.value,
-                          )
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <button
-                        className="flex items-center gap-2 bg-gray-100 px-4 py-2 transition-all duration-150 hover:bg-gray-200"
-                        onClick={() =>
-                          fileInputRefs.current[
-                            `${sectionIndex}-${lectureIndex}`
-                          ]?.click()
-                        }
-                      >
-                        <UploadIcon size={16} />
-                        <span>Upload</span>
-                      </button>
-
-                      {/* video */}
-                      {lecture.type === 'video' && (
+                <div className="flex flex-col items-center justify-between bg-white px-4 py-2 md:flex-row">
+                  <div className="flex w-full items-center gap-x-2">
+                    <h3 className="text-nowrap">
+                      Lecture ({String(lectureIndex + 1).padStart(2, '0')}):
+                    </h3>
+                    {isLectureFileUploaded(lecture) ||
+                    lecture.type === 'quiz' ? (
+                      <div className="w-full">
                         <input
-                          type="file"
-                          className="hidden"
-                          accept="video/mp4, video/webm"
-                          ref={(el) =>
-                            (fileInputRefs.current[
-                              `${sectionIndex}-${lectureIndex}`
-                            ] = el)
-                          }
+                          className="w-full truncate border-b px-2 py-1 outline-none"
+                          value={lecture.title}
                           onChange={(e) =>
-                            handleLectureFileUpload(
-                              e,
+                            updateLectureField(
                               sectionIndex,
                               lectureIndex,
+                              'title',
+                              e.target.value,
                             )
                           }
                         />
-                      )}
+                      </div>
+                    ) : (
+                      lecture.type !== 'quiz' && (
+                        <>
+                          <button
+                            className="flex items-center gap-2 bg-gray-100 px-4 py-2 transition-all duration-150 hover:bg-gray-200"
+                            onClick={() =>
+                              fileInputRefs.current[
+                                `${sectionIndex}-${lectureIndex}`
+                              ]?.click()
+                            }
+                          >
+                            <UploadIcon size={16} />
+                            <span>Upload</span>
+                          </button>
 
-                      {/* file */}
-                      {lecture.type === 'file' && (
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept=".pdf, .doc, .docx, .ppt, .pptx, .txt"
-                          ref={(el) =>
-                            (fileInputRefs.current[
-                              `${sectionIndex}-${lectureIndex}`
-                            ] = el)
-                          }
-                          onChange={(e) =>
-                            handleLectureFileUpload(
-                              e,
-                              sectionIndex,
-                              lectureIndex,
-                            )
-                          }
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-                <div className="flex w-full justify-around gap-3 pt-2 md:justify-end">
-                  <select
-                    className={`text-pinky-violet w-26 bg-[#FFEEE8] p-2 ${isLectureFileUploaded(lecture) ? 'bg-gray-300' : ''}`}
-                    value={lecture.type}
-                    disabled={isLectureFileUploaded(lecture)}
-                    onChange={(e) =>
-                      updateLectureField(
-                        sectionIndex,
-                        lectureIndex,
-                        'type',
-                        e.target.value,
+                          {/* video */}
+                          {lecture.type === 'video' && (
+                            <input
+                              type="file"
+                              className="hidden"
+                              accept="video/mp4, video/webm"
+                              ref={(el) =>
+                                (fileInputRefs.current[
+                                  `${sectionIndex}-${lectureIndex}`
+                                ] = el)
+                              }
+                              onChange={(e) =>
+                                handleLectureFileUpload(
+                                  e,
+                                  sectionIndex,
+                                  lectureIndex,
+                                )
+                              }
+                            />
+                          )}
+
+                          {/* file */}
+                          {lecture.type === 'file' && (
+                            <input
+                              type="file"
+                              className="hidden"
+                              accept=".pdf, .doc, .docx, .ppt, .pptx, .txt"
+                              ref={(el) =>
+                                (fileInputRefs.current[
+                                  `${sectionIndex}-${lectureIndex}`
+                                ] = el)
+                              }
+                              onChange={(e) =>
+                                handleLectureFileUpload(
+                                  e,
+                                  sectionIndex,
+                                  lectureIndex,
+                                )
+                              }
+                            />
+                          )}
+                        </>
                       )
-                    }
-                  >
-                    {/* <option value="">Contents</option> */}
-                    <option value="video">Video</option>
-                    <option value="file">File</option>
-                    {/* <option value="test">Test</option> */}
-                  </select>
+                    )}
+                  </div>
 
-                  <div className="flex gap-x-2">
-                    {/* <button>
+                  <div className="flex w-full justify-around gap-3 pt-2 md:justify-end">
+                    <select
+                      className={`text-pinky-violet w-26 bg-[#FFEEE8] p-2 ${isLectureFileUploaded(lecture) ? 'bg-gray-300' : ''}`}
+                      value={lecture.type}
+                      disabled={isLectureFileUploaded(lecture)}
+                      onChange={(e) =>
+                        updateLectureField(
+                          sectionIndex,
+                          lectureIndex,
+                          'type',
+                          e.target.value,
+                        )
+                      }
+                    >
+                      {/* <option value="">Contents</option> */}
+                      <option value="video">Video</option>
+                      <option value="file">File</option>
+                      <option value="quiz">quiz</option>
+                    </select>
+
+                    <div className="flex gap-x-2">
+                      {/* <button>
                       <RiEdit2Line />
                     </button> */}
-                    <button
-                      className={
-                        section.lectures.length > 1 ? '' : 'cursor-not-allowed'
-                      }
-                      disabled={section.lectures.length <= 1}
-                      onClick={() => removeLecture(sectionIndex, lectureIndex)}
-                    >
-                      <FaRegTrashAlt
-                        color={section.lectures.length > 1 ? '#E25E35' : ''}
-                      />
-                    </button>
+                      <button
+                        className={
+                          section.lectures.length > 1
+                            ? ''
+                            : 'cursor-not-allowed'
+                        }
+                        disabled={section.lectures.length <= 1}
+                        onClick={() =>
+                          removeLecture(sectionIndex, lectureIndex)
+                        }
+                      >
+                        <FaRegTrashAlt
+                          color={section.lectures.length > 1 ? '#E25E35' : ''}
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
+
+                {lecture.type === 'quiz' && (
+                  <div className="h-4xl bgg-red-500 w-full">
+                    <div className="relative">
+                      <span className="absolute top-2 left-4">Question: </span>
+
+                      <input
+                        type="text"
+                        className="mb-4 h-10 w-full border px-24 py-2 outline-0"
+                      />
+                    </div>
+
+                    <div className="relative mb-1 flex items-center gap-4">
+                      <span className="absolute top-2 left-4">A.</span>
+
+                      <input
+                        type="text"
+                        name="answerA"
+                        className="h-10 w-full border px-8 py-2 outline-0"
+                      />
+                      <input
+                        type="radio"
+                        name="correctAnswer"
+                        value="a"
+                        className="h-6 w-6 border outline-0"
+                      />
+                    </div>
+
+                    <div className="relative mb-1 flex items-center gap-4">
+                      <span className="absolute top-2 left-4">B.</span>
+
+                      <input
+                        type="text"
+                        name="answerA"
+                        className="h-10 w-full border px-8 py-2 outline-0"
+                      />
+                      <input
+                        type="radio"
+                        name="correctAnswer"
+                        value="b"
+                        className="h-6 w-6 border outline-0"
+                      />
+                    </div>
+
+                    <div className="relative mb-1 flex items-center gap-4">
+                      <span className="absolute top-2 left-4">C.</span>
+
+                      <input
+                        type="text"
+                        name="answerA"
+                        className="h-10 w-full border px-8 py-2 outline-0"
+                      />
+                      <input
+                        type="radio"
+                        name="correctAnswer"
+                        value="c"
+                        className="h-6 w-6 border outline-0"
+                      />
+                    </div>
+
+                    <div className="relative mb-1 flex items-center gap-4">
+                      <span className="absolute top-2 left-4">D.</span>
+
+                      <input
+                        type="text"
+                        name="answerA"
+                        className="h-10 w-full border px-8 py-2 outline-0"
+                      />
+                      <input
+                        type="radio"
+                        name="correctAnswer"
+                        value="d"
+                        className="h-6 w-6 border outline-0"
+                      />
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={onAddQuestion}
+                        className="bg-pinky-violet hover:bg-pinky-violet/95 w-full px-4 py-2 text-white"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
+
           <button
             className="text-pinky-violet mt-5 w-full bg-[#92b1c4] px-4 py-2"
             onClick={() => handleAddLecture(sectionIndex)}
