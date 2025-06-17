@@ -107,7 +107,7 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment, course }) => {
             Cancel
           </button>
           <button
-            className={`bg-L6 list-icon px-4 py-2 font-normal text-white transition ${
+            className={`list-icon bg-[#ff6636] px-4 py-2 font-normal text-white transition ${
               currentRating === 0
                 ? 'pointer-events-none cursor-not-allowed opacity-50'
                 : 'hover:bg-L6/90 cursor-pointer'

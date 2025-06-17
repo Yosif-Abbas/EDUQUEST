@@ -284,8 +284,7 @@ function NewCourse() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const validationErrors = validateCourse(course);
-    const validationErrors = false;
+    const validationErrors = validateCourse(course);
     if (validationErrors) {
       setErrors(validationErrors);
       setShowErrors(true);
