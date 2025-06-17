@@ -5,7 +5,7 @@ function Contact() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 py-16 text-white">
+      <section className="from-main-txt/80 to-main-txt bg-gradient-to-r py-16 text-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -29,7 +29,7 @@ function Contact() {
               whileHover={{ scale: 1.05 }}
               className="flex flex-col items-center rounded-lg bg-gray-50 p-6 text-center"
             >
-              <Mail className="mb-4 h-8 w-8 text-blue-600" />
+              <Mail className="text-main-txt mb-4 h-8 w-8" />
               <h3 className="mb-2 text-lg font-semibold">Email Us</h3>
               <p className="text-gray-600">support@eduquest.com</p>
             </motion.div>
@@ -38,7 +38,7 @@ function Contact() {
               whileHover={{ scale: 1.05 }}
               className="flex flex-col items-center rounded-lg bg-gray-50 p-6 text-center"
             >
-              <Phone className="mb-4 h-8 w-8 text-blue-600" />
+              <Phone className="text-main-txt mb-4 h-8 w-8" />
               <h3 className="mb-2 text-lg font-semibold">Call Us</h3>
               <p className="text-gray-600">+1 (555) 123-4567</p>
             </motion.div>
@@ -47,7 +47,7 @@ function Contact() {
               whileHover={{ scale: 1.05 }}
               className="flex flex-col items-center rounded-lg bg-gray-50 p-6 text-center"
             >
-              <MapPin className="mb-4 h-8 w-8 text-blue-600" />
+              <MapPin className="text-main-txt mb-4 h-8 w-8" />
               <h3 className="mb-2 text-lg font-semibold">Visit Us</h3>
               <p className="text-gray-600">123 Education St, Learning City</p>
             </motion.div>
@@ -56,7 +56,7 @@ function Contact() {
               whileHover={{ scale: 1.05 }}
               className="flex flex-col items-center rounded-lg bg-gray-50 p-6 text-center"
             >
-              <Clock className="mb-4 h-8 w-8 text-blue-600" />
+              <Clock className="text-main-txt mb-4 h-8 w-8" />
               <h3 className="mb-2 text-lg font-semibold">Working Hours</h3>
               <p className="text-gray-600">Mon - Fri: 9:00 AM - 6:00 PM</p>
             </motion.div>
@@ -141,7 +141,7 @@ function Contact() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+                  className="bg-main-txt hover:bg-main-txt/85 rounded-lg px-8 py-3 font-semibold text-white transition-colors"
                 >
                   Send Message
                 </button>

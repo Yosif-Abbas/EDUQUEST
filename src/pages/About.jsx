@@ -5,7 +5,7 @@ function About() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-indigo-700 py-20 text-white">
+      <section className="from-main-txt to-main-txt/85 relative bg-gradient-to-r py-20 text-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ function About() {
               whileHover={{ scale: 1.05 }}
               className="rounded-lg bg-white p-6 shadow-md"
             >
-              <BookOpen className="mb-4 h-12 w-12 text-blue-600" />
+              <BookOpen className="text-main-txt mb-4 h-12 w-12" />
               <h3 className="mb-3 text-xl font-semibold">Quality Content</h3>
               <p className="text-gray-600">
                 Expert-curated courses designed to provide comprehensive
@@ -63,7 +63,7 @@ function About() {
               whileHover={{ scale: 1.05 }}
               className="rounded-lg bg-white p-6 shadow-md"
             >
-              <Users className="mb-4 h-12 w-12 text-blue-600" />
+              <Users className="text-main-txt mb-4 h-12 w-12" />
               <h3 className="mb-3 text-xl font-semibold">Expert Instructors</h3>
               <p className="text-gray-600">
                 Learn from industry professionals and experienced educators
@@ -74,7 +74,7 @@ function About() {
               whileHover={{ scale: 1.05 }}
               className="rounded-lg bg-white p-6 shadow-md"
             >
-              <Award className="mb-4 h-12 w-12 text-blue-600" />
+              <Award className="text-main-txt mb-4 h-12 w-12" />
               <h3 className="mb-3 text-xl font-semibold">Certification</h3>
               <p className="text-gray-600">
                 Earn recognized certificates to showcase your achievements
@@ -85,7 +85,7 @@ function About() {
               whileHover={{ scale: 1.05 }}
               className="rounded-lg bg-white p-6 shadow-md"
             >
-              <Target className="mb-4 h-12 w-12 text-blue-600" />
+              <Target className="text-main-txt mb-4 h-12 w-12" />
               <h3 className="mb-3 text-xl font-semibold">Flexible Learning</h3>
               <p className="text-gray-600">
                 Study at your own pace with 24/7 access to course materials
@@ -96,7 +96,7 @@ function About() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-blue-600 py-16 text-white">
+      <section className="bg-main-txt py-16 text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
             <div>
@@ -125,7 +125,7 @@ function About() {
             Join thousands of students who are already transforming their lives
             through education
           </p>
-          <button className="rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700">
+          <button className="bg-main-txt hover:bg-main-txt/85 rounded-lg px-8 py-3 font-semibold text-white transition-colors">
             Get Started Today
           </button>
         </div>

@@ -135,7 +135,7 @@ function QuestionBank() {
   // Get unique categories
   const categories = useMemo(() => {
     return ['all', ...new Set(questions.map((q) => q.category))];
-  }, []);
+  }, [questions]);
 
   // Filter and sort questions
   const filteredQuestions = useMemo(() => {
@@ -167,7 +167,7 @@ function QuestionBank() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 py-12 text-white">
+      <section className="from-main-txt to-main-txt/85 bg-gradient-to-r py-12 text-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <motion.div
@@ -196,7 +196,7 @@ function QuestionBank() {
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-0"
+                className="focus:border-main-txt focus:ring-main-txt w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 focus:ring-1 focus:outline-0"
               />
             </div>
 
@@ -205,7 +205,7 @@ function QuestionBank() {
               <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="appearance-none rounded-lg border border-gray-300 py-2 pr-10 pl-4 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-0"
+                className="focus:border-main-txt focus:ring- focus:ring-main-txt appearance-none rounded-lg border border-gray-300 py-2 pr-10 pl-4 focus:outline-0"
               >
                 {categories.map((category) => (
                   <option key={category} value={category}>
@@ -221,7 +221,7 @@ function QuestionBank() {
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className="appearance-none rounded-lg border border-gray-300 py-2 pr-10 pl-4 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-0"
+                className="focus:border-main-txt focus:ring-main-txt appearance-none rounded-lg border border-gray-300 py-2 pr-10 pl-4 focus:ring-1 focus:outline-0"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -235,7 +235,9 @@ function QuestionBank() {
 
       {/* Questions List */}
       {isLoading ? (
-        <Spinner size={100} />
+        <div className="mt-30 flex justify-center">
+          <Spinner size={100} />
+        </div>
       ) : (
         <section className="py-8">
           <div className="container mx-auto px-4">

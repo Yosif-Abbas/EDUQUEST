@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { FaClipboardList, FaInfoCircle } from 'react-icons/fa';
 import { PiMonitorPlayFill } from 'react-icons/pi';
-import BasicInfo from './BasicInfo';
-import AdvancedInfo from './AdvancedInfo';
-import Curriculum from './Curriculum';
-import { useAddNewCourse } from '../../hooks/useAddNewCourse';
 import Spinner from '../../components/Spinner';
+import { useAddNewCourse } from '../../hooks/useAddNewCourse';
 import { useCurrentUser } from './../../hooks/useCurrentUser';
+import AdvancedInfo from './AdvancedInfo';
+import BasicInfo from './BasicInfo';
+import Curriculum from './Curriculum';
 
 function NewCourse() {
   const { currentUser } = useCurrentUser();
@@ -117,6 +117,8 @@ function NewCourse() {
     teacherId,
   });
 
+  console.log(course.regularPrice);
+
   const validateCourse = (course) => {
     const newErrors = {};
 
@@ -135,8 +137,8 @@ function NewCourse() {
       newErrors.category = 'Category is required';
     }
 
-    if (!course.regularPrice || course.regularPrice <= 0) {
-      newErrors.regularPrice = 'Regular price must be greater than 0';
+    if (!course.regularPrice) {
+      newErrors.regularPrice = 'Regular price is required';
     }
 
     if (!course.course_level?.trim()) {
@@ -285,6 +287,10 @@ function NewCourse() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateCourse(course);
+<<<<<<< Updated upstream
+=======
+    // const validationErrors = false;
+>>>>>>> Stashed changes
     if (validationErrors) {
       setErrors(validationErrors);
       setShowErrors(true);

@@ -1,11 +1,11 @@
-import { FaHeart, FaHeartBroken } from 'react-icons/fa';
-import { timeLeftUntil } from '../utils/helpers';
-import { useCurrentUser } from '../hooks/useCurrentUser';
-import { useEnrollInCourse } from '../hooks/useEnrollIncourse';
-import { useNavigate } from 'react-router-dom';
-import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
 import { useEffect, useState } from 'react';
+import { FaHeart, FaHeartBroken } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useEnrolledCourses } from '../hooks/useEnrolledCourses';
+import { useEnrollInCourse } from '../hooks/useEnrollIncourse';
 import { useRemoveFromWishlist } from '../hooks/useRemoveFromWishlist';
+import { timeLeftUntil } from '../utils/helpers';
 import Spinner from './Spinner';
 
 function WishlistItem({ item, wishlist, isLoadingWishlist }) {
@@ -94,17 +94,21 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
       className={`student-wishlist-item px-2 ${isEnrolled ? 'bg-green-100' : ''}`}
     >
       <div className="col-span-5 flex flex-col gap-2 md:col-span-7 md:flex-row md:gap-4">
-        <figure className="flex max-w-65 items-center">
-          <img
-            src={
-              image
-                ? image
-                : 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'
-            }
-            alt={subject}
-            className="object-cover"
-          />
-        </figure>
+        <Link to={`/courses/${couseId}`}>
+          <figure className="flex max-w-65 items-center overflow-hidden">
+            <img
+              src={
+                image
+                  ? image
+                  : 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'
+              }
+              alt={subject}
+              loading="lazy"
+              className="object-cover transition hover:scale-110"
+            />
+          </figure>
+        </Link>
+
         <div className="flex flex-col justify-between gap-2">
           <div className="space-y-1">
             <p className="flex gap-1 text-[12px] lg:text-sm">
@@ -122,6 +126,7 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
           </p>
         </div>
       </div>
+
       <div className="col-span-3 flex items-center justify-end gap-1 md:col-span-2">
         {isEnrolled || isLoadingEnrolledStatus ? (
           ''
@@ -149,6 +154,7 @@ function WishlistItem({ item, wishlist, isLoadingWishlist }) {
           </div>
         )}
       </div>
+
       <div className="col-span-4 flex flex-col justify-center gap-1 md:col-span-2 lg:col-span-3 xl:flex-row xl:items-center xl:justify-end xl:gap-2">
         {isEnrolled ? (
           <button
