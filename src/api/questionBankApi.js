@@ -1,10 +1,8 @@
 import supabase from '../../supabase';
 
-export const getQuestions = async (category) => {
-  const { data, error } = await supabase
-    .from('questions')
-    .select(
-      `
+export const getQuestions = async (/*category*/) => {
+  const { data, error } = await supabase.from('questions').select(
+    `
       *,
       lectures!inner (
         course_sections!inner (
@@ -14,9 +12,9 @@ export const getQuestions = async (category) => {
         )
       )
     `,
-    )
-    .eq('lectures.course_sections.courses.category', category)
-    .order('created_at', { ascending: false });
+  );
+  // .eq('lectures.course_sections.courses.category', category)
+  // .order('created_at', { ascending: false });
 
   if (error) {
     console.error('Error fetching questions with category:', error);
@@ -33,8 +31,6 @@ export const getQuestions = async (category) => {
     id: question.id,
     category: question.lectures?.course_sections?.courses?.category,
   }));
-
-  console.log(questionsWithCategory);
 
   return questionsWithCategory;
 };

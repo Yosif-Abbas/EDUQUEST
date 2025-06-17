@@ -23,6 +23,7 @@ import TeacherLayout from './components/TeacherLayout';
 
 import About from './pages/About';
 import Contact from './pages/Contact';
+import QuestionBank from './pages/QuestionBank';
 import NewCourse from './pages/teacher/NewCourse';
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
@@ -34,6 +35,16 @@ function AppRoutes() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
+
+        <Route
+          path="/question-bank"
+          element={
+            <ProtectedRoute allowedRoles={['student', 'teacher']}>
+              <QuestionBank />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/courses" element={<Courses />} />

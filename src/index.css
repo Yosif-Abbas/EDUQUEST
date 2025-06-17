@@ -49,10 +49,6 @@
   .student-header-nav {
     @apply relative px-5 py-3;
 
-    &.first {
-      @apply pl-0;
-    }
-
     & .active {
       @apply after:bg-L6 after:absolute after:top-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
     }

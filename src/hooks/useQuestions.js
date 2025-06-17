@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCourses } from '../api/coursesApi';
-import { useSearchParams } from 'react-router-dom';
 import { getQuestions } from '../api/questionBankApi';
 
-export const useQuestions = (category) => {
+export const useQuestions = () => {
   const { data: questions = [], ...queryInfo } = useQuery({
-    queryKey: ['questions', category],
-    queryFn: () => getQuestions(category),
+    queryKey: ['questions'],
+    queryFn: () => getQuestions(),
   });
 
   return { questions, ...queryInfo };

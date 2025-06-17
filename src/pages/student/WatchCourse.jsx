@@ -24,49 +24,6 @@ function WatchCourse() {
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
   const { course_sections = [] } = course;
 
-  // const sectionss = [
-  //   ...course_sections,
-  //   {
-  //     id: 234,
-  //     title: 'Introduction',
-  //     duration: 57,
-  //     lectures: [
-  //       {
-  //         content_info: '8 questions',
-  //         created_at: '2025-06-17T11:38:07.609953+00:00',
-  //         file_url: null,
-  //         id: 566,
-  //         section_id: 231,
-  //         title: 'Final Quiz',
-  //         type: 'quiz',
-  //         questions: [
-  //           {
-  //             id: 1,
-  //             question: 'What is the scale of stupitness?',
-  //             correct_answer: 'answer_a',
-  //             answer_a: 'Answer A',
-  //             answer_b: 'Answer B',
-  //             answer_c: 'Answer C',
-  //             answer_d: 'Answer D',
-  //           },
-  //           {
-  //             id: 2,
-  //             question: 'Really! What is it?',
-  //             correct_answer: 'answer_a',
-  //             answer_a: 'Answer 1',
-  //             answer_b: 'Answer 2',
-  //             answer_c: 'Answer 3',
-  //             answer_d: 'Answer 4',
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //     course_id: 75,
-  //     created_at: '2025-06-17T11:38:07.43589+00:00',
-  //     description: 'Hello in the emptyness of the first section',
-  //   },
-  // ];
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentSec = +searchParams.get('sec') || 1;
