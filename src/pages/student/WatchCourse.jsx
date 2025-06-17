@@ -1,37 +1,93 @@
+import { useCallback } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-import VideoPlayer from '../../components/VideoPlayer';
-import Loading from '../../components/Loading';
-import Header from '../../components/Header';
-import CourseHeader from './../../components/CourseWatch/CourseHeader';
 import LectureHeader from '../../components/CourseWatch/LectureHeader';
+import Header from '../../components/Header';
+import Loading from '../../components/Loading';
+import VideoPlayer from '../../components/VideoPlayer';
+import CourseHeader from './../../components/CourseWatch/CourseHeader';
 
-import TeacherStudentNavbar from '../../components/TeacherStudentNavbar';
 import CourseContent from '../../components/CourseWatch/CourseContent';
+import TeacherStudentNavbar from '../../components/TeacherStudentNavbar';
 
+import Quiz from '../../components/Quiz';
 import { useCourse } from '../../hooks/useCourse';
-import { useEnrolledCourse } from '../../hooks/useEnrolledCourse';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useEnrolledCourse } from '../../hooks/useEnrolledCourse';
 import NotFound from '../NotFound';
 
 function WatchCourse() {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const { course, error, isLoading } = useCourse(id);
+  const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
+  const { course_sections = [] } = course;
+
+  // const sectionss = [
+  //   ...course_sections,
+  //   {
+  //     id: 234,
+  //     title: 'Introduction',
+  //     duration: 57,
+  //     lectures: [
+  //       {
+  //         content_info: '8 questions',
+  //         created_at: '2025-06-17T11:38:07.609953+00:00',
+  //         file_url: null,
+  //         id: 566,
+  //         section_id: 231,
+  //         title: 'Final Quiz',
+  //         type: 'quiz',
+  //         questions: [
+  //           {
+  //             id: 1,
+  //             question: 'What is the scale of stupitness?',
+  //             correct_answer: 'answer_a',
+  //             answer_a: 'Answer A',
+  //             answer_b: 'Answer B',
+  //             answer_c: 'Answer C',
+  //             answer_d: 'Answer D',
+  //           },
+  //           {
+  //             id: 2,
+  //             question: 'Really! What is it?',
+  //             correct_answer: 'answer_a',
+  //             answer_a: 'Answer 1',
+  //             answer_b: 'Answer 2',
+  //             answer_c: 'Answer 3',
+  //             answer_d: 'Answer 4',
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //     course_id: 75,
+  //     created_at: '2025-06-17T11:38:07.43589+00:00',
+  //     description: 'Hello in the emptyness of the first section',
+  //   },
+  // ];
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentSec = +searchParams.get('sec') || 1;
   const currentLec = +searchParams.get('lec') || 1;
 
-  const { course, error, isLoading } = useCourse(id);
-  const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
-  const { course_sections } = course;
+  const {
+    enrolledCourse,
+    isLoading: isLoadingEnrolledCourse,
+    error: errorEnrolledCourse,
+  } = useEnrolledCourse({
+    courseId: id,
+    studentId: currentUser?.id,
+  });
 
-  const { enrolledCourse, isLoading: isLoadingEnrolledCourse, error: errorEnrolledCourse } =
-    useEnrolledCourse({
-      courseId: id,
-      studentId: currentUser?.id,
-    });
+  const lecture = course_sections[currentSec - 1]?.lectures[currentLec - 1];
+
+  const handleQuizComplete = useCallback((score) => {
+    // Here you can implement the logic to save the quiz results
+    // For example, update the user's progress in the database
+    console.log('Quiz completed with score:', score);
+  }, []);
 
   if (isLoading || isLoadingEnrolledCourse)
     return (
@@ -39,19 +95,27 @@ function WatchCourse() {
         <Loading size={150} />
       </div>
     );
-    
-  if (error) return (<div className="flex h-dvh w-full items-center justify-center pb-25">
-      <div>Error fetching course data.</div>
-    </div>);
 
-  if(errorEnrolledCourse ) return <div className='flex flex-col h-dvh w-full items-center justify-center text-2xl gap-y-2'>
-    <p>You don&apos;t own this course.</p>
-    <p>Go enroll in the course 😄</p>
-    <button className='bg-[#526d82] text-white px-2 py-2 rounded-xs' onClick={()=>navigate(`/courses/${id}`)}>Back to the course</button>
-  </div>;
+  if (error)
+    return (
+      <div className="flex h-dvh w-full items-center justify-center pb-25">
+        <div>Error fetching course data.</div>
+      </div>
+    );
 
-  const lecture = course_sections[currentSec - 1].lectures[currentLec - 1];
-
+  if (errorEnrolledCourse)
+    return (
+      <div className="flex h-dvh w-full flex-col items-center justify-center gap-y-2 text-2xl">
+        <p>You don&apos;t own this course.</p>
+        <p>Go enroll in the course 😄</p>
+        <button
+          className="rounded-xs bg-[#526d82] px-2 py-2 text-white"
+          onClick={() => navigate(`/courses/${id}`)}
+        >
+          Back to the course
+        </button>
+      </div>
+    );
 
   return (
     <div>
@@ -71,36 +135,42 @@ function WatchCourse() {
       <div className="grid gap-2 px-2 pb-4 lg:grid-cols-[2fr_1fr]">
         {/* These divs are important for layout */}
         {lecture ? (
-          <div>
-            <div className="mx-auto flex max-w-5xl flex-col gap-4 pb-3">
-              <div className="">
-                {lecture?.type === 'video' && lecture.videos[0]?.video_url && (
-                  <VideoPlayer
-                    key={lecture.videos[0].id}
-                    src={lecture.videos[0].video_url}
-                    poster={course.image_url}
-                    subtitleSrc={lecture.videos[0].video_url}
-                    className="shadow-xl"
+          <div className="flex max-w-5xl flex-col gap-4 pb-3">
+            <div className="flex-1 shadow-xl">
+              {lecture?.type === 'video' && lecture.videos[0]?.video_url && (
+                <VideoPlayer
+                  key={lecture.videos[0].id}
+                  src={lecture.videos[0].video_url}
+                  poster={course.image_url}
+                  subtitleSrc={lecture.videos[0].video_url}
+                  className="shadow-xl"
+                />
+              )}
+              {lecture?.type === 'file' && (
+                <div className="mx-auto h-120 w-full max-w-4xl shadow-xl">
+                  <iframe
+                    src={lecture.file_url}
+                    className="h-full w-full"
+                    title="Lecture PDF"
                   />
-                )}
-                {lecture?.type === 'file' && (
-                  <div className="mx-auto h-120 w-full max-w-4xl shadow-xl">
-                    <iframe
-                      src={lecture.file_url}
-                      className="h-full w-full"
-                      title="Lecture PDF"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <LectureHeader lecture={lecture} />
+                </div>
+              )}
+              {lecture?.type === 'quiz' && (
+                <div className="mx-auto h-120 min-h-fit w-full max-w-4xl bg-white shadow-xl">
+                  <Quiz
+                    questions={lecture?.questions}
+                    onComplete={handleQuizComplete}
+                  />
+                </div>
+              )}
             </div>
+
+            <LectureHeader lecture={lecture} />
           </div>
         ) : (
           <NotFound />
         )}
-        <CourseContent sections={course.course_sections} />
+        <CourseContent sections={course_sections} />
       </div>
     </div>
   );

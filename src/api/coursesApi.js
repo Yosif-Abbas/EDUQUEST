@@ -46,7 +46,7 @@ export const getCourse = async (id) => {
         course_requirements(*),
         course_includes(*),
         course_benefits(*),
-        course_sections(*, lectures(*, videos(*))),
+        course_sections(*, lectures(*, videos(*), questions(*))),
         teachers(*, users(*)),
         ratings(*),
         reviews(*, users(*))`,
