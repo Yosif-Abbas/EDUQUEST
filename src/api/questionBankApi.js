@@ -21,6 +21,9 @@ export const getQuestions = async (/*category*/) => {
     return [];
   }
 
+
+  
+
   const questionsWithCategory = data.map((question) => ({
     question: question.question,
     answer_a: question.answer_a,
