@@ -11,14 +11,14 @@ import Spinner from '../Spinner';
 function RightSide() {
   const { signup, isLoading } = useSignup();
 
-  const [firstName, setFirstName] = useState('Yosif');
-  const [lastName, setLastName] = useState('Abbas');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-  const [phone, setPhone] = useState('01096229495');
+  const [phone, setPhone] = useState('');
 
-  const [email, setEmail] = useState('yosif1@test.com');
-  const [password, setPassword] = useState('123456');
-  const [confirmPass, setConfirmPass] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
 
   const [selectedRole, setSelectedRole] = useState('');
 

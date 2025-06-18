@@ -45,18 +45,20 @@ export const useAddNewCourse = ({ course, teacherId }) => {
               'course';
 
             const fileType = lecture.type === 'video' ? 'lectures' : 'files';
-            const path = `${fileType}/${sanitizedTitle}-s${sectionIndex + 1}-l${lectureIndex + 1}-${timestamp}.${extension}`;
+            if (fileType !== 'quiz') {
+              const path = `${fileType}/${sanitizedTitle}-s${sectionIndex + 1}-l${lectureIndex + 1}-${timestamp}.${extension}`;
 
-            // Upload the file to the correct bucket
-            await uploadFile(file, path, fileType);
+              // Upload the file to the correct bucket
+              await uploadFile(file, path, fileType);
 
-            // Generate the public URL for Supabase storage
-            const publicUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/${fileType}/${path}`;
+              // Generate the public URL for Supabase storage
+              const publicUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/${fileType}/${path}`;
 
-            // Replace the local blob URL with the uploaded public URL
-            updatedCourse.course_sections[sectionIndex].lectures[
-              lectureIndex
-            ].file_url = publicUrl;
+              // Replace the local blob URL with the uploaded public URL
+              updatedCourse.course_sections[sectionIndex].lectures[
+                lectureIndex
+              ].file_url = publicUrl;
+            }
 
             if (lecture.type === 'video') {
               const duration = await getVideoDuration(file); // in seconds

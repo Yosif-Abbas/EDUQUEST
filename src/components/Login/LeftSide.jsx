@@ -10,8 +10,8 @@ import Spinner from '../Spinner';
 
 function LeftSide() {
   // const [loginEmail, setLoginEmail] = useState('text@test.com');
-  const [loginEmail, setLoginEmail] = useState('abdo@abdo.com');
-  const [password, setPassword] = useState('123456');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { login, isLoading } = useLogin();
 
   function handleSubmit(e) {

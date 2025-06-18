@@ -330,17 +330,7 @@ export async function createNewCourse({ course, teacherId }) {
 
     const sectionId = sectionData.id;
 
-    // Validate lectures array
-    if (!section.lectures || !Array.isArray(section.lectures)) {
-      continue; // Skip if no lectures or invalid lectures array
-    }
-
     for (const lecture of section.lectures) {
-      if (!lecture.title) {
-        console.warn('Skipping lecture without title');
-        continue;
-      }
-
       // Insert lecture with proper data formatting
       const { data: lectureData, error: lectureError } = await supabase
         .from('lectures')

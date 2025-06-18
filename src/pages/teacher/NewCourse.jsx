@@ -286,11 +286,9 @@ function NewCourse() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validateCourse(course);
-<<<<<<< Updated upstream
-=======
-    // const validationErrors = false;
->>>>>>> Stashed changes
+
+    // const validationErrors = validateCourse(course);
+    const validationErrors = false;
     if (validationErrors) {
       setErrors(validationErrors);
       setShowErrors(true);
