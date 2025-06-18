@@ -2,7 +2,7 @@ import { ArrowLeft, ArrowRight, Trophy } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useState } from 'react';
 
-function Quiz({ questions, onComplete }) {
+function Quiz({ questions = [], onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -12,10 +12,10 @@ function Quiz({ questions, onComplete }) {
   const progress = (currentQuestion / questions?.length) * 100;
 
   // Handle answer selection
-  const handleAnswerSelect = useCallback((questionId, answer) => {
+  const handleAnswerSelect = useCallback((questionIndex, answer) => {
     setSelectedAnswers((prev) => ({
       ...prev,
-      [questionId]: answer,
+      [questionIndex]: answer,
     }));
   }, []);
 
@@ -26,13 +26,13 @@ function Quiz({ questions, onComplete }) {
 
   // Calculate final score
   const calculateScore = useCallback(() => {
-    let correctAnswers = 0;
-    questions.forEach((question) => {
-      if (selectedAnswers[question.id] === question.correct_answer) {
-        correctAnswers++;
+    let correct = 0;
+    questions.forEach((question, index) => {
+      if (selectedAnswers[index] === question.correct_answer) {
+        correct++;
       }
     });
-    setScore(correctAnswers);
+    setScore((correct / questions.length) * 100);
   }, [questions, selectedAnswers]);
 
   // Handle quiz completion
@@ -77,13 +77,11 @@ function Quiz({ questions, onComplete }) {
       >
         <Trophy className="mb-4 h-16 w-16 text-yellow-500" />
         <h2 className="mb-4 text-2xl font-bold">Quiz Complete!</h2>
-        <p className="mb-4 text-lg">
-          Your score: {score} out of {questions.length}
-        </p>
+        <p className="mb-4 text-lg">Your score: {score.toFixed(0)}%</p>
         <p className="mb-6 text-lg">
-          {score === questions.length
+          {score === 100
             ? 'Perfect score! Excellent work!'
-            : score >= questions.length * 0.7
+            : score >= 70
               ? 'Great job! Keep learning!'
               : "Keep practicing, you'll get better!"}
         </p>
@@ -97,6 +95,16 @@ function Quiz({ questions, onComplete }) {
       </motion.div>
     );
   }
+
+  if (!questions.length) {
+    return (
+      <div className="p-6 text-center">
+        <p>No questions available for this quiz.</p>
+      </div>
+    );
+  }
+
+  const question = questions[currentQuestion];
 
   return (
     <div
@@ -134,7 +142,7 @@ function Quiz({ questions, onComplete }) {
             <h3 className="text-xl font-semibold">
               Question {currentQuestion + 1} of {questions?.length}
             </h3>
-            <p className="text-lg">{questions?.[currentQuestion]?.question}</p>
+            <p className="text-lg">{question.question}</p>
           </div>
 
           {/* Answers */}
@@ -145,17 +153,13 @@ function Quiz({ questions, onComplete }) {
           >
             {['a', 'b', 'c', 'd'].map((option) => {
               const answerKey = `answer_${option}`;
-              const isSelected =
-                selectedAnswers[questions?.[currentQuestion]?.id] === answerKey;
+              const isSelected = selectedAnswers[currentQuestion] === answerKey;
 
               return (
                 <li key={option}>
                   <button
                     onClick={() =>
-                      handleAnswerSelect(
-                        questions?.[currentQuestion]?.id,
-                        answerKey,
-                      )
+                      handleAnswerSelect(currentQuestion, answerKey)
                     }
                     className={`w-full rounded-lg p-4 text-left transition-all ${
                       isSelected
@@ -170,7 +174,7 @@ function Quiz({ questions, onComplete }) {
                       <span className="font-medium">
                         {option.toUpperCase()}.
                       </span>
-                      <span>{questions?.[currentQuestion]?.[answerKey]}</span>
+                      <span>{question[answerKey]}</span>
                     </div>
                   </button>
                 </li>
@@ -197,9 +201,9 @@ function Quiz({ questions, onComplete }) {
             {currentQuestion < questions?.length - 1 ? (
               <button
                 onClick={handleNext}
-                disabled={!selectedAnswers[questions?.[currentQuestion]?.id]}
+                disabled={!selectedAnswers[currentQuestion]}
                 className={`flex items-center gap-2 rounded-lg px-4 py-2 text-white transition-colors ${
-                  !selectedAnswers[questions?.[currentQuestion]?.id]
+                  !selectedAnswers[currentQuestion]
                     ? 'cursor-not-allowed bg-blue-400'
                     : 'bg-blue-600 hover:bg-blue-700'
                 }`}
@@ -211,9 +215,9 @@ function Quiz({ questions, onComplete }) {
             ) : (
               <button
                 onClick={handleComplete}
-                disabled={!selectedAnswers[questions?.[currentQuestion]?.id]}
+                disabled={!selectedAnswers[currentQuestion]}
                 className={`flex items-center gap-2 rounded-lg px-4 py-2 text-white transition-colors ${
-                  !selectedAnswers[questions?.[currentQuestion]?.id]
+                  !selectedAnswers[currentQuestion]
                     ? 'cursor-not-allowed bg-green-400'
                     : 'bg-green-600 hover:bg-green-700'
                 }`}

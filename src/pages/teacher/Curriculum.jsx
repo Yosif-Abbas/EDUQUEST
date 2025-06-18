@@ -92,7 +92,6 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
         lecture.title = file.name;
         lecture.file_url = URL.createObjectURL(file);
 
-
         return {
           ...prev,
           course_sections: newSections,
@@ -173,7 +172,14 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
     setCourse((prev) => {
       const newSections = [...prev.course_sections];
       const lecture = newSections[sectionIndex].lectures[lectureIndex];
-      lecture.questions[questionIndex][field] = value;
+
+      // If updating correctAnswer, ensure it's in the correct format
+      if (field === 'correctAnswer') {
+        lecture.questions[questionIndex][field] = `answer_${value}`;
+      } else {
+        lecture.questions[questionIndex][field] = value;
+      }
+
       return {
         ...prev,
         course_sections: newSections,
@@ -182,7 +188,6 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
   };
 
   const removeQuizQuestion = (sectionIndex, lectureIndex, questionIndex) => {
-    
     setCourse((prev) => {
       // Create a deep copy of the course sections
       const newSections = JSON.parse(JSON.stringify(prev.course_sections));
@@ -502,7 +507,12 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                             `${sectionIndex}-${lectureIndex}-${questionIndex}`
                           ] && (
                             <>
-                              {['a', 'b', 'c', 'd'].map((option) => (
+                              {[
+                                'answer_a',
+                                'answer_b',
+                                'answer_c',
+                                'answer_d',
+                              ].map((option) => (
                                 <div
                                   key={`${sectionIndex}-${lectureIndex}-${questionIndex}-${option}`}
                                   className="mb-2 flex items-center gap-2"
