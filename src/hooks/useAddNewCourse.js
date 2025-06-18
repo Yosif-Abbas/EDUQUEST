@@ -16,28 +16,42 @@ const getVideoDuration = (file) => {
 };
 
 export const useAddNewCourse = ({ course, teacherId }) => {
-  console.log(course);
   const { mutate: createNewCourse, isPending: isLoading } = useMutation({
     mutationFn: async () => {
+      // Upload thumbnail
       const thumbnailPath = `thumbnails/${course.title}-${Date.now()}.jpg`;
-      const introsPath = `intros/${course.title}-${Date.now()}.mp4`;
       await uploadFile(course.image_url, thumbnailPath, 'thumbnails');
       const thumbnailUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/thumbnails/${thumbnailPath}`;
+
+      // Upload intro video
+      const introsPath = `intros/${course.title}-${Date.now()}.mp4`;
       await uploadFile(course.intro, introsPath, 'intros');
       const introUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/intros/${introsPath}`;
 
       const updatedCourse = structuredClone(course);
-      console.log(updatedCourse);
 
       for (const [
         sectionIndex,
         section,
       ] of updatedCourse.course_sections.entries()) {
         let secDuration = 0;
+
         for (const [lectureIndex, lecture] of section.lectures.entries()) {
+          // Handle quiz type lectures
+          if (lecture.type === 'quiz') {
+            updatedCourse.course_sections[sectionIndex].lectures[lectureIndex] =
+              {
+                ...lecture,
+                content_info: lecture.questions?.length || 0,
+              };
+            secDuration += 15 * 60; // Add 15 minutes for quiz
+            continue;
+          }
+
+          // Handle video and file type lectures
           const file = lecture.file;
 
-          if (file && file.name) {
+          if (file) {
             const extension = file.name.split('.').pop();
             const timestamp = Date.now();
             const sanitizedTitle =
@@ -45,43 +59,51 @@ export const useAddNewCourse = ({ course, teacherId }) => {
               'course';
 
             const fileType = lecture.type === 'video' ? 'lectures' : 'files';
-            if (fileType !== 'quiz') {
-              const path = `${fileType}/${sanitizedTitle}-s${sectionIndex + 1}-l${lectureIndex + 1}-${timestamp}.${extension}`;
+            const path = `${fileType}/${sanitizedTitle}-s${sectionIndex + 1}-l${lectureIndex + 1}-${timestamp}.${extension}`;
 
+            try {
               // Upload the file to the correct bucket
               await uploadFile(file, path, fileType);
 
               // Generate the public URL for Supabase storage
               const publicUrl = `https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/${fileType}/${path}`;
 
-              // Replace the local blob URL with the uploaded public URL
+              // Update the lecture with the public URL
               updatedCourse.course_sections[sectionIndex].lectures[
                 lectureIndex
-              ].file_url = publicUrl;
-            }
+              ] = {
+                ...lecture,
+                file_url: publicUrl,
+              };
 
-            if (lecture.type === 'video') {
-              const duration = await getVideoDuration(file); // in seconds
-              secDuration += duration;
-              updatedCourse.course_sections[sectionIndex].lectures[
-                lectureIndex
-              ].content_info = `${duration} sec`;
-            } else {
-              const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-              secDuration += sizeMB * 4 * 60;
-              updatedCourse.course_sections[sectionIndex].lectures[
-                lectureIndex
-              ].content_info = `${sizeMB} MB`;
-            }
+              if (lecture.type === 'video') {
+                const duration = await getVideoDuration(file); // in seconds
+                secDuration += duration;
+                updatedCourse.course_sections[sectionIndex].lectures[
+                  lectureIndex
+                ].content_info = `${duration} sec`;
+              } else {
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                secDuration += sizeMB * 4 * 60;
+                updatedCourse.course_sections[sectionIndex].lectures[
+                  lectureIndex
+                ].content_info = `${sizeMB} MB`;
+              }
 
-            // Remove the `file` object to avoid sending it to your database
-            delete updatedCourse.course_sections[sectionIndex].lectures[
-              lectureIndex
-            ].file;
+              // Remove the `file` object to avoid sending it to your database
+              delete updatedCourse.course_sections[sectionIndex].lectures[
+                lectureIndex
+              ].file;
+            } catch (error) {
+              console.error('Error uploading file:', error);
+              throw new Error(
+                `Failed to upload ${lecture.type} file: ${error.message}`,
+              );
+            }
+          } else {
+            console.log('No file found for lecture. Lecture data:', lecture);
           }
         }
-
-        console.log(course?.course_sections?.length);
 
         if (updatedCourse?.course_sections?.length > 0) {
           updatedCourse.course_sections[sectionIndex].duration =
@@ -91,7 +113,7 @@ export const useAddNewCourse = ({ course, teacherId }) => {
         }
       }
 
-      createNewCourseApi({
+      return createNewCourseApi({
         course: {
           ...updatedCourse,
           image_url: thumbnailUrl,
@@ -104,7 +126,7 @@ export const useAddNewCourse = ({ course, teacherId }) => {
       toast.success('Course created successfully!');
     },
     onError: (error) => {
-      console.error(error);
+      console.error('Course creation error:', error);
       toast.error(error.message);
     },
   });

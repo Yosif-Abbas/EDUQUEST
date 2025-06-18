@@ -24,8 +24,6 @@ function WatchCourse() {
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
   const { course_sections = [] } = course;
 
-  console.log(course_sections);
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentSec = +searchParams.get('sec') || 1;

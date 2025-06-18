@@ -184,7 +184,6 @@ export async function getCategories() {
 }
 
 export async function createNewCourse({ course, teacherId }) {
-  console.log('Received course data:', course);
   if (!course) {
     throw new Error('Course data is required');
   }
@@ -250,8 +249,6 @@ export async function createNewCourse({ course, teacherId }) {
     console.error('Create course error:', error.message);
     throw error;
   }
-
-  console.log(data);
 
   // benefits
   const { data: benefits, error: benefitsError } = await supabase

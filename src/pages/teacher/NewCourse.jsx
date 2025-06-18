@@ -117,7 +117,6 @@ function NewCourse() {
     teacherId,
   });
 
-  console.log(course.regularPrice);
 
   const validateCourse = (course) => {
     const newErrors = {};
@@ -288,7 +287,6 @@ function NewCourse() {
     e.preventDefault();
 
     const validationErrors = validateCourse(course);
-    // const validationErrors = false;
     if (validationErrors) {
       setErrors(validationErrors);
       setShowErrors(true);

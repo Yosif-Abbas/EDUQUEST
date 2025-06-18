@@ -84,10 +84,15 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
       setCourse((prev) => {
         const newSections = [...prev.course_sections];
         const lecture = newSections[secIndex].lectures[lecIndex];
+
+        // Set the file object first
+        lecture.file = file;
+
+        // Then set the title and file_url
         lecture.title = file.name;
         lecture.file_url = URL.createObjectURL(file);
 
-        lecture.file = file;
+
         return {
           ...prev,
           course_sections: newSections,
@@ -119,34 +124,37 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
   };
 
   const addQuizQuestion = (sectionIndex, lectureIndex) => {
-    console.log(
-      'Adding question to section',
-      sectionIndex,
-      'lecture',
-      lectureIndex,
-    );
     setCourse((prev) => {
-      // Create a deep copy of the course sections
-      const newSections = JSON.parse(JSON.stringify(prev.course_sections));
-      const lecture = newSections[sectionIndex].lectures[lectureIndex];
-
-      // Initialize questions array if it doesn't exist
-      if (!lecture.questions) {
-        lecture.questions = [];
-      }
-
-      // Create a new question object
-      const newQuestion = {
-        question: '',
-        correctAnswer: '',
-        answer_a: '',
-        answer_b: '',
-        answer_c: '',
-        answer_d: '',
-      };
-
-      // Add the new question to the array
-      lecture.questions = [...lecture.questions, newQuestion];
+      // Create a new array of sections
+      const newSections = prev.course_sections.map((section, idx) => {
+        if (idx === sectionIndex) {
+          // For the target section, map through lectures
+          return {
+            ...section,
+            lectures: section.lectures.map((lecture, lidx) => {
+              if (lidx === lectureIndex) {
+                // For the target lecture, add the new question
+                return {
+                  ...lecture,
+                  questions: [
+                    ...(lecture.questions || []),
+                    {
+                      question: '',
+                      correctAnswer: '',
+                      answer_a: '',
+                      answer_b: '',
+                      answer_c: '',
+                      answer_d: '',
+                    },
+                  ],
+                };
+              }
+              return lecture;
+            }),
+          };
+        }
+        return section;
+      });
 
       return {
         ...prev,
@@ -174,14 +182,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
   };
 
   const removeQuizQuestion = (sectionIndex, lectureIndex, questionIndex) => {
-    console.log(
-      'Removing question',
-      questionIndex,
-      'from section',
-      sectionIndex,
-      'lecture',
-      lectureIndex,
-    );
+    
     setCourse((prev) => {
       // Create a deep copy of the course sections
       const newSections = JSON.parse(JSON.stringify(prev.course_sections));
