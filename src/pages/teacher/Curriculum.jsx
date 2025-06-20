@@ -175,7 +175,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
 
       // If updating correctAnswer, ensure it's in the correct format
       if (field === 'correctAnswer') {
-        lecture.questions[questionIndex][field] = `answer_${value}`;
+        lecture.questions[questionIndex][field] = value;
       } else {
         lecture.questions[questionIndex][field] = value;
       }
@@ -534,17 +534,17 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                                   />
                                   <input
                                     type="text"
-                                    value={question[`answer_${option}`]}
+                                    value={question[`${option}`]}
                                     onChange={(e) =>
                                       updateQuizQuestion(
                                         sectionIndex,
                                         lectureIndex,
                                         questionIndex,
-                                        `answer_${option}`,
+                                        `${option}`,
                                         e.target.value,
                                       )
                                     }
-                                    placeholder={`Option ${option.toUpperCase()}`}
+                                    placeholder={`Option ${option.split('_').at(1).toUpperCase()}`}
                                     className="flex-1 rounded border p-2"
                                   />
                                 </div>
