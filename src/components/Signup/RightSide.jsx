@@ -74,12 +74,11 @@ function RightSide() {
         <LanguageButton />
       </div>
       <Title className="">Sign Up</Title>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
         <div className="flex gap-x-4">
           <InputField
             placeholder="First Name"
             id="first-name"
-            label="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             disabled={isLoading}
@@ -89,7 +88,6 @@ function RightSide() {
           <InputField
             placeholder="Last Name"
             id="last-name"
-            label="Last Name"
             disabled={isLoading}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -97,7 +95,8 @@ function RightSide() {
           />
         </div>
 
-        <div className="flex gap-6 py-1 text-[#7C838A]">
+        <div className="flex gap-2 text-[#7C838A]">
+          <span>Choose role:</span>
           <label className="flex cursor-pointer items-center gap-2">
             <input
               type="radio"
@@ -127,7 +126,6 @@ function RightSide() {
         <InputField
           placeholder="Phone Number"
           id="phone"
-          label="Phone Number"
           disabled={isLoading}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -136,7 +134,6 @@ function RightSide() {
         <InputField
           placeholder="Email Address"
           id="email"
-          label="Email Address"
           disabled={isLoading}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -144,11 +141,10 @@ function RightSide() {
         />
 
         <InputField
-          isPassord
+          isPassword
           id="password"
           type="password"
           placeholder="Password"
-          label="Password"
           disabled={isLoading}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -156,24 +152,21 @@ function RightSide() {
         />
 
         <InputField
-          isPassord
+          isPassword
           id="confirm-password"
           type="password"
           placeholder="Confirm Password"
-          label="Confirm Password"
           disabled={isLoading}
           value={confirmPass}
           onChange={(e) => setConfirmPass(e.target.value)}
           error={errors.confirmPass}
         />
 
-        <div className="mx-auto mb-2">
-          <Button rounded={true} disabled={isLoading}>
-            {isLoading ? <Spinner color="#dde6ed" /> : 'Sign up'}
-          </Button>
-        </div>
+        <Button className="w-fit" rounded={true} disabled={isLoading}>
+          {isLoading ? <Spinner color="#dde6ed" /> : 'Sign up'}
+        </Button>
       </form>
-      <p className="text-alt-darker mb-4 text-[12px]">
+      <p className="text-alt-darker my-4 text-[12px]">
         Already have an accout?{' '}
         <span className="text-alt-txt">
           <Link to="/login">Log in</Link>

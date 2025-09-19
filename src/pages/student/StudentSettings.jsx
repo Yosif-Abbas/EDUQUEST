@@ -173,7 +173,7 @@ function StudentSettings() {
           </p>
 
           <button
-            className="mt-4 w-fit bg-[#ff6636] px-6 py-3 text-white"
+            className={`mt-4 w-fit px-6 py-3 ${isUploadingAvatar || !file ? 'bg-l7 text-l4 cursor-not-allowed' : 'bg-l6 text-white'}`}
             onClick={handleUploadAvatar}
             disabled={isUploadingAvatar || !file}
             type="button"
@@ -285,7 +285,10 @@ function StudentSettings() {
               </div>
             </div>
 
-            <button className="col-start-2 mt-4 w-fit bg-[#ff6636] px-6 py-3 text-white">
+            <button
+              className={`col-start-2 mt-4 w-fit cursor-pointer bg-[#ff6636] px-6 py-3 text-white ${isUpdating ? 'bg-l7 text-l4 cursor-not-allowed' : 'bg-l6 text-white'}`}
+              disabled={isUpdating}
+            >
               {isUpdating ? (
                 <Spinner size={25} color="white" />
               ) : (

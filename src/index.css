@@ -2,8 +2,7 @@
 
 .container {
   margin: 0 auto;
-  padding: 0 20px;
-  /* width: 600px; */
+  padding: 0;
 }
 
 .required:after {
@@ -11,29 +10,7 @@
   color: red;
 }
 
-@media (max-width: 768px) {
-  .container {
-    /* padding: 0; */
-  }
-}
 
-@theme {
-  --color-main: #526d82;
-  --color-alt: #dde6ed;
-  --color-pinky-violet: #876a9a;
-  --color-alt-darker: #8c94a3;
-  --color-main-txt: #27374d;
-  --color-alt-txt: #b9896c;
-
-  --color-L1: #dde6ed;
-  --color-L2: #9db2bf;
-  --color-L3: #526d82;
-  --color-L4: #27374d;
-  --color-L5: #876a9a;
-  --color-L6: #ff6636;
-
-  --breakpoint-xs: 480px;
-}
 
 @layer {
   .teacher-navlink {
@@ -50,14 +27,14 @@
     @apply relative px-5 py-3;
 
     & .active {
-      @apply after:bg-L6 after:absolute after:top-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
+      @apply after:bg-l6 after:absolute after:top-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
     }
   }
   .student-nav {
     @apply relative px-2 py-2 text-sm md:px-8 md:py-5 md:text-[16px];
 
     & .active {
-      @apply after:bg-L6 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
+      @apply after:bg-l6 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:content-[''];
     }
   }
   .student-dashboard-list-item {
@@ -123,9 +100,4 @@
   display: flex;
   align-items: center;
   gap: 4px;
-}
-
-.cursor-not-allowed {
-  pointer-events: none;
-  cursor: not-allowed;
 }

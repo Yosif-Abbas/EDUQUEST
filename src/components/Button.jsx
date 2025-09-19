@@ -1,6 +1,7 @@
 const Button = ({
   children,
-  type = 'primary',
+  variant = 'primary',
+  type = 'button',
   size = 'md',
   rounded = false,
   className,
@@ -24,7 +25,8 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${baseStyles} ${typeStyles[props.disabled ? 'disabled' : type]} ${sizeStyles[size]} ${roundedStyles} ${className} $`}
+      type={type}
+      className={`${baseStyles} ${typeStyles[props.disabled ? 'disabled' : variant]} ${sizeStyles[size]} ${roundedStyles} ${className} $`}
       {...props}
     >
       {children}

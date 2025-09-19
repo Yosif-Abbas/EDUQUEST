@@ -6,6 +6,7 @@ import { useCurrentUser } from '../hooks/useCurrentUser';
 import Spinner from './Spinner';
 import { FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Picture from './Home/Picture';
 
 function Header() {
   const navigate = useNavigate();
@@ -28,13 +29,10 @@ function Header() {
             {isLoading ? (
               <Spinner />
             ) : (
-              <img
-                src={
-                  image_url === null
-                    ? 'https://szsrenycohgbwvlyieie.supabase.co/storage/v1/object/public/websitepics//default-user.jpg'
-                    : image_url
-                }
-                alt="Avatar"
+              <Picture
+                url={image_url}
+                name="default-user"
+                alt="User"
                 className="h-12 w-12 rounded-full object-cover object-top"
               />
             )}
