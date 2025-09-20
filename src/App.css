@@ -1,22 +1,4 @@
-@theme {
-  --color-main: #526d82;
-  --color-alt: #dde6ed;
-  --color-pinky-violet: #876a9a;
-  --color-alt-darker: #8c94a3;
-  --color-main-txt: #27374d;
-  --color-alt-txt: #b9896c;
 
-  --color-l1: #dde6ed;
-  --color-l2: #9db2bf;
-  --color-l3: #526d82;
-  --color-l4: #27374d;
-  --color-l5: #876a9a;
-  --color-l6: #ff6636;
-  --color-l7: #8a9aaa;
-  --color-l8: #b9896c;
-
-  --breakpoint-xs: 480px;
-}
 
 .teacher-dashboard-stats {
   display: grid;
