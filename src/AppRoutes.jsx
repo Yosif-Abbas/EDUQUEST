@@ -28,6 +28,7 @@ import NewCourse from './pages/teacher/NewCourse';
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherSettings from './pages/teacher/TeacherSettings';
+import Onboarding from './pages/Onboarding';
 
 function AppRoutes() {
   return (
@@ -50,6 +51,15 @@ function AppRoutes() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="*" element={<NotFound />} />
+
+        <Route
+          path="/onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       <Route path="/login" element={<Login />} />

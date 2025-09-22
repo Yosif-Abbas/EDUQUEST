@@ -29,19 +29,15 @@ function Header() {
             {isLoading ? (
               <Spinner />
             ) : (
-              <Picture
-                url={image_url}
-                name="default-user"
-                alt="User"
+              <img
+                src={image_url === null ? '/default-user.png' : image_url}
+                alt="User Avatar"
                 className="h-12 w-12 rounded-full object-cover object-top"
               />
             )}
           </figure>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <span>{first_name + ' ' + last_name}</span>
-          )}
+
+          <span>{first_name + ' ' + last_name}</span>
         </div>
 
         <div className="flex items-center gap-6 text-2xl">

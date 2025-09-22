@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
+import { Formik } from 'formik';
+
 import Button from '../Button';
 import InputField from '../InputField';
 import Logo from '../Logo';
 import Title from '../Title';
 import LanguageButton from '../LanguageButton';
-import { useState } from 'react';
-import { useLogin } from '../../hooks/useLogin';
 import Spinner from '../Spinner';
-import { Formik } from 'formik';
+
+import { useLogin } from '../../hooks/useLogin';
+import SocialButtonGroup from '../SocialButtonGroup';
 
 function LeftSide() {
   const { login, isLoading } = useLogin();
@@ -15,13 +17,12 @@ function LeftSide() {
   const validateLogin = (values) => {
     const errors = {};
     console.log(values);
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+    if (!values.email) errors.email = 'Required';
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email))
       errors.email = 'Invalid email address';
-    } else if (values.password.length < 6) {
-      errors.password = 'Password too short';
-    }
+
+    if (values.password.length < 8) errors.password = 'Password too short';
 
     return errors;
   };
@@ -40,20 +41,14 @@ function LeftSide() {
           login({ loginEmail: values.email, password: values.password });
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => (
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
             <div>
               <InputField
                 placeholder="Enter your email"
                 id="email"
                 type="email"
+                name="first_name"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -80,12 +75,7 @@ function LeftSide() {
               </span>
             </div>
 
-            <Button
-              className="w-fit"
-              type="submit"
-              rounded
-              disabled={isLoading}
-            >
+            <Button className="w-fit" type="submit" rounded disabled={isLoading}>
               {isLoading ? <Spinner color="#dde6ed" /> : 'Login'}
             </Button>
           </form>
@@ -98,8 +88,8 @@ function LeftSide() {
         </span>
       </p>
       <div className="text-alt-darker">
-        {/* <h3 className="mb-1 text-center">- OR -</h3>
-        <SocialButtonGroup /> */}
+        <h3 className="mb-1 text-center">- OR -</h3>
+        <SocialButtonGroup />
       </div>
     </div>
   );

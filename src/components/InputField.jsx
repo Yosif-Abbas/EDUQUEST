@@ -20,7 +20,7 @@ function InputField({
         <input
           type={showPassword ? 'text' : type}
           id={id}
-          className={`${error ? 'border border-red-400' : ''} min-w-full rounded-xl bg-[#b0bac365] p-2 pl-4 outline-none focus:ring focus:ring-blue-200 md:p-3 md:pl-4`}
+          className={`${error ? 'border border-red-400' : ''} min-w-full rounded-lg bg-[#b0bac365] p-2 pl-4 outline-none focus:ring focus:ring-blue-200 md:p-3 md:pl-4`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}

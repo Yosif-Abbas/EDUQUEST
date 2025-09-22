@@ -35,7 +35,7 @@ function NavLinks({ isMobile, isMenuOpen, className }) {
         <Link to="/courses">Courses</Link>
       </li>
       <li className={listItemStyles}>
-        <Button type="secondary" rounded onClick={handleLoginRedirect}>
+        <Button variant="secondary" rounded onClick={handleLoginRedirect}>
           Login
         </Button>
       </li>

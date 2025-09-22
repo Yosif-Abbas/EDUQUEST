@@ -52,7 +52,7 @@ function CourseHeader({ course, currentLec, currentSec, enrolledCourse }) {
 
         <Button
           size="sm"
-          type="secondary"
+          variant="secondary"
           className={`border-none ${rated ? 'bg-green-50' : 'bg-white'}`}
           onClick={() => setIsModalOpen(true)}
         >

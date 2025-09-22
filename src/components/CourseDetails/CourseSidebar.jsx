@@ -17,12 +17,7 @@ import { useRemoveFromWishlist } from '../../hooks/useRemoveFromWishlist';
 import { useWishlist } from '../../hooks/useWishlist';
 import { useCurrentUser } from './../../hooks/useCurrentUser';
 
-function CourseSidebar({
-  course,
-  isEnrolled,
-  setIsEnrolled,
-  isLoadingEnrolledStatus,
-}) {
+function CourseSidebar({ course, isEnrolled, setIsEnrolled, isLoadingEnrolledStatus }) {
   const navigate = useNavigate();
 
   const {
@@ -40,27 +35,18 @@ function CourseSidebar({
 
   const [studentsEnrolled, setStudentsEnrolled] = useState(students_enrolled);
 
-  const {
-    currentUser,
-    isLoading: isLoadingUser,
-    isAuthenticated,
-  } = useCurrentUser();
+  const { currentUser, isLoading: isLoadingUser, isAuthenticated } = useCurrentUser();
 
-  const { enrollInCourse, isLoading: isEnrollingInCourse } =
-    useEnrollInCourse();
+  const { enrollInCourse, isLoading: isEnrollingInCourse } = useEnrollInCourse();
 
-  const { wishlist, isLoading: isLoadingWishlist } = useWishlist(
-    currentUser?.id,
-  );
+  const { wishlist, isLoading: isLoadingWishlist } = useWishlist(currentUser?.id);
 
   const [isInWishlist, setIsInWishlist] = useState();
 
   useEffect(() => {
     if (isLoadingWishlist) return;
     if (wishlist?.length > 0) {
-      const isCourseInWishlist = wishlist.some(
-        (item) => item.course_id.id === id,
-      );
+      const isCourseInWishlist = wishlist.some((item) => item.course_id.id === id);
       setIsInWishlist(isCourseInWishlist);
     } else {
       setIsInWishlist(false);
@@ -68,8 +54,7 @@ function CourseSidebar({
   }, [isLoadingWishlist, wishlist, id]);
 
   const { addToWishlist, isLoading: isAddingToWishlist } = useAddToWishlist();
-  const { removeFromWishlist, isLoading: isRemovingFromWishlist } =
-    useRemoveFromWishlist();
+  const { removeFromWishlist, isLoading: isRemovingFromWishlist } = useRemoveFromWishlist();
 
   const isLoadingWishlistProcess = isAddingToWishlist || isRemovingFromWishlist;
 
@@ -82,9 +67,7 @@ function CourseSidebar({
 
   const timeLeft = timeLeftUntil(discount_end_date);
 
-  const finalPrice = timeLeft
-    ? regularPrice - regularPrice * (discount * 0.01)
-    : regularPrice;
+  const finalPrice = timeLeft ? regularPrice - regularPrice * (discount * 0.01) : regularPrice;
 
   const isFree = finalPrice <= 0 || discount >= 100;
 
@@ -162,27 +145,21 @@ function CourseSidebar({
             <CiClock2 />
           </span>
           Course Duration
-          <span className="ml-auto text-sm text-gray-500">
-            {courseDuration}
-          </span>
+          <span className="ml-auto text-sm text-gray-500">{courseDuration}</span>
         </li>
         <li className="list-icon">
           <span>
             <LuNotepadText />
           </span>
           Number of Lessons
-          <span className="ml-auto text-sm text-gray-500">
-            {number_of_lessons}
-          </span>
+          <span className="ml-auto text-sm text-gray-500">{number_of_lessons}</span>
         </li>
         <li className="list-icon">
           <span>
             <LuUsersRound />
           </span>
           Student Enrolled
-          <span className="ml-auto text-sm text-gray-500">
-            {studentsEnrolled}
-          </span>
+          <span className="ml-auto text-sm text-gray-500">{studentsEnrolled}</span>
         </li>
         <li className="list-icon">
           <span>
@@ -274,10 +251,10 @@ function CourseSidebar({
         <h3>Share this course:</h3>
         <div className="flex justify-center gap-x-2">
           <CopyLinkButton />
-          <SocialButton platform={'facebook'} type="secondary"></SocialButton>
-          <SocialButton platform="twitter" type="secondary"></SocialButton>
-          <SocialButton platform="email" type="secondary"></SocialButton>
-          <SocialButton platform="whatsapp" type="secondary"></SocialButton>
+          <SocialButton platform="facebook" variant="secondary"></SocialButton>
+          <SocialButton platform="twitter" variant="secondary"></SocialButton>
+          <SocialButton platform="email" variant="secondary"></SocialButton>
+          <SocialButton platform="whatsapp" variant="secondary"></SocialButton>
         </div>
       </div>
     </div>

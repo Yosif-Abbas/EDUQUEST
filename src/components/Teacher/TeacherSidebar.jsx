@@ -47,7 +47,7 @@ function TeacherSidebar() {
           <button
             onClick={logout}
             disabled={isLoading}
-            className="teacher-navlink w-full hover:bg-red-500"
+            className="teacher-navlink w-full cursor-pointer hover:bg-red-500"
           >
             <IoIosLogOut />
             <span className="hidden sm:block sm:text-lg">Logout</span>

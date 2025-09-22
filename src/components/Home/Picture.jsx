@@ -1,9 +1,9 @@
-function Picture({ name, alt, className, url }) {
+function Picture({ name, alt, className }) {
   return (
     <picture className={className}>
       <source srcSet={`/${name}.avif`} type="image/avif" />
       <source srcSet={`/${name}.webp`} type="image/webp" />
-      <img src={url ? url : `/${name}.png`} alt={alt} />
+      <img src={`/${name}.png`} alt={alt} />
     </picture>
   );
 }

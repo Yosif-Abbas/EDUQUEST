@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import NotFound from '../pages/NotFound';
 import Loading from './Loading';
+import Onboarding from '../pages/Onboarding';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const navigate = useNavigate();
@@ -10,29 +11,17 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
   const role = currentUser?.role;
 
-  const [timeoutReached, setTimeoutReached] = useState(false);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeoutReached(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // console.log(currentUser, isLoading, isAuthenticated);
-
-  useEffect(() => {
-    if (isLoading || currentUser === null) return;
+    if (isLoading) return;
 
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate('/login', { replace: true });
     } else if (allowedRoles && !allowedRoles.includes(role)) {
-      navigate(`/${role}`);
+      navigate(`/${role}`, { replace: true });
     }
-  }, [isAuthenticated, isLoading, role, allowedRoles, navigate, currentUser]);
+  }, [isAuthenticated, isLoading, role, allowedRoles, navigate]);
 
-  if ((!timeoutReached || isLoading) && !currentUser) {
+  if (isLoading) {
     return (
       <div className="bg-L2 flex h-screen items-center justify-center">
         <Loading size={150} />
@@ -40,13 +29,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     );
   }
 
-  if (!currentUser) return <NotFound />;
+  if (!isAuthenticated) return <NotFound />;
+  if (!role) return <Onboarding />;
 
-  if (isAuthenticated && (!allowedRoles || allowedRoles.includes(role))) {
-    return children;
-  }
-
-  return <NotFound />;
+  return children;
 };
 
 export default ProtectedRoute;
+
+// console.log(currentUser, isLoading, isAuthenticated);

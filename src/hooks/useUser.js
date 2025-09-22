@@ -4,7 +4,7 @@ import { getUser } from '../api/authApi';
 export function useUser() {
   const { data: user, isLoading } = useQuery({
     queryKey: ['user'],
-    queryFn: () => getUser(),
+    queryFn: getUser,
   });
 
   return { user, isLoading };

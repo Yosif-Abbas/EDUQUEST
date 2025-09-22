@@ -12,8 +12,11 @@ export function useLogin() {
     mutationFn: ({ loginEmail, password }) =>
       loginAPI({ loginEmail, password }),
     onSuccess: (user) => {
-      console.log('onsuccess navigation ' + user?.role);
-      navigate(`/${user?.role}`, { replace: true });
+      if (user?.role) {
+        navigate(`/${user?.role}`, { replace: true });
+      } else {
+        navigate('/onboarding');
+      }
 
       queryClient.setQueryData(['user'], user);
 

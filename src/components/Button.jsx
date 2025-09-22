@@ -10,7 +10,7 @@ const Button = ({
 }) => {
   const baseStyles = 'font-bold transition-all whitespace-nowrap';
   const typeStyles = {
-    primary: 'bg-[#876A9A] text-[#DDE6ED] cursor-pointer',
+    primary: 'bg-l5 text-[#DDE6ED] cursor-pointer hover:bg-l5/95',
     secondary: 'border border-[#876A9A] text-[#876A9A] cursor-pointer',
     neutral: 'bg-[#FFEEE8] text-[#FF6636] font-medium cursor-pointer',
     disabled: 'bg-gray-600 opacity-50 text-[#B0B0B0] cursor-not-allowed',

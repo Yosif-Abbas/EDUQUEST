@@ -31,7 +31,15 @@ export async function updateStudentSettings({
     throw new Error('Error updating student settings');
   }
 
-  console.log('Student settings updated: ', data, 'password ');
+  return data;
+}
+
+export async function updateUser({ id, obj }) {
+  const { data, error } = await supabase.from('users').update(obj).eq('id', id);
+
+  if (error) {
+    throw new Error('Error updating user!');
+  }
 
   return data;
 }
