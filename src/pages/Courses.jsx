@@ -1,14 +1,11 @@
-import Card from '../components/Card';
+import { useCourses } from '../hooks/courses/useCourses';
+
+import Card from '../components/courses/Card';
 import Loading from '../components/Loading';
 import Pagination from '../components/Pagination';
 import SearchControls from '../components/SearchControls';
 
-import { useCourses } from '../hooks/useCourses';
-import { useQuestions } from '../hooks/useQuestions';
-
 function Courses() {
-  
-
   const { courses = [], isLoading, isError, count } = useCourses();
 
   if (isError) return <div>Error fetching courses</div>;
@@ -25,10 +22,7 @@ function Courses() {
         ) : courses.length > 0 ? (
           <>
             <ul className="my-6 grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-4">
-              {courses &&
-                courses.map((course) => (
-                  <Card course={course} key={course.id} />
-                ))}
+              {courses && courses.map((course) => <Card course={course} key={course.id} />)}
             </ul>
             {count > 1 && <Pagination count={count} />}
           </>

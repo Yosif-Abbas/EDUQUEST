@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { BsUpload } from 'react-icons/bs';
-import DynamicInputGroup from '../../components/Teacher/DynamcInputGroup';
-import VideoPlayer from './../../components/VideoPlayer';
+
+import DynamicInputGroup from '../../components/teacher/DynamcInputGroup';
+// import VideoPlayer from './../../components/VideoPlayer';
 
 function AdvancedInfo({ course, setCourse, errors, showErrors }) {
   const {
@@ -76,9 +78,7 @@ function AdvancedInfo({ course, setCourse, errors, showErrors }) {
 
   const removeListFieldItem = (index, field) => {
     setCourse((prevCourse) => {
-      const updatedList = [...(prevCourse[field] || [])].filter(
-        (_, i) => i !== index,
-      );
+      const updatedList = [...(prevCourse[field] || [])].filter((_, i) => i !== index);
 
       return {
         ...prevCourse,
@@ -126,8 +126,8 @@ function AdvancedInfo({ course, setCourse, errors, showErrors }) {
             <div className="flex flex-col justify-between">
               <p className="mb-3 font-[400] text-gray-400">
                 Upload your course Thumbnail here.{' '}
-                <span className="text-black">Important guidelines:</span>{' '}
-                1200x800 pixels or 12:8 Ratio. Supported format:{' '}
+                <span className="text-black">Important guidelines:</span> 1200x800 pixels or
+                12:8 Ratio. Supported format:{' '}
                 <span className="text-black">.jpg, .jpeg, or .png</span>
               </p>
               <button
@@ -158,15 +158,13 @@ function AdvancedInfo({ course, setCourse, errors, showErrors }) {
             <figure
               className={`aspect-[12/8] min-h-[160px] min-w-[230px] ${showErrors && errors.intro ? 'border-2 border-red-500' : 'bg-white'}`}
             >
-              {trailerPreview ? (
-                <VideoPlayer src={trailerPreview} isSmall />
-              ) : null}
+              {/* {trailerPreview ? <VideoPlayer src={trailerPreview} isSmall /> : null} */}
             </figure>
             <div className="flex flex-col justify-between">
               <p className="mb-3 font-[400] text-gray-400">
-                Students who watch a well-made promo video are 5X more likely to
-                enroll in your course. We&lsquo;ve seen that statistic go up to
-                10X for exceptionally awesome videos.
+                Students who watch a well-made promo video are 5X more likely to enroll in your
+                course. We&lsquo;ve seen that statistic go up to 10X for exceptionally awesome
+                videos.
               </p>
               <button
                 className="bg-alt-darker text-pinky-violet flex w-fit items-center gap-3 px-4.5 py-2 font-[600]"

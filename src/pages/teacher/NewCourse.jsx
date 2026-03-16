@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { FaClipboardList, FaInfoCircle } from 'react-icons/fa';
 import { PiMonitorPlayFill } from 'react-icons/pi';
+
+import { useAddNewCourse } from '../../hooks/courses/useAddNewCourse';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+
 import Spinner from '../../components/Spinner';
-import { useAddNewCourse } from '../../hooks/useAddNewCourse';
-import { useCurrentUser } from './../../hooks/useCurrentUser';
 import AdvancedInfo from './AdvancedInfo';
 import BasicInfo from './BasicInfo';
 import Curriculum from './Curriculum';
@@ -117,7 +119,6 @@ function NewCourse() {
     teacherId,
   });
 
-
   const validateCourse = (course) => {
     const newErrors = {};
 
@@ -148,11 +149,9 @@ function NewCourse() {
     if (!course.description?.trim()) {
       newErrors.description = 'Course description is required';
     } else if (course.description.length < 30) {
-      newErrors.description =
-        'Course description must be at least 30 characters long';
+      newErrors.description = 'Course description must be at least 30 characters long';
     } else if (course.description.length > 800) {
-      newErrors.description =
-        'Course description can not exceed 800 characters';
+      newErrors.description = 'Course description can not exceed 800 characters';
     }
 
     // Media Validation
@@ -165,26 +164,19 @@ function NewCourse() {
     }
 
     // Benefits Validation
-    const validBenefits = course.course_benefits?.filter(
-      (b) => b.trim().length > 0,
-    );
+    const validBenefits = course.course_benefits?.filter((b) => b.trim().length > 0);
     if (!validBenefits?.length) {
-      newErrors.course_benefits =
-        'At least one (What you will teach) is required';
+      newErrors.course_benefits = 'At least one (What you will teach) is required';
     }
 
     // Requirements Validation
-    const validRequirements = course.course_requirements?.filter(
-      (r) => r.trim().length > 0,
-    );
+    const validRequirements = course.course_requirements?.filter((r) => r.trim().length > 0);
     if (!validRequirements?.length) {
       newErrors.course_requirements = 'At least one requirement is required';
     }
 
     // Course Includes Validation
-    const validIncludes = course.course_includes?.filter(
-      (i) => i.trim().length > 0,
-    );
+    const validIncludes = course.course_includes?.filter((i) => i.trim().length > 0);
     if (!validIncludes?.length) {
       newErrors.course_includes = 'At least one course include is required';
     }
@@ -195,16 +187,14 @@ function NewCourse() {
     } else {
       course.course_sections.forEach((section, sectionIndex) => {
         if (!section.title?.trim()) {
-          newErrors[`section_${sectionIndex}_title`] =
-            'Section title is required';
+          newErrors[`section_${sectionIndex}_title`] = 'Section title is required';
         } else if (section.title.length < 5) {
           newErrors[`section_${sectionIndex}_title`] =
             'Section title must be at least 5 characters long';
         }
 
         if (!section.description?.trim()) {
-          newErrors[`section_${sectionIndex}_description`] =
-            'Section description is required';
+          newErrors[`section_${sectionIndex}_description`] = 'Section description is required';
         } else if (section.description.length < 30) {
           newErrors[`section_${sectionIndex}_description`] =
             'Section description must be at least 30 characters long';
@@ -219,21 +209,18 @@ function NewCourse() {
         } else {
           section.lectures.forEach((lecture, lectureIndex) => {
             if (!lecture.title?.trim()) {
-              newErrors[
-                `section_${sectionIndex}_lecture_${lectureIndex}_title`
-              ] = 'Lecture title is required';
+              newErrors[`section_${sectionIndex}_lecture_${lectureIndex}_title`] =
+                'Lecture title is required';
             } else if (lecture.title.length < 5) {
-              newErrors[
-                `section_${sectionIndex}_lecture_${lectureIndex}_title`
-              ] = 'Lecture title must be at least 5 characters long';
+              newErrors[`section_${sectionIndex}_lecture_${lectureIndex}_title`] =
+                'Lecture title must be at least 5 characters long';
             }
 
             // Quiz validation
             if (lecture.type === 'quiz') {
               if (!lecture.questions?.length) {
-                newErrors[
-                  `section_${sectionIndex}_lecture_${lectureIndex}_questions`
-                ] = 'At least one question is required for quiz';
+                newErrors[`section_${sectionIndex}_lecture_${lectureIndex}_questions`] =
+                  'At least one question is required for quiz';
               } else {
                 lecture.questions.forEach((question, questionIndex) => {
                   if (!question.question?.trim()) {
@@ -259,9 +246,8 @@ function NewCourse() {
                 });
               }
             } else if (!lecture.file_url) {
-              newErrors[
-                `section_${sectionIndex}_lecture_${lectureIndex}_file`
-              ] = 'Lecture file is required';
+              newErrors[`section_${sectionIndex}_lecture_${lectureIndex}_file`] =
+                'Lecture file is required';
             }
           });
         }
@@ -333,16 +319,11 @@ function NewCourse() {
         ))}
       </ul>
       <section className="p-8">
-        <h2 className="mb-6 text-2xl font-bold">
-          {newCourseInfoTabs[currentTab].title}
-        </h2>
+        <h2 className="mb-6 text-2xl font-bold">{newCourseInfoTabs[currentTab].title}</h2>
 
         {newCourseInfoTabs[currentTab].element}
 
-        <form
-          className="mt-8 flex justify-between"
-          onSubmit={(e) => handleSubmit(e)}
-        >
+        <form className="mt-8 flex justify-between" onSubmit={(e) => handleSubmit(e)}>
           {newCourseInfoTabs[currentTab].id !== 0 && (
             <button
               onClick={(e) => handlePrevious(e)}

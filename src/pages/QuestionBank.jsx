@@ -1,9 +1,12 @@
-import { BookOpen, ChevronDown, Search } from 'lucide-react';
-import { motion } from 'motion/react';
 import { useMemo } from 'react';
+import { motion } from 'motion/react';
 import { useSearchParams } from 'react-router-dom';
-import Spinner from '../components/Spinner';
+
+import { BookOpen, ChevronDown, Search } from 'lucide-react';
+
 import { useQuestions } from '../hooks/useQuestions';
+
+import Spinner from '../components/Spinner';
 
 const questions = [
   {
@@ -176,9 +179,7 @@ function QuestionBank() {
               transition={{ duration: 0.5 }}
             >
               <h1 className="mb-2 text-3xl font-bold">Question Bank</h1>
-              <p className="text-blue-100">
-                Manage and organize your questions
-              </p>
+              <p className="text-blue-100">Manage and organize your questions</p>
             </motion.div>
           </div>
         </div>
@@ -282,9 +283,7 @@ function QuestionBank() {
                           </span>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500">
-                          {question.correct_answer
-                            .replace('answer_', '')
-                            .toUpperCase()}
+                          {question.correct_answer.replace('answer_', '').toUpperCase()}
                         </td>
                       </motion.tr>
                     ))}
@@ -300,8 +299,7 @@ function QuestionBank() {
                     No questions found
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
-                    Try adjusting your search or filter to find what you&apos;re
-                    looking for.
+                    Try adjusting your search or filter to find what you&apos;re looking for.
                   </p>
                 </div>
               )}

@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { LuUpload } from 'react-icons/lu';
+
+import { useTeacher } from '../../hooks/teacher/useTeacher';
+import { useUploadAvatar } from '../../hooks/useUploadAvatar';
+import { useUpdateSettings } from '../../hooks/users/useUpdateSettings';
+
 import { Eye } from '../../components/Eye';
 import { EyeOff } from '../../components/EyeOff';
-
-import { useTeacher } from '../../hooks/useTeacher';
-import { useUploadAvatar } from '../../hooks/useUploadAvatar';
 import Spinner from '../../components/Spinner';
-import { useUpdateStudentSettings } from '../../hooks/useUpdateStudentSettings';
+import DeleteAccountModal from '../../components/DeleteAccountModal';
 
 function TeacherSettings() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +17,7 @@ function TeacherSettings() {
 
   const { teacher = {}, isLoading } = useTeacher();
   const { uploadAvatar, isLoading: isUploadingAvatar } = useUploadAvatar();
-  const { updateStudent, isLoading: isUpdating } = useUpdateStudentSettings();
+  const { updateStudent, isLoading: isUpdating } = useUpdateSettings();
 
   const fileInputRef = useRef(null);
 
@@ -101,10 +103,8 @@ function TeacherSettings() {
       newErrors.email = 'Invalid email format.';
     if (password && password.length < 6)
       newErrors.password = 'Password must be at least 6 characters long.';
-    if (password && !confirmPass)
-      newErrors.confirmPass = 'Please confirm your password.';
-    if (!password && confirmPass)
-      newErrors.password = 'Please Enter your password.';
+    if (password && !confirmPass) newErrors.confirmPass = 'Please confirm your password.';
+    if (!password && confirmPass) newErrors.password = 'Please Enter your password.';
     if (password && confirmPass && password !== confirmPass)
       newErrors.confirmPass = 'Passwords do not match.';
 
@@ -158,9 +158,7 @@ function TeacherSettings() {
                   className="w-full border-1 border-white p-2 pl-4"
                 />
                 {errors.firstName && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.firstName}
-                  </p>
+                  <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>
                 )}
               </div>
               <div className="w-full lg:w-1/2">
@@ -193,9 +191,7 @@ function TeacherSettings() {
                 className="w-full border-1 border-white p-2 pl-4"
               />
             </div>
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-            )}
+            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
           </div>
 
           <div className="mb-2 flex flex-col gap-1.5">
@@ -215,9 +211,7 @@ function TeacherSettings() {
                 <option value="20">+20</option>
               </select>
             </div>
-            {errors.phone && (
-              <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
-            )}
+            {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
           </div>
 
           <div className="mb-2 flex flex-col gap-1.5">
@@ -267,9 +261,7 @@ function TeacherSettings() {
                 {showPassword ? <Eye size={26} /> : <EyeOff size={26} />}
               </button>
             </div>
-            {errors.password && (
-              <p className="mt-1 text-xs text-red-500">{errors.password}</p>
-            )}
+            {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
           </div>
 
           <div className="mb-6 flex flex-col gap-1.5">
@@ -299,10 +291,12 @@ function TeacherSettings() {
           <button className="bg-[#876A9A] px-3 py-2 text-white">
             {isUpdating ? <Spinner size={25} color="white" /> : 'Save Changes'}
           </button>
-          {errors.form && (
-            <p className="mt-1 text-xs text-red-500">{errors.form}</p>
-          )}
+          {errors.form && <p className="mt-1 text-xs text-red-500">{errors.form}</p>}
         </form>
+        <div className="mt-4 flex flex-col gap-y-4">
+          <h2 className="text-2xl font-bold">Delete Account</h2>
+          <DeleteAccountModal />
+        </div>
       </div>
 
       <div className="mb-4 h-full space-y-5 px-8 lg:col-span-1">
@@ -344,11 +338,7 @@ function TeacherSettings() {
           disabled={isUploadingAvatar || !file}
           type="button"
         >
-          {isUploadingAvatar ? (
-            <Spinner size={25} color="white" />
-          ) : (
-            'Update photo'
-          )}
+          {isUploadingAvatar ? <Spinner size={25} color="white" /> : 'Update photo'}
         </button>
       </div>
     </div>

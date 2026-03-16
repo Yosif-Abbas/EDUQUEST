@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useCurrentUser } from '../hooks/users/useCurrentUser';
 import NotFound from '../pages/NotFound';
 import Loading from './Loading';
 import Onboarding from '../pages/Onboarding';
@@ -8,8 +8,11 @@ import Onboarding from '../pages/Onboarding';
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const navigate = useNavigate();
 
-  const { currentUser, isLoading, isAuthenticated } = useCurrentUser();
-  const role = currentUser?.role;
+  const {
+    currentUser: { role },
+    isLoading,
+    isAuthenticated,
+  } = useCurrentUser();
 
   useEffect(() => {
     if (isLoading) return;
@@ -30,7 +33,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (!isAuthenticated) return <NotFound />;
-  if (!role) return <Onboarding />;
+  if (isAuthenticated && !role) return <Onboarding />;
 
   return children;
 };

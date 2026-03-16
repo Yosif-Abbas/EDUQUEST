@@ -43,3 +43,55 @@ export async function updateUser({ id, obj }) {
 
   return data;
 }
+
+export async function deleteStudent({ id, user_id }) {
+  let { errorUser } = await supabase.from('users').select('*').eq('user_id', id).maybeSingle();
+
+  if (errorUser) throw new Error(studentCoursesError.message);
+
+  const { error: studentCoursesError } = await supabase
+    .from('student_courses')
+    .delete()
+    .eq('student_id', id);
+
+  if (studentCoursesError) throw new Error(studentCoursesError.message);
+
+  const { error: reviewsError } = await supabase.from('reviews').delete().eq('user_id', id);
+
+  if (reviewsError) throw new Error(reviewsError.message);
+
+  const { error: userError } = await supabase.from('users').delete().eq('id', id);
+
+  if (userError) throw new Error(userError.message);
+
+  const { error } = await supabase.functions.invoke('delete-user', {
+    body: { userId: user_id },
+  });
+
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteTeacher({ id, user_id }) {
+  const { error: teachersError } = await supabase.from('teachers').delete().eq('user_id', id);
+
+  if (teachersError) throw new Error(teachersError.message);
+
+  const { error: userError } = await supabase.from('users').delete().eq('id', id);
+
+  if (userError) throw new Error(userError.message);
+
+  const { error } = await supabase.functions.invoke('delete-user', {
+    body: { userId: user_id },
+  });
+
+  if (error) console.error(error);
+}
+
+export async function createTeacher({ user_id }) {
+  const { error } = await supabase.from('teachers').insert([{ user_id }]);
+
+  if (error) throw new Error(error.message);
+}

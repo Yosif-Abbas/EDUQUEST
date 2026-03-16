@@ -1,8 +1,9 @@
-import WishlistItem from '../../components/WishlistItem';
-import { useWishlist } from '../../hooks/useWishlist';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useWishlist } from '../../hooks/wishlist/useWishlist';
+
+import WishlistItem from '../../components/student/WishlistItem';
 import Loading from '../../components/Loading';
 import Spinner from '../../components/Spinner';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 function Wishlist() {
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
@@ -27,9 +28,7 @@ function Wishlist() {
       </h2>
       <ul className="bg-white px-6">
         <li className="student-wishlist-item text-sm text-[#4E5566]">
-          <span className="col-span-5 md:col-span-6 lg:col-span-7">
-            COURSES
-          </span>
+          <span className="col-span-5 md:col-span-6 lg:col-span-7">COURSES</span>
           <span className="col-span-3 md:col-span-2">PRICES</span>
           <span className="col-span-4 lg:col-span-3">ACTION</span>
         </li>

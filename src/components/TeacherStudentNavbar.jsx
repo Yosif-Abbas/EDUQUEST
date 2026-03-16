@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useCurrentUser } from '../hooks/users/useCurrentUser';
 
-function TeacherStudentNavbar({ to = '/student' }) {
+function TeacherStudentNavbar({ to }) {
   const [openMenu, setOpenMenu] = useState(false);
-  const { isAuthenticated } = useCurrentUser();
+  const { currentUser, isAuthenticated } = useCurrentUser();
+
+  const role = currentUser?.role;
 
   return (
     <section className="relative flex items-center justify-between bg-[#27374D] px-6 py-2 text-white">
@@ -21,7 +23,7 @@ function TeacherStudentNavbar({ to = '/student' }) {
           className={`absolute top-[100%] -left-50 z-90 w-50 bg-[#27374D] transition ${openMenu && 'translate-x-full'} md:relative md:top-0 md:left-0 md:flex md:w-fit md:items-center md:bg-transparent`}
         >
           <li className="student-header-nav">
-            <NavLink to={to}>Home</NavLink>
+            <NavLink to={to ? `/${to}/dashboard` : '/onboarding'}>Home</NavLink>
           </li>
           <li className="student-header-nav">
             <NavLink to="/courses">Courses</NavLink>
@@ -32,7 +34,7 @@ function TeacherStudentNavbar({ to = '/student' }) {
           <li className="student-header-nav">
             <NavLink to="/contact">Contact</NavLink>
           </li>
-          {isAuthenticated && (
+          {isAuthenticated && role === 'student' && (
             <li className="student-header-nav">
               <NavLink to="/question-bank">Question Bank</NavLink>
             </li>

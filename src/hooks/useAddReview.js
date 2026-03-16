@@ -10,11 +10,7 @@ export const useAddReview = () => {
       addReviewApi({ rating, comment, courseId, userId }),
     onSuccess: (data) => {
       toast.success('Successfully added a Review!');
-      queryClient.refetchQueries([
-        'enrolledCourse',
-        data.student_id,
-        String(data.course_id),
-      ]);
+      queryClient.refetchQueries(['enrolledCourse', data.student_id, String(data.course_id)]);
     },
     onError: (error) => {
       console.log(error);

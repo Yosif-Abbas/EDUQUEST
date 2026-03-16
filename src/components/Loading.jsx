@@ -1,18 +1,6 @@
 import { motion } from 'framer-motion';
 
 const Loading = ({ size = 48, color = '#876A9A' }) => {
-  const dotVariants = {
-    animate: {
-      y: [0, -5, 0], // Moves up and down
-      transition: {
-        duration: 0.6,
-        ease: 'easeInOut',
-        repeat: Infinity, // Loop animation
-        repeatType: 'mirror',
-      },
-    },
-  };
-
   return (
     <motion.svg
       width={size}

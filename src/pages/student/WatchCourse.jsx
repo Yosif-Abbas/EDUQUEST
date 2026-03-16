@@ -1,19 +1,20 @@
 import { useCallback } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-import LectureHeader from '../../components/CourseWatch/LectureHeader';
+import { useCourse } from '../../hooks/courses/useCourse';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useEnrolledCourse } from '../../hooks/courses/useEnrolledCourse';
+
+import LectureHeader from '../../components/courses/courseWatch/LectureHeader';
 import Header from '../../components/Header';
 import Loading from '../../components/Loading';
-import VideoPlayer from '../../components/VideoPlayer';
-import CourseHeader from './../../components/CourseWatch/CourseHeader';
+import VideoPlayer from '../../components/courses/courseWatch/VideoPlayer';
+import CourseHeader from './../../components/courses/courseWatch/CourseHeader';
 
-import CourseContent from '../../components/CourseWatch/CourseContent';
+import CourseContent from '../../components/courses/courseWatch/CourseContent';
 import TeacherStudentNavbar from '../../components/TeacherStudentNavbar';
 
-import Quiz from '../../components/Quiz';
-import { useCourse } from '../../hooks/useCourse';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
-import { useEnrolledCourse } from '../../hooks/useEnrolledCourse';
+import Quiz from '../../components/courses/courseWatch/Quiz';
 import NotFound from '../NotFound';
 
 function WatchCourse() {
@@ -77,7 +78,7 @@ function WatchCourse() {
   return (
     <div>
       <div>
-        <TeacherStudentNavbar />
+        <TeacherStudentNavbar to={currentUser.role} />
         <Header />
         {!isLoadingEnrolledCourse && (
           <CourseHeader
@@ -114,10 +115,7 @@ function WatchCourse() {
               )}
               {lecture?.type === 'quiz' && (
                 <div className="mx-auto h-120 min-h-fit w-full max-w-4xl bg-white shadow-xl">
-                  <Quiz
-                    questions={lecture?.questions}
-                    onComplete={handleQuizComplete}
-                  />
+                  <Quiz questions={lecture?.questions} onComplete={handleQuizComplete} />
                 </div>
               )}
             </div>

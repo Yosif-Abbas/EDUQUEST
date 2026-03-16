@@ -1,4 +1,4 @@
-import Picture from './Home/Picture';
+import Picture from './home/Picture';
 
 function Role({ values, handleChange, handleBlur }) {
   return (
@@ -17,7 +17,7 @@ function Role({ values, handleChange, handleBlur }) {
           name="student"
           className={`w-40 md:w-60 ${values.role === 'student' ? 'ring-l4 ring-2' : ''}`}
         />
-        <span>Student</span>
+        <span className="font-normal">Student</span>
       </label>
 
       <label className="flex cursor-pointer flex-col items-center">
@@ -34,7 +34,7 @@ function Role({ values, handleChange, handleBlur }) {
           name="teacher"
           className={`w-40 md:w-60 ${values.role === 'teacher' ? 'ring-l4 ring-2' : ''}`}
         />
-        <span>Teacher</span>
+        <span className="font-normal">Teacher</span>
       </label>
     </div>
   );

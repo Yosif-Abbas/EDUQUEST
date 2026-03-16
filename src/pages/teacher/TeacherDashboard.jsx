@@ -1,35 +1,32 @@
-import { FaCommentDots, FaRegStar, FaStar, FaTrophy } from 'react-icons/fa';
 import { FaCirclePlay, FaUserGroup } from 'react-icons/fa6';
 import { VscVmActive } from 'react-icons/vsc';
 
-import SummaryCard from '../../components/Teacher/SummaryCard';
-
-import { useCoursesByTeacher } from '../../hooks/useCoursesByTeacher';
-import { useCurrentUser } from './../../hooks/useCurrentUser';
-import Loading from '../../components/Loading';
-import RatingPercentage from '../../components/CourseDetails/RatingPercentage';
-import { useTeacherRatings } from '../../hooks/useTeacherRatings';
+import { useCoursesByTeacher } from '../../hooks/courses/useCoursesByTeacher';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useTeacherRatings } from '../../hooks/teacher/useTeacherRatings';
 import { ratingHelper, ratingPercentageHelper } from '../../utils/helpers';
+
+import RatingPercentage from '../../components/courses/courseDetails/RatingPercentage';
+import SummaryCard from '../../components/teacher/SummaryCard';
+import Loading from '../../components/Loading';
 import StarRating from '../../components/StarRating';
 import Spinner from '../../components/Spinner';
-import CourseEnrollmentChart from '../../components/Teacher/CourseEnrollementPieChart';
+import CourseEnrollmentChart from '../../components/teacher/CourseEnrollementPieChart';
 
 function TeacherDashboard() {
   const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
 
-  const teacherId = currentUser?.userTeacher?.id;
+  const teacherId = currentUser?.teachers[0]?.id;
 
-  const {
-    courses,
-    error,
-    isLoading: isLoadingCourses,
-  } = useCoursesByTeacher(teacherId);
+  const { courses, error, isLoading: isLoadingCourses } = useCoursesByTeacher(teacherId);
 
   if (isLoadingUser) {
     <div className="flex h-full w-full items-center justify-center">
       <Loading />;
     </div>;
   }
+
+  console.log(teacherId);
 
   // uploaded and active courses
   const uploadedCourses = courses?.length;
@@ -199,9 +196,7 @@ function TeacherDashboard() {
         <div className="flex items-center justify-between border-b-1 border-white p-2">
           <h2>Courses Chart</h2>
         </div>
-        <div className="p-2">
-          {courses && <CourseEnrollmentChart data={courses} />}
-        </div>
+        <div className="p-2">{courses && <CourseEnrollmentChart data={courses} />}</div>
       </section>
     </div>
   );

@@ -1,13 +1,16 @@
 import { FaRegHeart, FaTrophy } from 'react-icons/fa';
 import { FaCirclePlay } from 'react-icons/fa6';
 import { MdOutlineFileDownloadDone } from 'react-icons/md';
-import { useEnrolledCourses } from '../../hooks/useEnrolledCourses';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+
+import { useEnrolledCourses } from '../../hooks/courses/useEnrolledCourses';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useWishlist } from '../../hooks/wishlist/useWishlist';
+
 import Spinner from '../../components/Spinner';
-import { useWishlist } from '../../hooks/useWishlist';
 
 function StudentDashboard() {
   const { currentUser, isLoading } = useCurrentUser();
+
   const studentId = currentUser?.id;
 
   // ENROLLED COURSES
@@ -47,9 +50,7 @@ function StudentDashboard() {
             </span>
             <div>
               <h3 className="mb-2 text-2xl">
-                {isLoadingEnrolledCourses && (
-                  <Spinner size={25} color="black" />
-                )}
+                {isLoadingEnrolledCourses && <Spinner size={25} color="black" />}
                 {!isLoadingEnrolledCourses && enrollCoursesCount}
               </h3>
               <p className="text-sm text-[#4E5566]">Enrolled Courses</p>
@@ -61,9 +62,7 @@ function StudentDashboard() {
             </span>
             <div>
               <h3 className="mb-2 text-2xl">
-                {isLoadingEnrolledCourses && (
-                  <Spinner size={25} color="black" />
-                )}
+                {isLoadingEnrolledCourses && <Spinner size={25} color="black" />}
                 {!isLoadingEnrolledCourses && activeCoursesNum}
               </h3>
               <p className="text-sm text-[#4E5566]">Active Courses</p>
@@ -75,9 +74,7 @@ function StudentDashboard() {
             </span>
             <div>
               <h3 className="mb-2 text-2xl">
-                {isLoadingEnrolledCourses && (
-                  <Spinner size={25} color="black" />
-                )}
+                {isLoadingEnrolledCourses && <Spinner size={25} color="black" />}
                 {!isLoadingEnrolledCourses && completedCoursesNum}
               </h3>
               <p className="text-sm text-[#4E5566]">Completed Courses</p>

@@ -1,6 +1,6 @@
 import supabase from '../../supabase';
 
-const PAGE_SIZE = 8;
+const pageSize = import.meta.env.VITE_PAGE_SIZE;
 
 export const getCourses = async ({ sort, filter, search, page }) => {
   let query = supabase.from('courses').select('*', { count: 'exact' });
@@ -23,8 +23,8 @@ export const getCourses = async ({ sort, filter, search, page }) => {
 
   // Pagination
   if (page) {
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
+    const from = (page - 1) * pageSize;
+    const to = from + +pageSize - 1;
     query = query.range(from, to);
   }
 
@@ -64,10 +64,7 @@ export const getCourse = async (id) => {
 };
 
 export const getCoursesByTeacherId = async (id) => {
-  const { data, error } = await supabase
-    .from('courses')
-    .select('*')
-    .eq('teacher_id', id);
+  const { data, error } = await supabase.from('courses').select('*').eq('teacher_id', id);
 
   if (error) {
     console.error(error.message);
@@ -153,12 +150,9 @@ export const enrollInCourse = async ({ studentId, courseId }) => {
     throw error;
   }
 
-  const { error: coursesError } = await supabase.rpc(
-    'increment_students_enrolled',
-    {
-      course_id: courseId,
-    },
-  );
+  const { error: coursesError } = await supabase.rpc('increment_students_enrolled', {
+    course_id: courseId,
+  });
 
   if (coursesError) {
     console.error(error.message);
@@ -175,12 +169,34 @@ export async function getCategories() {
     console.error('Error fetching categories:', error.message);
     return [];
   }
-  const uniqueCategories = [...new Set(data.map((row) => row.category))];
 
-  const filteredCategories = uniqueCategories.filter((cat) => cat !== 'Other');
-  filteredCategories.push('Other');
+  const unique = new Set();
 
-  return filteredCategories;
+  if (Array.isArray(data)) {
+    data.forEach((courseCat) => {
+      const cat = courseCat?.category;
+      if (!cat) return;
+
+      if (Array.isArray(cat)) {
+        cat.forEach((c) => {
+          if (!c) return;
+          const normalized = String(c).trim();
+          if (!normalized) return;
+          if (normalized.toLowerCase() === 'other') return;
+          unique.add(normalized);
+        });
+      } else {
+        const normalized = String(cat).trim();
+        if (normalized && normalized.toLowerCase() !== 'other') unique.add(normalized);
+      }
+    });
+  }
+
+  const uniqueCategories = Array.from(unique);
+
+  uniqueCategories.sort((a, b) => a.localeCompare(b));
+
+  return uniqueCategories;
 }
 
 export async function createNewCourse({ course, teacherId }) {
@@ -355,19 +371,17 @@ export async function createNewCourse({ course, teacherId }) {
       if (lecture.type === 'quiz') {
         if (lecture.questions && lecture.questions.length > 0) {
           lecture.questions.forEach(async (question) => {
-            const { error: questionsError } = await supabase
-              .from('questions')
-              .insert([
-                {
-                  lecture_id: lectureId,
-                  question: question.question,
-                  correct_answer: question.correctAnswer,
-                  answer_a: question.answer_a,
-                  answer_b: question.answer_b,
-                  answer_c: question.answer_c,
-                  answer_d: question.answer_d,
-                },
-              ]);
+            const { error: questionsError } = await supabase.from('questions').insert([
+              {
+                lecture_id: lectureId,
+                question: question.question,
+                correct_answer: question.correctAnswer,
+                answer_a: question.answer_a,
+                answer_b: question.answer_b,
+                answer_c: question.answer_c,
+                answer_d: question.answer_d,
+              },
+            ]);
 
             if (questionsError) {
               console.error('Quiz questions insertion error:', questionsError);

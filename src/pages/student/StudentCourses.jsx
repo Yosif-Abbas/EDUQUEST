@@ -1,11 +1,14 @@
-import Card from '../../components/Card';
-import Loading from '../../components/Loading';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
-import Spinner from '../../components/Spinner';
+import { FaChevronDown } from 'react-icons/fa';
+
+import { useEnrolledCourses } from '../../hooks/courses/useEnrolledCourses';
+
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+
 import SortBy from '../../components/filters-sorts/SortBy';
 import Search from '../../components/filters-sorts/Search';
-import Pagination from '../../components/Pagination';
-import { useEnrolledCourses } from '../../hooks/useEnrolledCourses';
+import Loading from '../../components/Loading';
+import Spinner from '../../components/Spinner';
+import Card from '../../components/courses/Card';
 
 function StudentCourses() {
   const { currentUser, isLoading: isLoadingCurrentUser } = useCurrentUser();
@@ -23,36 +26,54 @@ function StudentCourses() {
       <section className="mx-6">
         <h2 className="mb-6 text-2xl font-normal">
           <span className="font-medium">Courses</span> (
-          {isLoadingEnrolledCourses || isLoadingCurrentUser ? (
-            <Spinner size={25} />
-          ) : (
-            count
-          )}
-          )
+          {isLoadingEnrolledCourses || isLoadingCurrentUser ? <Spinner size={25} /> : count})
         </h2>
         <ul className="flex flex-wrap gap-6">
-          <Search />
-
-          <SortBy
-            sortbyField="sortBy"
-            options={[
-              { label: 'Most Recent', value: 'created_at-asc' },
-              { label: 'Old', value: 'created_at-des' },
-              { label: 'Highest Rated', value: 'rating-des' },
-              { label: 'Lowest Rated', value: 'rating-asc' },
-            ]}
-          />
-          <li>
-            <h3 className="student-courses-filter-name">Status:</h3>
-            <select className="bg-white p-3 outline-0 md:w-40">
-              <option>All Courses</option>
-            </select>
+          <li className="h-[48px] w-full max-w-130 self-end">
+            <Search />
           </li>
+
+          <li className="">
+            <SortBy
+              sortbyField="sortBy"
+              options={[
+                { label: 'Most Recent', value: 'created_at-asc' },
+                { label: 'Oldest', value: 'created_at-des' },
+                { label: 'Highest Rated', value: 'rating-des' },
+                { label: 'Lowest Rated', value: 'rating-asc' },
+              ]}
+              className="flex-col items-start"
+            />
+          </li>
+
+          <li className="h-[48px]">
+            <h3 className="student-courses-filter-name">Status:</h3>
+            <div className="relative">
+              <select className="select">
+                <option>All Courses</option>
+              </select>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-1/2 right-0 -translate-x-3 -translate-y-1/2"
+              >
+                <FaChevronDown size={12} />
+              </span>
+            </div>
+          </li>
+
           <li>
             <h3 className="student-courses-filter-name">Teacher:</h3>
-            <select className="bg-white p-3 outline-0 md:w-40">
-              <option>All Teachers</option>
-            </select>
+            <div className="relative h-[48px]">
+              <select className="select">
+                <option>All Teachers</option>
+              </select>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-1/2 right-0 -translate-x-3 -translate-y-1/2"
+              >
+                <FaChevronDown size={12} />
+              </span>
+            </div>
           </li>
         </ul>
       </section>

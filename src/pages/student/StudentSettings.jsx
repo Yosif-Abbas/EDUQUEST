@@ -1,13 +1,17 @@
+import { useRef, useState } from 'react';
+
 import { Eye, EyeOff } from 'lucide-react';
 import { LuUpload } from 'react-icons/lu';
 
-import { useRef, useState } from 'react';
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useUploadAvatar } from '../../hooks/useUploadAvatar';
+import { useUpdateSettings } from '../../hooks/users/useUpdateSettings';
 
 import Spinner from '../../components/Spinner';
-
-import { useCurrentUser } from '../../hooks/useCurrentUser';
-import { useUploadAvatar } from '../../hooks/useUploadAvatar';
-import { useUpdateStudentSettings } from '../../hooks/useUpdateStudentSettings';
+import Button from '../../components/Button';
+import Modal from '../../components/Modal';
+import { useDeleteUser } from '../../hooks/users/useDeleteUser';
+import DeleteAccountModal from '../../components/DeleteAccountModal';
 
 function StudentSettings() {
   const {
@@ -22,13 +26,16 @@ function StudentSettings() {
     },
     isLoading,
   } = useCurrentUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { updateStudent, isLoading: isUpdating } = useUpdateStudentSettings();
+  const { updateStudent, isLoading: isUpdating } = useUpdateSettings();
 
   const [preview, setPreview] = useState(image_url);
   const [file, setFile] = useState(null);
 
   const { uploadAvatar, isLoading: isUploadingAvatar } = useUploadAvatar();
+
+  const { mutate: deleteAccount, isPending } = useDeleteUser(userId);
 
   const fileInputRef = useRef(null);
 
@@ -59,10 +66,8 @@ function StudentSettings() {
       newErrors.email = 'Invalid email format.';
     if (password && password.length < 6)
       newErrors.password = 'Password must be at least 6 characters long.';
-    if (password && !confirmPass)
-      newErrors.confirmPass = 'Please confirm your password.';
-    if (!password && confirmPass)
-      newErrors.password = 'Please Enter your password.';
+    if (password && !confirmPass) newErrors.confirmPass = 'Please confirm your password.';
+    if (!password && confirmPass) newErrors.password = 'Please Enter your password.';
     if (password && confirmPass && password !== confirmPass)
       newErrors.confirmPass = 'Passwords do not match.';
 
@@ -127,7 +132,7 @@ function StudentSettings() {
 
   return (
     <section className="space-y-6 pb-10">
-      <h2 className="ml-6 text-2xl font-medium">Account settings</h2>
+      <h2 className="text-2xl font-medium">Account settings</h2>
 
       <div className="flex flex-col gap-y-10 md:flex-row md:gap-10 lg:gap-20">
         <div className="flex flex-col items-start">
@@ -178,11 +183,7 @@ function StudentSettings() {
             disabled={isUploadingAvatar || !file}
             type="button"
           >
-            {isUploadingAvatar ? (
-              <Spinner size={25} color="white" />
-            ) : (
-              'Update photo'
-            )}
+            {isUploadingAvatar ? <Spinner size={25} color="white" /> : 'Update photo'}
           </button>
         </div>
 
@@ -278,28 +279,33 @@ function StudentSettings() {
                   </button>
                 </div>
                 {errors.confirmPass && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.confirmPass}
-                  </p>
+                  <p className="mt-1 text-sm text-red-500">{errors.confirmPass}</p>
                 )}
               </div>
             </div>
 
-            <button
+            {/* <button
               className={`col-start-2 mt-4 w-fit cursor-pointer bg-[#ff6636] px-6 py-3 text-white ${isUpdating ? 'bg-l7 text-l4 cursor-not-allowed' : 'bg-l6 text-white'}`}
               disabled={isUpdating}
             >
-              {isUpdating ? (
-                <Spinner size={25} color="white" />
-              ) : (
-                'Save Changes'
-              )}
-            </button>
-            {errors.form && (
-              <p className="mt-1 text-sm text-red-500">{errors.form}</p>
-            )}
+              {isUpdating ? <Spinner size={25} color="white" /> : 'Save Changes'}
+            </button> */}
+            <Button
+              variant="brand"
+              isUpdating={isUpdating}
+              disabled={isUpdating}
+              className="col-start-2 mt-4"
+            >
+              {isUpdating ? <Spinner size={25} color="white" /> : 'Save Changes'}
+            </Button>
+            {errors.form && <p className="mt-1 text-sm text-red-500">{errors.form}</p>}
           </form>
         </div>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-y-4">
+        <h2 className="text-2xl font-bold">Delete Account</h2>
+        <DeleteAccountModal />
       </div>
     </section>
   );

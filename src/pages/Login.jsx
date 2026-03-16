@@ -1,6 +1,6 @@
-import LeftSide from '../components/Login/LeftSide';
+import LeftSide from '../components/login/LeftSide';
 import Title from '../components/Title';
-import Picture from '../components/Home/Picture';
+import Picture from '../components/home/Picture';
 
 function Login() {
   return (
@@ -8,11 +8,7 @@ function Login() {
       <LeftSide />
       <div className="bg-main hidden pl-4 text-center sm:flex sm:basis-1/3 sm:flex-col sm:justify-center xl:basis-[35%]">
         <Title>Hello Again 😄</Title>
-        <Picture
-          name="logo-icon"
-          alt="Logo Icon"
-          className="mx-auto max-w-64"
-        />
+        <Picture name="logo-icon" alt="Logo Icon" className="mx-auto max-w-64" />
       </div>
     </div>
   );

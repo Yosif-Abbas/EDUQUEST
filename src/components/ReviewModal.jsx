@@ -3,7 +3,7 @@ import StarRating from './StarRating';
 import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PiPaperPlaneRightFill } from 'react-icons/pi';
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useCurrentUser } from '../hooks/users/useCurrentUser';
 import { useAddReview } from '../hooks/useAddReview';
 
 const ReviewModal = ({ isOpen, onClose, rating, review_comment, course }) => {
@@ -59,16 +59,10 @@ const ReviewModal = ({ isOpen, onClose, rating, review_comment, course }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-gray-500/50 backdrop-blur-xs">
-      <div
-        className="mx-2 flex w-140 flex-col gap-y-4 bg-white pb-4 shadow-lg"
-        ref={ref}
-      >
+      <div className="mx-2 flex w-140 flex-col gap-y-4 bg-white pb-4 shadow-lg" ref={ref}>
         <div className="flex items-center justify-between border-b-1 border-gray-200 px-4 py-3">
           <h2 className="text-md font-medium">Write A Review</h2>
-          <button
-            onClick={handleClose}
-            className="text-gray-500 hover:text-gray-900"
-          >
+          <button onClick={handleClose} className="text-gray-500 hover:text-gray-900">
             <IoCloseOutline size={24} />
           </button>
         </div>

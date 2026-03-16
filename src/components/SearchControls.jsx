@@ -6,9 +6,10 @@ import Spinner from './Spinner';
 
 const sorts = [
   { label: 'Most Recent', value: 'created_at-des' },
-  { label: 'Old', value: 'created_at-asc' },
+  { label: 'Oldest', value: 'created_at-asc' },
   { label: 'Highest Rated', value: 'rating-des' },
   { label: 'Lowest Rated', value: 'rating-asc' },
+  { label: 'Most Popular', value: 'students_enrolled' },
 ];
 
 function SearchControls({ resultsNumber, isLoading }) {
@@ -45,9 +46,7 @@ function SearchControls({ resultsNumber, isLoading }) {
             )}
           </p>
         )}
-        {resultsNumber <= 0 && !isLoading && (
-          <p>Search for your desired course</p>
-        )}
+        {resultsNumber <= 0 && !isLoading && <p>Search for your desired course</p>}
       </div>
     </div>
   );

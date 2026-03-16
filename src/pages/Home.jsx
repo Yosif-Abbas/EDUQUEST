@@ -1,5 +1,5 @@
-import Footer from '../components/Home/Footer';
-import ImageGroup from '../components/Home/ImageGroup';
+import Footer from '../components/home/Footer';
+import ImageGroup from '../components/home/ImageGroup';
 
 const Home = () => {
   return (

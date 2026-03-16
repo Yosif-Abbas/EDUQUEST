@@ -1,8 +1,7 @@
 @import 'tailwindcss';
 
 .container {
-  margin: 0 auto;
-  padding: 0;
+  @apply mx-auto my-0 py-0 lg:px-16;
 }
 
 .required:after {
@@ -118,4 +117,22 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.footer-p {
+  @apply text-main-txt inline-flex flex-col text-xl font-extrabold whitespace-nowrap italic md:text-2xl lg:text-4xl;
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select {
+  @apply relative h-[48px] w-25 cursor-pointer truncate border-2 border-[#E9EAF0] bg-white pr-4 pl-1 text-xs outline-0 hover:bg-[#fefefe99] md:w-40 md:p-3 md:text-sm lg:text-base;
 }

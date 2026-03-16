@@ -1,8 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 
 import CourseDetails from './pages/CourseDetails';
 import Courses from './pages/Courses';
@@ -11,7 +11,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Signup from './pages/Signup';
 
-import StudentLayout from './components/StudentLayout';
+import StudentLayout from './components/student/StudentLayout';
 
 import StudentCourses from './pages/student/StudentCourses';
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -19,7 +19,7 @@ import StudentSettings from './pages/student/StudentSettings';
 import WatchCourse from './pages/student/WatchCourse';
 import Wishlist from './pages/student/Wishlist';
 
-import TeacherLayout from './components/TeacherLayout';
+import TeacherLayout from './components/teacher/TeacherLayout';
 
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -29,8 +29,47 @@ import TeacherCourses from './pages/teacher/TeacherCourses';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherSettings from './pages/teacher/TeacherSettings';
 import Onboarding from './pages/Onboarding';
+import PublicRoute from './components/PublicRoute';
+import { useCurrentUser } from './hooks/users/useCurrentUser';
+import PageLoading from './components/PageLoading';
+import supabase from '../supabase';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 function AppRoutes() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { isLoading } = useCurrentUser();
+
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        queryClient.invalidateQueries({ queryKey: ['user'] });
+
+        const { data: profile, error } = await supabase
+          .from('users')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+
+        console.log('session: ', session);
+        console.log('profile: ', profile);
+        console.log('error: ', error);
+
+        if (!profile?.role) navigate('/onboarding');
+        else if (profile?.role === 'student') navigate('/student');
+        else if (profile?.role === 'teacher') navigate('/teacher');
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [navigate, queryClient]);
+
+  if (isLoading) return <PageLoading />;
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -62,8 +101,10 @@ function AppRoutes() {
         />
       </Route>
 
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Route>
 
       {/* Student Routes */}
       <Route

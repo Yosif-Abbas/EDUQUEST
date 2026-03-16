@@ -1,5 +1,6 @@
-import Loading from '../../components/Loading';
 import { useCategories } from '../../hooks/useGetCategories';
+
+import Loading from '../../components/Loading';
 
 function BasicInfo({ course, setCourse, errors, showErrors }) {
   const { categories, error, isLoading } = useCategories();
@@ -95,17 +96,11 @@ function BasicInfo({ course, setCourse, errors, showErrors }) {
               <label htmlFor="price" className="required">
                 Price{' '}
                 {showErrors && errors.regularPrice && (
-                  <span className="text-sm text-red-500">
-                    ({errors.regularPrice})
-                  </span>
+                  <span className="text-sm text-red-500">({errors.regularPrice})</span>
                 )}
               </label>
-              <span className="text-[10px] text-gray-500">
-                0 is a free course,
-              </span>
-              <span className="text-[10px] text-gray-500">
-                max price is 2500LE{' '}
-              </span>
+              <span className="text-[10px] text-gray-500">0 is a free course,</span>
+              <span className="text-[10px] text-gray-500">max price is 2500LE </span>
             </div>
             <input
               type="number"
@@ -114,9 +109,7 @@ function BasicInfo({ course, setCourse, errors, showErrors }) {
               id="price"
               placeholder="Price"
               value={price > 2500 ? 2500 : price && price < 0 ? 0 : price}
-              onChange={(e) =>
-                handleChangeField(e.target.value, 'regularPrice')
-              }
+              onChange={(e) => handleChangeField(e.target.value, 'regularPrice')}
               className={`border-1 p-2 pl-4 ${showErrors && errors.regularPrice ? 'border-red-500' : 'border-white'}`}
             />
           </div>
@@ -139,9 +132,7 @@ function BasicInfo({ course, setCourse, errors, showErrors }) {
           <label htmlFor="level" className="required">
             Course Level{' '}
             {showErrors && errors.course_level && (
-              <span className="text-sm text-red-500">
-                ({errors.course_level})
-              </span>
+              <span className="text-sm text-red-500">({errors.course_level})</span>
             )}
           </label>
           <select
@@ -185,17 +176,13 @@ function BasicInfo({ course, setCourse, errors, showErrors }) {
           <label htmlFor="discount-end-date" className="">
             Discount end-date{' '}
             {showErrors && errors.discount_end_date && (
-              <span className="text-sm text-red-500">
-                ({errors.discount_end_date})
-              </span>
+              <span className="text-sm text-red-500">({errors.discount_end_date})</span>
             )}
           </label>
           <input
             type="datetime-local"
             value={discountEndDate?.replace(' ', 'T') || ''}
-            onChange={(e) =>
-              handleChangeField(e.target.value, 'discount_end_date')
-            }
+            onChange={(e) => handleChangeField(e.target.value, 'discount_end_date')}
             id="discount-end-date"
             className={`border-1 p-2 pl-4 ${showErrors && errors.discount_end_date ? 'border-red-500' : 'border-white'}`}
           />

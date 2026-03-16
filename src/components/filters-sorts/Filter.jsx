@@ -1,7 +1,9 @@
-import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+import { X } from 'lucide-react';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import { useSearchParams } from 'react-router-dom';
+
 import { useCategories } from '../../hooks/useGetCategories';
 
 // const categories = [
@@ -60,9 +62,7 @@ function Filter() {
       >
         <GiSettingsKnobs />
         <span className="mr-4">Filter</span>
-        <span className="bg-[#FFEEE8] px-1.5 text-[#FF6636]">
-          {filter ? 1 : 0}
-        </span>
+        <span className="bg-[#FFEEE8] px-1.5 text-[#FF6636]">{filter ? 1 : 0}</span>
       </button>
 
       {/* Modal */}
@@ -87,10 +87,7 @@ function Filter() {
                 categories
                   .sort((a, b) => (a === 'Other' ? 1 : b === 'Other' ? -1 : 0))
                   .map((category) => (
-                    <div
-                      key={category}
-                      className="flex items-center justify-between"
-                    >
+                    <div key={category} className="flex items-center justify-between">
                       <label
                         key={category}
                         htmlFor={category}

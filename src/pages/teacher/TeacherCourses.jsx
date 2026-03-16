@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom';
-import Card from '../../components/Card';
+
+import { useCurrentUser } from '../../hooks/users/useCurrentUser';
+import { useCoursesByTeacher } from './../../hooks/courses/useCoursesByTeacher';
+
+import Card from '../../components/courses/Card';
 import Loading from '../../components/Loading';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
-import { useCoursesByTeacher } from './../../hooks/useCoursesByTeacher';
 
 function TeacherCourses() {
   const { currentUser, isLoading: isLoadingUser } = useCurrentUser();
 
-  const teacherId = currentUser?.userTeacher?.id;
+  const teacherId = currentUser?.teachers[0]?.id;
 
-  const {
-    courses,
-    error,
-    isLoading: isLoadingCourses,
-  } = useCoursesByTeacher(teacherId);
+  const { courses, error, isLoading: isLoadingCourses } = useCoursesByTeacher(teacherId);
 
   if (error) return <div>Error fetching courses</div>;
 
@@ -31,9 +29,7 @@ function TeacherCourses() {
       </div>
       {courses.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-4">
-          <h2 className="text-2xl">
-            You don&apos;t currently have any courses added
-          </h2>
+          <h2 className="text-2xl">You don&apos;t currently have any courses added</h2>
 
           <Link
             to="/teacher/newCourse"
@@ -44,8 +40,7 @@ function TeacherCourses() {
         </div>
       ) : (
         <ul className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-          {courses &&
-            courses.map((course) => <Card course={course} key={course.id} />)}
+          {courses && courses.map((course) => <Card course={course} key={course.id} />)}
         </ul>
       )}
     </div>

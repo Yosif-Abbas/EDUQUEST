@@ -1,5 +1,5 @@
-import { UploadIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { UploadIcon } from 'lucide-react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { HiBars3 } from 'react-icons/hi2';
 import { RiEdit2Line } from 'react-icons/ri';
@@ -21,9 +21,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
           title: '',
           duration: 0,
           description: '',
-          lectures: [
-            { title: '', type: 'video', content_info: '', file_url: '' },
-          ],
+          lectures: [{ title: '', type: 'video', content_info: '', file_url: '' }],
         },
       ],
     }));
@@ -162,13 +160,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
     });
   };
 
-  const updateQuizQuestion = (
-    sectionIndex,
-    lectureIndex,
-    questionIndex,
-    field,
-    value,
-  ) => {
+  const updateQuizQuestion = (sectionIndex, lectureIndex, questionIndex, field, value) => {
     setCourse((prev) => {
       const newSections = [...prev.course_sections];
       const lecture = newSections[sectionIndex].lectures[lectureIndex];
@@ -192,9 +184,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
       // Create a deep copy of the course sections
       const newSections = JSON.parse(JSON.stringify(prev.course_sections));
       const lecture = newSections[sectionIndex].lectures[lectureIndex];
-      lecture.questions = lecture.questions.filter(
-        (_, index) => index !== questionIndex,
-      );
+      lecture.questions = lecture.questions.filter((_, index) => index !== questionIndex);
       return {
         ...prev,
         course_sections: newSections,
@@ -206,11 +196,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
     return !!lecture.file_url || !!lecture.file;
   };
 
-  const toggleQuestionCollapse = (
-    sectionIndex,
-    lectureIndex,
-    questionIndex,
-  ) => {
+  const toggleQuestionCollapse = (sectionIndex, lectureIndex, questionIndex) => {
     const key = `${sectionIndex}-${lectureIndex}-${questionIndex}`;
     setCollapsedQuestions((prev) => ({
       ...prev,
@@ -247,9 +233,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
               <input
                 className={`grow truncate border-b-1 outline-none ${showErrors && errors[`section_${sectionIndex}_title`] ? 'border-red-500' : 'border-gray-500'}`}
                 value={section.title}
-                onChange={(e) =>
-                  updateSectionField(sectionIndex, 'title', e.target.value)
-                }
+                onChange={(e) => updateSectionField(sectionIndex, 'title', e.target.value)}
               />
             </span>
             <span className="flex gap-2 text-gray-500">
@@ -259,13 +243,9 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
               <button
                 onClick={() => handleRemoveSection(sectionIndex)}
                 disabled={course_sections?.length <= 1}
-                className={
-                  course_sections?.length <= 1 ? 'cursor-not-allowed' : ''
-                }
+                className={course_sections?.length <= 1 ? 'cursor-not-allowed' : ''}
               >
-                <FaRegTrashAlt
-                  color={course_sections?.length > 1 ? '#E25E35' : ''}
-                />
+                <FaRegTrashAlt color={course_sections?.length > 1 ? '#E25E35' : ''} />
               </button>
             </span>
           </div>
@@ -278,31 +258,19 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
 
           <ul className="flex flex-col gap-4">
             {section.lectures?.map((lecture, lectureIndex) => (
-              <li
-                key={lectureIndex}
-                className="flex flex-col bg-white px-4 py-2"
-              >
+              <li key={lectureIndex} className="flex flex-col bg-white px-4 py-2">
                 <div className="flex">
                   <div className="flex w-full items-center gap-x-2">
                     <h3 className="required text-nowrap">
                       Lecture ({String(lectureIndex + 1).padStart(2, '0')}):
                       {showErrors &&
-                        errors[
-                          `section_${sectionIndex}_lecture_${lectureIndex}_title`
-                        ] && (
+                        errors[`section_${sectionIndex}_lecture_${lectureIndex}_title`] && (
                           <span className="ml-2 text-sm text-red-500">
-                            (
-                            {
-                              errors[
-                                `section_${sectionIndex}_lecture_${lectureIndex}_title`
-                              ]
-                            }
-                            )
+                            ({errors[`section_${sectionIndex}_lecture_${lectureIndex}_title`]})
                           </span>
                         )}
                     </h3>
-                    {isLectureFileUploaded(lecture) ||
-                    lecture.type === 'quiz' ? (
+                    {isLectureFileUploaded(lecture) || lecture.type === 'quiz' ? (
                       <div className="w-full">
                         <input
                           className={`w-full truncate border-b px-2 py-1 outline-none ${showErrors && errors[`section_${sectionIndex}_lecture_${lectureIndex}_title`] ? 'border-red-500' : ''}`}
@@ -322,17 +290,13 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                         <button
                           className={`flex items-center gap-2 px-4 py-2 transition-all duration-150 ${showErrors && errors[`section_${sectionIndex}_lecture_${lectureIndex}_file`] ? 'bg-red-100 text-red-600' : 'bg-gray-100 hover:bg-gray-200'}`}
                           onClick={() =>
-                            fileInputRefs.current[
-                              `${sectionIndex}-${lectureIndex}`
-                            ]?.click()
+                            fileInputRefs.current[`${sectionIndex}-${lectureIndex}`]?.click()
                           }
                         >
                           <UploadIcon size={16} />
                           <span>
                             {showErrors &&
-                            errors[
-                              `section_${sectionIndex}_lecture_${lectureIndex}_file`
-                            ]
+                            errors[`section_${sectionIndex}_lecture_${lectureIndex}_file`]
                               ? 'Upload Required'
                               : 'Upload'}
                           </span>
@@ -345,16 +309,10 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                             className="hidden"
                             accept="video/mp4, video/webm"
                             ref={(el) =>
-                              (fileInputRefs.current[
-                                `${sectionIndex}-${lectureIndex}`
-                              ] = el)
+                              (fileInputRefs.current[`${sectionIndex}-${lectureIndex}`] = el)
                             }
                             onChange={(e) =>
-                              handleLectureFileUpload(
-                                e,
-                                sectionIndex,
-                                lectureIndex,
-                              )
+                              handleLectureFileUpload(e, sectionIndex, lectureIndex)
                             }
                           />
                         )}
@@ -366,16 +324,10 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                             className="hidden"
                             accept=".pdf, .doc, .docx, .ppt, .pptx, .txt"
                             ref={(el) =>
-                              (fileInputRefs.current[
-                                `${sectionIndex}-${lectureIndex}`
-                              ] = el)
+                              (fileInputRefs.current[`${sectionIndex}-${lectureIndex}`] = el)
                             }
                             onChange={(e) =>
-                              handleLectureFileUpload(
-                                e,
-                                sectionIndex,
-                                lectureIndex,
-                              )
+                              handleLectureFileUpload(e, sectionIndex, lectureIndex)
                             }
                           />
                         )}
@@ -389,12 +341,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                       value={lecture.type}
                       disabled={isLectureFileUploaded(lecture)}
                       onChange={(e) =>
-                        updateLectureField(
-                          sectionIndex,
-                          lectureIndex,
-                          'type',
-                          e.target.value,
-                        )
+                        updateLectureField(sectionIndex, lectureIndex, 'type', e.target.value)
                       }
                     >
                       <option value="video">Video</option>
@@ -404,31 +351,19 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
 
                     <div className="flex gap-x-2">
                       <button
-                        className={
-                          section.lectures.length > 1
-                            ? ''
-                            : 'cursor-not-allowed'
-                        }
+                        className={section.lectures.length > 1 ? '' : 'cursor-not-allowed'}
                         disabled={section.lectures.length <= 1}
-                        onClick={() =>
-                          removeLecture(sectionIndex, lectureIndex)
-                        }
+                        onClick={() => removeLecture(sectionIndex, lectureIndex)}
                       >
-                        <FaRegTrashAlt
-                          color={section.lectures.length > 1 ? '#E25E35' : ''}
-                        />
+                        <FaRegTrashAlt color={section.lectures.length > 1 ? '#E25E35' : ''} />
                       </button>
                       {lecture.type === 'quiz' && (
                         <button
                           type="button"
-                          onClick={() =>
-                            toggleLectureCollapse(sectionIndex, lectureIndex)
-                          }
+                          onClick={() => toggleLectureCollapse(sectionIndex, lectureIndex)}
                           className="text-gray-500 hover:text-gray-700 md:p-2"
                         >
-                          {collapsedLectures[
-                            `${sectionIndex}-${lectureIndex}`
-                          ] ? (
+                          {collapsedLectures[`${sectionIndex}-${lectureIndex}`] ? (
                             <IoIosArrowDown className="rotate-180 transform" />
                           ) : (
                             <IoIosArrowDown />
@@ -448,9 +383,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                           className="mb-6"
                         >
                           <div className="mb-4 flex items-center gap-2 rounded-xl bg-gray-100 p-2">
-                            <span className="text-xl text-nowrap">
-                              Q{questionIndex + 1}.
-                            </span>
+                            <span className="text-xl text-nowrap">Q{questionIndex + 1}.</span>
                             <input
                               type="text"
                               value={question.question}
@@ -471,11 +404,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                removeQuizQuestion(
-                                  sectionIndex,
-                                  lectureIndex,
-                                  questionIndex,
-                                );
+                                removeQuizQuestion(sectionIndex, lectureIndex, questionIndex);
                               }}
                               className="p-2 text-red-500 hover:text-red-700"
                             >
@@ -507,48 +436,45 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
                             `${sectionIndex}-${lectureIndex}-${questionIndex}`
                           ] && (
                             <>
-                              {[
-                                'answer_a',
-                                'answer_b',
-                                'answer_c',
-                                'answer_d',
-                              ].map((option) => (
-                                <div
-                                  key={`${sectionIndex}-${lectureIndex}-${questionIndex}-${option}`}
-                                  className="mb-2 flex items-center gap-2"
-                                >
-                                  <input
-                                    type="radio"
-                                    name={`correctAnswer_${sectionIndex}_${lectureIndex}_${questionIndex}`}
-                                    checked={question.correctAnswer === option}
-                                    onChange={() =>
-                                      updateQuizQuestion(
-                                        sectionIndex,
-                                        lectureIndex,
-                                        questionIndex,
-                                        'correctAnswer',
-                                        option,
-                                      )
-                                    }
-                                    className="h-4 w-4"
-                                  />
-                                  <input
-                                    type="text"
-                                    value={question[`${option}`]}
-                                    onChange={(e) =>
-                                      updateQuizQuestion(
-                                        sectionIndex,
-                                        lectureIndex,
-                                        questionIndex,
-                                        `${option}`,
-                                        e.target.value,
-                                      )
-                                    }
-                                    placeholder={`Option ${option.split('_').at(1).toUpperCase()}`}
-                                    className="flex-1 rounded border p-2"
-                                  />
-                                </div>
-                              ))}
+                              {['answer_a', 'answer_b', 'answer_c', 'answer_d'].map(
+                                (option) => (
+                                  <div
+                                    key={`${sectionIndex}-${lectureIndex}-${questionIndex}-${option}`}
+                                    className="mb-2 flex items-center gap-2"
+                                  >
+                                    <input
+                                      type="radio"
+                                      name={`correctAnswer_${sectionIndex}_${lectureIndex}_${questionIndex}`}
+                                      checked={question.correctAnswer === option}
+                                      onChange={() =>
+                                        updateQuizQuestion(
+                                          sectionIndex,
+                                          lectureIndex,
+                                          questionIndex,
+                                          'correctAnswer',
+                                          option,
+                                        )
+                                      }
+                                      className="h-4 w-4"
+                                    />
+                                    <input
+                                      type="text"
+                                      value={question[`${option}`]}
+                                      onChange={(e) =>
+                                        updateQuizQuestion(
+                                          sectionIndex,
+                                          lectureIndex,
+                                          questionIndex,
+                                          `${option}`,
+                                          e.target.value,
+                                        )
+                                      }
+                                      placeholder={`Option ${option.split('_').at(1).toUpperCase()}`}
+                                      className="flex-1 rounded border p-2"
+                                    />
+                                  </div>
+                                ),
+                              )}
                             </>
                           )}
                         </div>
@@ -585,9 +511,7 @@ function Curriculum({ course, setCourse, errors, showErrors }) {
             <textarea
               id="description"
               value={section.description}
-              onChange={(e) =>
-                handleChangeSectionDescription(e.target.value, sectionIndex)
-              }
+              onChange={(e) => handleChangeSectionDescription(e.target.value, sectionIndex)}
               placeholder="Enter your section description"
               className={`h-24 w-full border-1 p-2 pl-4 ${showErrors && errors[`section_${sectionIndex}_description`] ? 'border-red-500' : 'border-white'}`}
             ></textarea>
